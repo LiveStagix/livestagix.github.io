@@ -31,12 +31,13 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html styles.css script.js logo.svg social-preview.svg _site/
+          cp index.html styles.css script.js logo.svg _site/
+          cp public/app-header-icon.png _site/app-header-icon.png
           test -s _site/index.html
           test -s _site/styles.css
           test -s _site/script.js
           test -s _site/logo.svg
-          test -s _site/social-preview.svg
+          test -s _site/app-header-icon.png
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
