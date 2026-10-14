@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">LiveStagix — Your screen, in motion.</title>
+  <desc id="desc">LiveStagix is an Android live wallpaper engine for photo and video wallpapers, gyro motion and smart video enhancement.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08090e"/>
+      <stop offset=".62" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#17152b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#62e7ff"/>
+      <stop offset=".55" stop-color="#6b8cff"/>
+      <stop offset="1" stop-color="#b58bff"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop offset="0" stop-color="#62e7ff" stop-opacity=".20"/>
+      <stop offset="1" stop-color="#62e7ff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="phone-screen">
+      <rect x="858" y="90" width="205" height="405" rx="32"/>
+    </clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="962" cy="277" r="286" fill="url(#halo)"/>
+  <path d="M775 0H1200V630H1010L775 399Z" fill="#11162a" opacity=".65"/>
+  <g fill="none" stroke-width="2">
+    <circle cx="962" cy="277" r="202" stroke="#b58bff" stroke-opacity=".82"/>
+    <circle cx="962" cy="277" r="174" stroke="#6b8cff" stroke-opacity=".9"/>
+    <circle cx="962" cy="277" r="146" stroke="#62e7ff" stroke-opacity=".9"/>
+  </g>
+  <rect x="80" y="96" width="46" height="5" rx="2.5" fill="#62e7ff"/>
+  <text x="145" y="100" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2.1" fill="#a1a9c1">ANDROID LIVE WALLPAPER ENGINE</text>
+  <text x="78" y="213" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="78" font-weight="800" letter-spacing="-3.5" fill="#f4f6ff">LiveStagix</text>
+  <circle cx="477" cy="188" r="6" fill="#62e7ff"/>
+  <text x="80" y="300" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="750" letter-spacing="-1.5" fill="#f4f6ff">Your screen,</text>
+  <text x="80" y="360" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="53" font-weight="750" letter-spacing="-1.5" fill="url(#accent)">in motion.</text>
+  <text x="83" y="420" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22" fill="#a1a9c1">Your photos. Your videos. Your point of view.</text>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing=".8">
+    <rect x="80" y="458" width="216" height="42" rx="12" fill="#141b30" stroke="#4c5b82"/>
+    <text x="95" y="484" fill="#cde2ff">PHOTO + VIDEO</text>
+    <rect x="310" y="458" width="185" height="42" rx="12" fill="#141b30" stroke="#4c5b82"/>
+    <text x="325" y="484" fill="#cde2ff">GYRO MOTION</text>
+    <rect x="509" y="458" width="216" height="42" rx="12" fill="#141b30" stroke="#4c5b82"/>
+    <text x="524" y="484" fill="#cde2ff">SMART UPSCALE</text>
+  </g>
+  <g>
+    <rect x="850" y="78" width="222" height="425" rx="40" fill="#030408" stroke="#cde2ff" stroke-opacity=".9" stroke-width="2"/>
+    <rect x="858" y="90" width="205" height="405" rx="32" fill="#0e1323" stroke="#303b57"/>
+    <g clip-path="url(#phone-screen)">
+      <rect x="858" y="90" width="205" height="405" fill="#0e1323"/>
+      <circle cx="960" cy="244" r="79" fill="#6b8cff"/>
+      <circle cx="960" cy="244" r="61" fill="#b58bff" stroke="#cde2ff" stroke-opacity=".75" stroke-width="2"/>
+      <circle cx="960" cy="244" r="38" fill="#62e7ff"/>
+      <ellipse cx="960" cy="244" rx="95" ry="35" fill="none" stroke="#62e7ff" stroke-width="2" stroke-opacity=".9"/>
+      <path d="M858 385L891 328L925 358L950 303L980 344L1008 321L1063 379V495H858Z" fill="#283760"/>
+      <path d="M858 420L895 372L925 402L964 354L1002 397L1034 375L1063 405V495H858Z" fill="#1a233e"/>
+      <g stroke="#315b7a" stroke-width="1" opacity=".9">
+        <path d="M862 423H1060M862 439H1060M862 455H1060M862 471H1060M878 418V493M900 418V493M922 418V493M944 418V493M966 418V493M988 418V493M1010 418V493M1032 418V493M1054 418V493"/>
+      </g>
+    </g>
+    <rect x="896" y="105" width="131" height="22" rx="11" fill="#030408" stroke="#4c5b82"/>
+    <circle cx="908" cy="116" r="4" fill="#8bf3bf"/>
+    <text x="922" y="120" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing=".7" fill="#cde2ff">LIVESTAGIX</text>
+    <text x="884" y="442" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#cde2ff">STAY IN MOTION</text>
+    <rect x="916" y="480" width="88" height="4" rx="2" fill="#f4f6ff"/>
+  </g>
+  <path d="M80 550H1120" stroke="#303b57" stroke-width="1"/>
+  <text x="81" y="584" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1" fill="#7f8daa">LIVESTAGIX.GITHUB.IO</text>
+  <text x="936" y="584" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1" fill="#7f8daa">MADE FOR ANDROID</text>
+</svg>
