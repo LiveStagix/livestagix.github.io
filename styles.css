@@ -347,3 +347,65 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js-motion .reveal { opacity: 1; transform: none; }
 }
+
+/* Mobile refinements: keep secondary labels readable without changing the visual theme. */
+@media (max-width: 780px) {
+  .brand-word small { font-size: .5rem; letter-spacing: .08em; line-height: 1.15; }
+  .card-label { font-size: .56rem; letter-spacing: .1em; }
+  .feature-id { font-size: .58rem; letter-spacing: .07em; }
+  .feature-tags span { font-size: .56rem; letter-spacing: .045em; padding: 4px 6px; }
+  .release-card-top { font-size: .58rem; letter-spacing: .07em; }
+  .release-overline { font-size: .62rem; }
+  .panel-kicker { font-size: .58rem; }
+  .runtime-badge { font-size: .56rem; letter-spacing: .04em; }
+  .runtime-states small { font-size: .7rem; }
+  .state-status { font-size: .56rem; letter-spacing: .035em; }
+  .runtime-note { font-size: .65rem; }
+  .art-index { font-size: .62rem; }
+  .float-card strong { font-size: .56rem; }
+  .float-card small { font-size: .64rem; }
+}
+
+@media (max-width: 420px) {
+  .brand-word small { font-size: .46rem; letter-spacing: .04em; }
+  .card-label { font-size: .54rem; }
+  .feature-tags span { font-size: .55rem; }
+  .runtime-badge { font-size: .53rem; }
+  .state-status { font-size: .54rem; }
+  .runtime-states small { font-size: .66rem; }
+  .float-card strong { font-size: .55rem; }
+  .float-card small { font-size: .62rem; }
+}
+
+/* The compact overlay is now represented as a floating status LED, not a filled pill. */
+.runtime-island {
+  min-width: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+}
+.runtime-island-dot {
+  width: 7px;
+  height: 7px;
+}
+
+/* Hint that the capability strip can be swiped horizontally on narrow screens. */
+@media (max-width: 780px) {
+  .signal-strip { position: relative; }
+  .signal-strip::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--bg));
+  }
+}
