@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#08090e">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Meet LiveStagix: an Android live wallpaper engine for video and photo wallpapers, gyro motion, device-aware media preparation and intelligent video enhancement.">
+  <meta name="description" content="Meet LiveStagix for Android: photo and video live wallpapers, gyro-responsive motion, device-aware media preparation, video Smart Upscale, and conditional frame interpolation.">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="LiveStagix — Your screen, in motion.">
@@ -165,19 +165,19 @@
           <article class="feature-card reveal">
             <div class="feature-topline"><span class="feature-icon icon-su">SU</span><span class="feature-id">CAPABILITY / 01</span></div>
             <h3>Smart Upscale</h3>
-            <p>Enhance eligible lower-resolution video. Supported Snapdragon/Adreno devices can use Snapdragon Game Super Resolution; Linear Sharpener provides an alternative path.</p>
+            <p>Video-only enhancement offers an Adreno-oriented Snapdragon GSR-inspired path, AMD RCAS (FidelityFX), and a generic linear-sharpening path. Auto selects according to device support, and enhancement may be bypassed under sustained load.</p>
             <div class="feature-tags"><span>VIDEO</span><span>DEVICE-DEPENDENT</span></div>
           </article>
           <article class="feature-card reveal reveal-delay-1">
             <div class="feature-topline"><span class="feature-icon icon-fi">FI</span><span class="feature-id">CAPABILITY / 02</span></div>
             <h3>Frame Interpolation</h3>
-            <p>Generate intermediate frames when the source frame rate is suitable for the device's display refresh rate. Enabled does not always mean actively processing.</p>
+            <p>Frame interpolation can generate intermediate video frames when the source timing and runtime conditions allow it. Enabling the option does not guarantee that it will be actively processing.</p>
             <div class="feature-tags"><span>VIDEO</span><span>ELIGIBILITY-AWARE</span></div>
           </article>
           <article class="feature-card reveal">
             <div class="feature-topline"><span class="feature-icon icon-render"><span></span><span></span><span></span></span><span class="feature-id">CAPABILITY / 03</span></div>
             <h3>A renderer that can adapt</h3>
-            <p>Choose Auto, Modern or Compatibility. Auto can select the modern OpenGL ES path when supported and fall back when necessary.</p>
+            <p>Choose Auto, Modern or Compatibility. Auto lets LiveStagix choose a supported renderer path; actual availability depends on the device and graphics capabilities.</p>
             <div class="feature-tags"><span>OPENGL ES</span><span>FALLBACK PATH</span></div>
           </article>
           <article class="feature-card reveal reveal-delay-1">
@@ -189,7 +189,7 @@
           <article class="feature-card reveal">
             <div class="feature-topline"><span class="feature-icon icon-island"><i></i><i></i><i></i></span><span class="feature-id">CAPABILITY / 05</span></div>
             <h3>Floating Island + status LED</h3>
-            <p>A native runtime overlay can surface wallpaper state, FPS and enhancement status, while the LED gives a quick visual status cue.</p>
+            <p>A compact status LED gives a quick health cue. Tap it to open the dashboard for wallpaper state, FPS and enhancement status; the LED fades when idle.</p>
             <div class="feature-tags"><span>NATIVE OVERLAY</span><span>LIVE STATUS</span></div>
           </article>
           <article class="feature-card reveal reveal-delay-1">
@@ -214,7 +214,7 @@
             <div class="runtime-panel-header"><div><span class="panel-kicker">RUNTIME OVERVIEW</span><strong>Live engine</strong></div><span class="runtime-badge"><i></i> DEVICE-AWARE</span></div>
             <div class="runtime-wallpaper">
               <div class="runtime-nebula"></div><div class="runtime-ring ring-1"></div><div class="runtime-ring ring-2"></div><div class="runtime-core"></div>
-              <div class="runtime-island"><span class="runtime-island-dot"></span><span>LIVE STAGIX</span><b>•••</b></div>
+              <div class="runtime-island" aria-hidden="true"><span class="runtime-island-dot"></span></div>
               <span class="runtime-caption">WALLPAPER ACTIVE</span>
             </div>
             <div class="runtime-states">
@@ -307,6 +307,10 @@
           <details class="faq-item reveal">
             <summary><span>What media can I use?</span><span class="faq-plus" aria-hidden="true"></span></summary>
             <p>LiveStagix supports photo and video wallpapers selected from your device. Web Wallpaper Search lets you find portrait photos online. Photo and video wallpapers use different controls and processing paths.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary><span>Does LiveStagix need an internet connection?</span><span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>Local media playback, gyro motion and on-device rendering do not need a cloud AI service. Web Wallpaper Search and online downloads do require an internet connection.</p>
           </details>
           <details class="faq-item reveal">
             <summary><span>Do Smart Upscale and Frame Interpolation always run?</span><span class="faq-plus" aria-hidden="true"></span></summary>
