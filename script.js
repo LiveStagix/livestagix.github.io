@@ -41,6 +41,36 @@
     });
   }
 
+  // Keep smooth motion for taps on in-page links, but don't animate the browser's
+  // initial fragment restoration when a page with a #section URL is refreshed.
+  const reduceMotionForAnchors = window.matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (!(event instanceof MouseEvent) || event.button !== 0 ||
+          event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const href = link.getAttribute("href");
+      if (!href || href.length < 2) return;
+
+      let targetId;
+      try {
+        targetId = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      event.preventDefault();
+      if (window.location.hash !== href) window.history.pushState(null, "", href);
+      target.scrollIntoView({
+        behavior: reduceMotionForAnchors.matches ? "auto" : "smooth",
+        block: "start"
+      });
+    });
+  });
+
   document.querySelectorAll(".js-release-link").forEach((link) => {
     link.setAttribute("href", RELEASES_URL);
   });
