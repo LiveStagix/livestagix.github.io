@@ -5,6 +5,24 @@
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 
+  function updatePhoneClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    // Formats 24h into clean 12h phone style (e.g., 2:41 instead of 14:41)
+    hours = hours % 12 || 12; 
+    
+    const clockElement = document.getElementById('phone-time');
+    if (clockElement) {
+      clockElement.textContent = `${hours}:${minutes}`;
+    }
+  }
+  // Run instantly so it doesn't flash "9:41" while loading
+  updatePhoneClock();
+  // Refresh structural minutes cleanly every 15 seconds
+  setInterval(updatePhoneClock, 15000);
+
   const menuToggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("primary-nav");
 
