@@ -34,11 +34,26 @@ jobs:
           cp index.html styles.css script.js logo.svg _site/
           cp public/app-header-icon.png _site/app-header-icon.png
           cp "public/Round icon 144.webp" "public/Small round icon 192.webp" _site/public/
+
+          # Render the existing landscape social artwork to a crawler-friendly PNG.
+          python -m venv .venv-preview
+          .venv-preview/bin/python -m pip install --disable-pip-version-check --quiet CairoSVG==2.7.1
+          .venv-preview/bin/python - <<'PY'
+          import cairosvg
+          cairosvg.svg2png(
+              url="social-preview.svg",
+              write_to="_site/social-preview.png",
+              output_width=1200,
+              output_height=630,
+          )
+          PY
+
           test -s _site/index.html
           test -s _site/styles.css
           test -s _site/script.js
           test -s _site/logo.svg
           test -s _site/app-header-icon.png
+          test -s _site/social-preview.png
           test -s "_site/public/Round icon 144.webp"
           test -s "_site/public/Small round icon 192.webp"
 
