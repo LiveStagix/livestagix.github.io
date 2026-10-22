@@ -67,5 +67,10 @@
   </g>
   <path d="M80 550H1120" stroke="#303b57" stroke-width="1"/>
   <text x="81" y="584" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1" fill="#7f8daa">LIVESTAGIX.GITHUB.IO</text>
-  <text x="936" y="584" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="1" fill="#7f8daa">MADE FOR ANDROID</text>
+  <g aria-label="LiveStagix latest public release">
+    <rect x="800" y="558" width="320" height="54" rx="14" fill="#11162a" stroke="#4c5b82"/>
+    <circle cx="821" cy="577" r="4" fill="#62e7ff"/>
+    <text x="834" y="581" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.1" fill="#7f8daa">LIVESTAGIX</text>
+    <text x="818" y="600" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing=".45" fill="#cde2ff">__LATEST_RELEASE__</text>
+  </g>
 </svg>
