@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: live-stagix-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -30,14 +30,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p _site
+          mkdir -p _site/public
           cp index.html styles.css script.js logo.svg _site/
           cp public/app-header-icon.png _site/app-header-icon.png
+          cp "public/Round icon 144.webp" "public/Small round icon 192.webp" _site/public/
           test -s _site/index.html
           test -s _site/styles.css
           test -s _site/script.js
           test -s _site/logo.svg
           test -s _site/app-header-icon.png
+          test -s "_site/public/Round icon 144.webp"
+          test -s "_site/public/Small round icon 192.webp"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
