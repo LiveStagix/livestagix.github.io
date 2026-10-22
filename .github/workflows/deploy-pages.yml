@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -35,16 +37,70 @@ jobs:
           cp public/app-header-icon.png _site/app-header-icon.png
           cp "public/Round icon 144.webp" "public/Small round icon 192.webp" _site/public/
 
-          # Render the existing landscape social artwork to a crawler-friendly PNG.
+          # Generate a compact social preview using the current public release.
           python -m venv .venv-preview
-          .venv-preview/bin/python -m pip install --disable-pip-version-check --quiet CairoSVG==2.7.1
+          .venv-preview/bin/python -m pip install --disable-pip-version-check --quiet CairoSVG==2.7.1 Pillow==11.3.0
+          curl --fail --silent --show-error --retry 3 \
+            -H "Accept: application/vnd.github+json" \
+            -H "User-Agent: LiveStagix-Site-Preview" \
+            https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest \
+            -o /tmp/livestagix-latest-release.json
           .venv-preview/bin/python - <<'PY'
+          import html
+          import json
+          import re
+          from pathlib import Path
+          from urllib.parse import quote
+
           import cairosvg
+          from PIL import Image
+
+          release = json.loads(
+              Path("/tmp/livestagix-latest-release.json").read_text(encoding="utf-8")
+          )
+          tag = (release.get("tag_name") or "").strip()
+          if not tag or release.get("draft") or release.get("prerelease"):
+              raise SystemExit("The public release API did not return a valid latest release.")
+
+          label = (release.get("name") or tag).strip()
+          label = re.sub(r"^LiveWP\\s+", "", label, flags=re.IGNORECASE)
+          label = re.sub(r"\\s+-\\s+", " · ", label).upper()
+          if len(label) > 28:
+              label = tag.upper()
+          if len(label) > 28:
+              label = label[:27].rstrip() + "…"
+
+          artwork = Path("social-preview.svg").read_text(encoding="utf-8")
+          token = "__LATEST_RELEASE__"
+          if artwork.count(token) != 1:
+              raise SystemExit("Expected one latest-release placeholder in social-preview.svg.")
+          artwork = artwork.replace(token, html.escape(label, quote=False))
+
+          raw_png = "/tmp/livestagix-social-preview-raw.png"
           cairosvg.svg2png(
-              url="social-preview.svg",
-              write_to="_site/social-preview.png",
+              bytestring=artwork.encode("utf-8"),
+              write_to=raw_png,
               output_width=1200,
               output_height=630,
+          )
+
+          # A 192-colour palette keeps the 1200x630 graphic sharp and lightweight.
+          image = Image.open(raw_png).convert("RGB")
+          image.quantize(
+              colors=192,
+              method=Image.Quantize.MEDIANCUT,
+              dither=Image.Dither.FLOYDSTEINBERG,
+          ).save("_site/social-preview.png", optimize=True)
+
+          # Change the image URL per release so platforms can distinguish updated previews.
+          index_path = Path("_site/index.html")
+          index = index_path.read_text(encoding="utf-8")
+          marker = "social-preview.png?v=latest"
+          if index.count(marker) != 2:
+              raise SystemExit("Expected matching Open Graph and Twitter image URL markers.")
+          index_path.write_text(
+              index.replace(marker, f"social-preview.png?v={quote(tag, safe='')}"),
+              encoding="utf-8",
           )
           PY
 
