@@ -63,8 +63,8 @@ jobs:
               raise SystemExit("The public release API did not return a valid latest release.")
 
           label = (release.get("name") or tag).strip()
-          label = re.sub(r"^LiveWP\\s+", "", label, flags=re.IGNORECASE)
-          label = re.sub(r"\\s+-\\s+", " · ", label).upper()
+          label = re.sub(r"^LiveWP\s+", "", label, flags=re.IGNORECASE)
+          label = re.sub(r"\s+-\s+", " · ", label).upper()
           if len(label) > 28:
               label = tag.upper()
           if len(label) > 28:
