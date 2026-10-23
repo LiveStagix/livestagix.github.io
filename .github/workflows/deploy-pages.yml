@@ -32,8 +32,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p _site/public
+          mkdir -p _site/public _site/privacy-policy
           cp index.html styles.css script.js logo.svg _site/
+          cp privacy-policy/index.html _site/privacy-policy/index.html
           cp public/app-header-icon.png _site/app-header-icon.png
           cp "public/Round icon 144.webp" "public/Small round icon 192.webp" _site/public/
 
@@ -105,6 +106,7 @@ jobs:
           PY
 
           test -s _site/index.html
+          test -s _site/privacy-policy/index.html
           test -s _site/styles.css
           test -s _site/script.js
           test -s _site/logo.svg
