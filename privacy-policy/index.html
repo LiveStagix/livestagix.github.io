@@ -61,7 +61,7 @@
       <div class="policy-eyebrow">YOUR DATA, YOUR DEVICE</div>
       <h1>Privacy <span>Policy.</span></h1>
       <p class="policy-intro">This policy explains how the LiveStagix Android app handles information when you select media, prepare wallpapers, adjust settings or use web image search. LiveStagix is designed to process your personal wallpaper media on your device rather than upload it to a LiveStagix account or server.</p>
-      <div class="policy-meta"><span>Last updated: October 23, 2026</span><span>Applies to: LiveStagix for Android</span></div>
+      <div class="policy-meta"><span>Last updated: October 24, 2026</span><span>Applies to: LiveStagix for Android</span></div>
 
       <div class="policy-document">
         <section>
@@ -90,9 +90,10 @@
 
         <section>
           <h2>4. Diagnostics, analytics and advertising</h2>
-          <p>The Google Play edition's optional in-app event recorder is disabled. LiveStagix does not send diagnostic logs to its developer from that edition, and the current app build does not include a LiveStagix-operated analytics or advertising service.</p>
-          <p>Android, Google Play or the device manufacturer may independently process app, installation or system diagnostic information under their own settings and policies.</p>
-          <p>A separately distributed GitHub build may expose optional local diagnostic tools that are not enabled by default. Where available, those logs stay on the device unless you choose to copy, export or share them yourself.</p>
+          <p>The optional Event Recorder is available in both the Google Play and GitHub editions. It is off by default and records diagnostics only after you enable it in the app's settings. It can capture app and wallpaper-engine events, errors and stack traces, timestamps, and technical device or runtime details such as Android version and API level, device manufacturer and model, process, thread and diagnostic state. If you separately enable runtime-trace or gyro-diagnostics controls, logs can also include rendering trace details or gyro and motion-setting diagnostics. Event-specific technical settings or operation details may be recorded where needed to troubleshoot an issue.</p>
+          <p>When recording is enabled, logs are written to app-private storage and automatically mirrored to a daily text file under Documents/App/LiveWP/, when Android permits that storage operation. A diagnostic copy may therefore be present in the device's Documents folder, not only inside the app. You can turn recording off and clear existing logs using the app's diagnostic controls.</p>
+          <p>The recorder does not automatically upload diagnostic logs to LiveStagix or send them to a LiveStagix-operated analytics or advertising service. The current app build does not include its own analytics or advertising service. If you choose to copy or share a log, the recipient may be able to read its contents, so review it before sharing.</p>
+          <p>Android, Google Play or the device manufacturer may independently process app, installation or system diagnostic information under their own settings and policies. That processing is separate from LiveStagix's optional Event Recorder.</p>
         </section>
 
         <section>
