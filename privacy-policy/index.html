@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#08090e">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Privacy Policy for the LiveStagix Android app. Learn how media, settings, device information and web search are handled.">
+  <meta name="description" content="Privacy Policy for LiveStagix Android. Learn how selected media, prepared wallpaper backups, settings, diagnostics and third-party services are handled.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://livestagix.github.io/privacy-policy/">
   <title>Privacy Policy — LiveStagix</title>
@@ -60,8 +60,8 @@
     <main id="main" class="policy-main">
       <div class="policy-eyebrow">YOUR DATA, YOUR DEVICE</div>
       <h1>Privacy <span>Policy.</span></h1>
-      <p class="policy-intro">This policy explains how the LiveStagix Android app handles information when you select media, prepare wallpapers, adjust settings or use web image search. LiveStagix is designed to process your personal wallpaper media on your device rather than upload it to a LiveStagix account or server.</p>
-      <div class="policy-meta"><span>Last updated: October 24, 2026</span><span>Applies to: LiveStagix for Android</span></div>
+      <p class="policy-intro">This policy explains how the LiveStagix Android app handles information when you select media, prepare or tune wallpapers, restore prepared media, adjust settings or use web image search. Wallpaper processing is performed on your device. On supported Android versions, LiveStagix also keeps copies of successfully prepared wallpapers in a shared Documents folder so they can be restored after reinstalling the app. LiveStagix does not upload your selected media to a LiveStagix account or server.</p>
+      <div class="policy-meta"><span>Last updated: October 26, 2026</span><span>Applies to: LiveStagix for Android</span></div>
 
       <div class="policy-document">
         <section>
@@ -71,14 +71,15 @@
 
         <section>
           <h2>2. Information handled on your device</h2>
-          <p>To provide its wallpaper features, the app processes information you choose to provide or information available locally on your device:</p>
+          <p>To provide its wallpaper features, the app processes information you choose to provide or technical information available locally on your device:</p>
           <ul>
-            <li><strong>Photos and videos you select:</strong> LiveStagix uses the Android media/file picker or a source you choose to import media. The app may copy selected files into app-private storage so it can prepare, tune and render them.</li>
-            <li><strong>Prepared media and local identifiers:</strong> The app may create resized or cropped copies, tuned versions, thumbnails, file hashes, visual fingerprints and media metadata to prepare wallpapers and recognise previously prepared files.</li>
-            <li><strong>Settings and preferences:</strong> Wallpaper choices, rendering options, motion controls, appearance and other configuration are stored locally so the app can remember your setup.</li>
+            <li><strong>Photos and videos you select:</strong> LiveStagix uses Android's media picker or a file source you choose. It may copy selected files into app-private storage while preparing, tuning or rendering them.</li>
+            <li><strong>Prepared media and technical identifiers:</strong> The app may create resized or cropped wallpaper files, tuned versions, thumbnails, file hashes, visual fingerprints and media metadata. Prepared photos and videos can include an embedded LiveStagix marker so the app can recognise them later. For photos the marker is stored in EXIF metadata; for MP4 videos it is stored in a dedicated MP4 UUID box. The marker contains app-generated identifiers, media type and crop/background settings. It is not encrypted and is not a cryptographic proof that a file was created by LiveStagix.</li>
+            <li><strong>Public prepared-media backups:</strong> On supported Android versions, after successful preparation or tuning, LiveStagix attempts to copy the finalized prepared file to <code>Documents/App/LiveWP/PreparedMedia/</code>. This copy is intended to survive app uninstall and allow restoration later. The app only treats files with a valid LiveStagix prepared-media marker and a readable supported media format as eligible for restore; ordinary unmarked files in that folder are ignored.</li>
+            <li><strong>Settings and preferences:</strong> Wallpaper choices, rendering options, motion controls, appearance and other configuration are stored locally. LiveStagix also maintains a recovery copy of user configuration at <code>Documents/App/LiveWP/user_config.json</code> where Android permits it.</li>
             <li><strong>Device capability information:</strong> The app reads technical details such as display dimensions and refresh rate, Android version, and device or graphics capabilities to select suitable preparation and rendering behaviour.</li>
           </ul>
-          <p>This information is used for app functionality. The app does not upload your locally selected personal photos or videos to servers operated by LiveStagix.</p>
+          <p>These operations are intended to run locally. LiveStagix does not upload your selected personal photos or videos to servers operated by LiveStagix. Public backups remain files on your device in shared storage, not a LiveStagix cloud service.</p>
         </section>
 
         <section>
@@ -98,19 +99,22 @@
 
         <section>
           <h2>5. Permissions and how they are used</h2>
-          <p>LiveStagix uses Android system features and permissions for wallpaper setup, user-selected media import, internet access for web search and related requests, notifications where needed for ongoing services, and the optional floating overlay. Android controls when protected access is granted or denied. You can review app permissions in Android Settings.</p>
+          <p>LiveStagix uses Android system features and permissions for wallpaper setup, media you choose to import, internet access for web search and related requests, notifications where needed for ongoing services, and the optional floating overlay. On supported Android versions, the app uses Android's shared-media storage APIs to write its prepared-media and configuration backup files to the Documents folder. Android controls access to shared files and other protected features; available access can vary by Android version and device. You can review app permissions in Android Settings.</p>
           <p>LiveStagix does not use a LiveStagix server to collect your media or use it for advertising.</p>
         </section>
 
         <section>
           <h2>6. Storage, retention and deletion</h2>
-          <p>Local media copies, prepared wallpapers and settings remain on your device until you remove them using the app, clear the app's storage, or uninstall the app, subject to Android's storage and backup behaviour. The app provides controls for clearing prepared or temporary media. You can manage app permissions and backups through Android's system settings.</p>
+          <p>App-private prepared files and temporary copies are stored separately from the shared Documents backups. Uninstalling LiveStagix or clearing its app storage normally removes app-private files and local app data, but it does not automatically remove files that the app has already written to shared Documents storage.</p>
+          <p>Prepared wallpaper backups may remain at <code>Documents/App/LiveWP/PreparedMedia/</code> after uninstall. Clearing or removing a prepared item from inside LiveStagix does not delete its public backup, and restoring a backup does not delete the public copy. To remove those backups, use your device's file manager or another file-management tool to delete files from that folder.</p>
+          <p>The configuration recovery file at <code>Documents/App/LiveWP/user_config.json</code> and any public diagnostic log copies may also remain until you delete them. The optional Event Recorder can be disabled and its logs cleared from the app's diagnostic controls. Public files are not encrypted by LiveStagix; anyone or any app that has sufficient access to shared storage may be able to read, copy, change or delete them.</p>
           <p>LiveStagix does not maintain a server-side profile or account for you, so it has no LiveStagix account data to retrieve or delete. Data held by Bing, Google Play or a third-party image host is handled by that provider and must be managed through its own privacy controls.</p>
         </section>
 
         <section>
           <h2>7. Security</h2>
-          <p>Wallpaper files and settings are handled in app-managed storage on your device. Network requests to external services use the connections provided by those services; you should review the privacy and security information of third-party sites before opening or downloading their content. No method of storage or transmission is guaranteed to be completely secure.</p>
+          <p>App-private data is kept in app-managed storage. Prepared-media and configuration backups in Documents/App/LiveWP are in shared storage and are not encrypted by LiveStagix. The embedded prepared-media marker helps identify files, but it can be inspected and may be forged; it should not be treated as a security mechanism or proof of authorship. Consider this before keeping sensitive content in a prepared-media backup folder.</p>
+          <p>Network requests to Bing, Google Play and other external services use the connections provided by those services; review their privacy and security information before opening or downloading their content. No method of storage or transmission is guaranteed to be completely secure.</p>
         </section>
 
         <section>
