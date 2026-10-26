@@ -186,7 +186,7 @@
           <article class="feature-card reveal reveal-delay-1">
             <div class="feature-topline"><span class="feature-icon icon-prepare">↗</span><span class="feature-id">CAPABILITY / 04</span></div>
             <h3>Prepared for your screen</h3>
-            <p>Preparation adapts framing and output to your display where possible. Prepared Media lets you reuse saved copies and inspect image dimensions and file information, plus video codec, frame rate and bitrate when available.</p>
+            <p>Preparation adapts framing and output to your display where possible. Prepared Media lets you reuse saved copies and inspect media details, with optional Local backup and Restore for verified prepared files.</p>
             <div class="feature-tags"><span>DEVICE-AWARE</span><span>REUSABLE CACHE</span></div>
           </article>
           <article class="feature-card reveal">
@@ -372,12 +372,16 @@
             <p>No. Apply creates a tuned prepared version; you still choose when to set that version as your wallpaper. The tuner does not automatically replace the wallpaper already active in Android.</p>
           </details>
           <details class="faq-item reveal">
+            <summary><span>Can I back up or restore Prepared Media?</span><span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>Yes. Open Prepared Media, tap the three-dot menu, then enable Local backup and choose a folder or Downloads. Restore verifies prepared files and restores copies that are missing or fail integrity checks; it can also rebuild missing library entries from healthy files already in private storage. Turning Local backup off stops future shared-storage reads and writes, but leaves backup files already created untouched.</p>
+          </details>
+          <details class="faq-item reveal">
             <summary><span>What happens if an active wallpaper update fails?</span><span class="faq-plus" aria-hidden="true"></span></summary>
             <p>LiveStagix attempts an in-place update up to three times. If those attempts fail, it falls back to the wallpaper replacement flow and opens Android's wallpaper preview and confirmation.</p>
           </details>
           <details class="faq-item reveal">
             <summary><span>How do I check for app updates?</span><span class="faq-plus" aria-hidden="true"></span></summary>
-            <p>Open Advanced Settings to check manually. LiveStagix also checks for updates when the app is opened, at most once every 24 hours; it does not need a separate daily background service.</p>
+            <p>Open Advanced Settings to check manually. LiveStagix also checks when opened and when it returns to the foreground. Overlapping automatic checks are debounced to avoid duplicate requests. If an update is available, choosing Not now dismisses that version's popup but leaves a bottom-right reminder you can tap later.</p>
           </details>
           <details class="faq-item reveal">
             <summary><span>Is there anything to know when changing a wallpaper?</span><span class="faq-plus" aria-hidden="true"></span></summary>
