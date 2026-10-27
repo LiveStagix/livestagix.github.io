@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -78,6 +78,29 @@ jobs:
           test -s _site/social-preview.png
           test -s "_site/public/Round icon 144.webp"
           test -s "_site/public/Small round icon 192.webp"
+
+      # The repository's Pages source is still branch-based. Keep the generated
+      # preview in the source tree too, so the automatic Jekyll deployment
+      # publishes the same image instead of overwriting it with a 404.
+      - name: Track generated social preview for Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f social-preview.png ] && cmp -s _site/social-preview.png social-preview.png; then
+            echo "Social preview is already tracked at the current version."
+            exit 0
+          fi
+
+          cp _site/social-preview.png social-preview.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add social-preview.png
+          if git diff --cached --quiet; then
+            echo "No social preview change to commit."
+            exit 0
+          fi
+          git commit -m "Track generated social preview image"
+          git push origin HEAD:main
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
