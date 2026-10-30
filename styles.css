@@ -519,6 +519,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .checksum-copy:hover { background: rgba(98,231,255,.12); }
 .checksum-body small { min-height: 1em; color: #8bf3bf; font-size: .64rem; }
 @media (max-width: 780px) {
-  .download-secondary-actions { align-items: flex-start; flex-direction: column; gap: 7px; }
-  .download-secondary-actions .button { width: 100%; justify-content: center; }
+  .download-secondary-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .download-secondary-actions .button,
+  .download-secondary-actions .text-link {
+    width: 100%;
+    min-height: 44px;
+    justify-content: flex-start;
+    padding-inline: 12px;
+    margin: 0;
+  }
 }
