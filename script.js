@@ -20,6 +20,83 @@
   // Refresh structural minutes cleanly every 15 seconds
   setInterval(updatePhoneClock, 15000);
 
+  const latestApkUrl = "https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
+  const releaseApiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
+  const heroDownload = document.getElementById("hero-download-apk");
+  const downloadApk = document.getElementById("download-apk");
+  const releaseVersion = document.getElementById("release-version");
+  const releasePublished = document.getElementById("release-published");
+  const releaseSize = document.getElementById("release-size");
+  const releasePageLink = document.getElementById("release-page-link");
+  const checksumDetails = document.getElementById("checksum-details");
+  const releaseChecksum = document.getElementById("release-checksum");
+  const copyChecksum = document.getElementById("copy-checksum");
+  const checksumFeedback = document.getElementById("checksum-feedback");
+
+  if (heroDownload) heroDownload.href = latestApkUrl;
+  if (downloadApk) downloadApk.href = latestApkUrl;
+
+  async function loadLatestRelease() {
+    if (!releaseVersion || !releaseSize) return;
+    try {
+      const response = await fetch(releaseApiUrl, {
+        headers: { Accept: "application/vnd.github+json" },
+        cache: "no-cache"
+      });
+      if (!response.ok) throw new Error("Release metadata unavailable");
+      const release = await response.json();
+      const asset = Array.isArray(release.assets)
+        ? release.assets.find((item) => item.name === "LiveStagix_beta.apk")
+        : null;
+      if (!asset) throw new Error("Latest APK asset not found");
+
+      const tag = String(release.tag_name || "").replace(/^v/i, "");
+      const betaMatch = tag.match(new RegExp("^(\\d+(?:\\.\\d+)*)-beta-(\\d+)$", "i"));
+      releaseVersion.textContent = betaMatch
+        ? "Beta " + betaMatch[1] + " · Build " + betaMatch[2]
+        : (tag || "Latest official APK");
+
+      const mib = Number(asset.size) / (1024 * 1024);
+      releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
+      const publishedAt = release.published_at || release.created_at;
+      if (releasePublished && publishedAt) {
+        const date = new Date(publishedAt);
+        releasePublished.textContent = Number.isNaN(date.getTime())
+          ? "Latest published release"
+          : "Published " + date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      }
+      if (releasePageLink && release.html_url) releasePageLink.href = release.html_url;
+
+      const digest = typeof asset.digest === "string" ? asset.digest.replace(/^sha256:/i, "") : "";
+      if (checksumDetails && releaseChecksum && /^[a-f0-9]{64}$/i.test(digest)) {
+        releaseChecksum.textContent = digest.toUpperCase();
+        checksumDetails.hidden = false;
+      }
+    } catch (error) {
+      releaseVersion.textContent = "Latest official APK";
+      releaseSize.textContent = "Details unavailable";
+      if (releasePublished) releasePublished.textContent = "The direct download remains available.";
+      if (checksumDetails) checksumDetails.hidden = true;
+    }
+  }
+
+  loadLatestRelease();
+
+  if (copyChecksum && releaseChecksum && checksumFeedback) {
+    copyChecksum.addEventListener("click", async () => {
+      const value = releaseChecksum.textContent.trim();
+      if (!value) return;
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+        await navigator.clipboard.writeText(value);
+        checksumFeedback.textContent = "Checksum copied.";
+      } catch (error) {
+        checksumFeedback.textContent = "Copy unavailable. Select the checksum to copy it manually.";
+      }
+    });
+  }
+
+
   const menuToggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("primary-nav");
 
