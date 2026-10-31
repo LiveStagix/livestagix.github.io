@@ -119,7 +119,7 @@
           <span class="security-label pending">INDEPENDENT SCAN NOT LINKED</span>
           <h2>Malware scan status</h2>
           <p>This page does not currently publish a VirusTotal scan report for the exact Build 74 APK. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
-          <p>You can look up the exact file by its SHA-256 digest on <a href="https://www.virustotal.com/gui/file/89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c" target="_blank" rel="noopener noreferrer">VirusTotal</a>. Confirm that the report's hash matches the checksum above before interpreting any results.</p>
+          <p>You can look up the exact file by its SHA-256 digest on <a id="virustotal-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">VirusTotal</a>. Confirm that the report's hash matches the checksum above before interpreting any results.</p>
           <p>Multi-engine scan results are point-in-time signals, not a guarantee that software is completely safe. Android users should also keep <a href="https://support.google.com/googleplay/answer/2812853">Google Play Protect enabled</a>; it checks apps from Google Play and can also check apps installed from other sources.</p>
         </section>
       </div>
@@ -183,6 +183,8 @@
         setText("release-filename", apk.name);
         setText("release-size", Number(apk.size).toLocaleString("en-IN") + " bytes");
         setText("release-sha", apk.digest.slice("sha256:".length));
+        const virusTotalLink = byId("virustotal-link");
+        if (virusTotalLink) virusTotalLink.href = "https://www.virustotal.com/gui/file/" + apk.digest.slice("sha256:".length);
         setText("release-status", "Loaded from the official GitHub release API. Compare this checksum with the exact APK file you downloaded.");
       } catch (error) {
         setText("release-date", "See official release page");
