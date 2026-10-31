@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08090e">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Learn about LiveStagix, its Android wallpaper engine, independent development under the Devdas74 GitHub profile, privacy approach and official release verification.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://livestagix.github.io/about/">
+  <link rel="icon" type="image/webp" href="../public/Small%20round%20icon%20192.webp" sizes="192x192">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About LiveStagix — Project &amp; Developer">
+  <meta property="og:description" content="An independently developed Android live wallpaper project, maintained under the public GitHub profile Devdas74.">
+  <meta property="og:url" content="https://livestagix.github.io/about/">
+  <title>About LiveStagix — Project &amp; Developer</title>
+  <link rel="stylesheet" href="../styles.css?v=20261031-about-page">
+  <style>
+    .about-main{width:min(calc(100% - 40px),1040px);margin:0 auto;padding:clamp(58px,8vw,100px) 0 100px}
+    .about-kicker{display:flex;align-items:center;gap:10px;color:#aeb6ca;font-size:.68rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+    .about-kicker::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--cyan),var(--violet))}
+    .about-main h1{margin:22px 0 17px;font-size:clamp(2.8rem,7vw,5.5rem);line-height:.99;letter-spacing:-.075em;font-weight:800}
+    .about-main h1 span{color:transparent;background:linear-gradient(100deg,#82efff 4%,#8f9bff 52%,#c69bff 97%);background-clip:text;-webkit-background-clip:text}
+    .about-lead{max-width:800px;color:var(--muted);font-size:1rem;line-height:1.9}
+    .about-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:21px}
+    .about-meta span{border:1px solid var(--line);border-radius:999px;padding:6px 11px;background:#ffffff04;color:#aeb6ca;font-size:.72rem}
+    .about-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:38px}
+    .about-card{min-width:0;padding:clamp(21px,3vw,30px);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,rgba(16,18,27,.88),rgba(10,12,19,.88));box-shadow:0 24px 80px #0002}
+    .about-card h2{margin:0 0 13px;font-size:1.13rem;letter-spacing:-.025em}
+    .about-card p,.about-card li{color:#aeb4c8;font-size:.86rem;line-height:1.85}
+    .about-card p{margin:0 0 12px}
+    .about-card p:last-child{margin-bottom:0}
+    .about-card ul{padding-left:19px;margin:9px 0 0}
+    .about-card li+li{margin-top:7px}
+    .about-card a{color:#dce8fa;text-decoration:underline;text-decoration-color:#62e7ff60;text-underline-offset:3px;overflow-wrap:anywhere}
+    .about-profile{grid-column:1/-1;display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;gap:25px;padding:clamp(23px,4vw,36px);background:radial-gradient(ellipse at 0 0,rgba(98,231,255,.07),transparent 48%),linear-gradient(145deg,rgba(17,20,33,.96),rgba(9,11,18,.94))}
+    .about-avatar-wrap{width:132px;aspect-ratio:1;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:28px;background:#fff;box-shadow:0 15px 45px #0005}
+    .about-avatar{width:100%;height:100%;object-fit:cover}
+    .about-role{display:inline-flex;align-items:center;gap:8px;margin-bottom:9px;color:#91deef;font-size:.62rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+    .about-role::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+    .about-profile h2{margin:0 0 8px;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.045em}
+    .about-profile p{max-width:700px}
+    .about-actions{display:flex;flex-wrap:wrap;gap:17px;margin-top:14px}
+    .about-actions a{font-size:.8rem;font-weight:750}
+    .about-note{margin-top:22px;padding:17px 20px;border-left:2px solid var(--cyan);background:rgba(98,231,255,.045);color:#aeb4c8;font-size:.82rem;line-height:1.85}
+    .about-wide{grid-column:1/-1}
+    .about-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:17px}
+    .about-links a{font-size:.82rem;font-weight:750}
+    .about-bottom-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:26px;padding:22px 25px;border:1px solid rgba(181,139,255,.22);border-radius:18px;background:linear-gradient(120deg,rgba(98,231,255,.055),rgba(181,139,255,.065))}
+    .about-bottom-cta p{margin:0;color:#c1c9dc;font-size:.85rem;line-height:1.75}
+    .about-bottom-cta a{flex:0 0 auto;color:#e6edff;font-size:.82rem;font-weight:800}
+    .about-main a:hover{color:var(--cyan)}
+    @media(max-width:700px){.about-main{width:min(calc(100% - 30px),1040px);padding-top:54px;padding-bottom:70px}.about-grid{grid-template-columns:1fr}.about-profile,.about-wide{grid-column:auto}.about-profile{grid-template-columns:82px minmax(0,1fr);gap:16px;padding:20px}.about-avatar-wrap{width:82px;border-radius:19px}.about-card{border-radius:18px}.about-card p,.about-card li{font-size:.84rem}.about-bottom-cta{align-items:flex-start;flex-direction:column;gap:13px}}
+    @media(max-width:420px){.about-profile{grid-template-columns:1fr;align-items:start}.about-avatar-wrap{width:92px}.about-actions{gap:11px 16px}}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"AboutPage",
+    "name":"About LiveStagix",
+    "url":"https://livestagix.github.io/about/",
+    "about":{"@type":"SoftwareApplication","name":"LiveStagix","applicationCategory":"HomeApplication","operatingSystem":"Android","identifier":"com.livewp.app"},
+    "mainEntity":{"@type":"Organization","name":"LiveStagix","url":"https://livestagix.github.io/","sameAs":["https://github.com/LiveStagix","https://github.com/devdas74"]}
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+        <span class="brand-mark"><img src="../public/Small%20round%20icon%20192.webp" alt="" width="42" height="42"></span>
+        <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>ANDROID WALLPAPER ENGINE</small></span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="primary-nav" aria-label="Primary navigation">
+        <a href="https://livestagix.github.io/#experience">Experience</a>
+        <a href="https://livestagix.github.io/#features">Features</a>
+        <a href="https://livestagix.github.io/#faq">FAQ</a>
+        <a href="https://livestagix.github.io/privacy-policy/">Privacy</a>
+        <a href="https://livestagix.github.io/security/">Security</a>
+      </nav>
+      <a class="nav-cta" href="https://github.com/devdas74/LiveWP-Releases/releases/latest">Latest release <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="main" class="about-main">
+      <p class="about-kicker">THE PROJECT BEHIND THE WALLPAPER</p>
+      <h1>Built independently.<br><span>Made for motion.</span></h1>
+      <p class="about-lead">LiveStagix is an Android live wallpaper project focused on making personal photos and videos feel at home on your screen. It brings together motion, media preparation, playback and visual tuning in one app, with an Android engine designed to respond to device capabilities and system conditions.</p>
+      <div class="about-meta"><span>Independent project</span><span>Android application</span><span>Maintained under Devdas74</span></div>
+
+      <div class="about-grid">
+        <section class="about-card about-profile" aria-labelledby="developer-heading">
+          <div class="about-avatar-wrap"><img class="about-avatar" src="../public/devdas74-avatar.svg" alt="Simple hand-drawn stick-figure profile illustration" width="512" height="512"></div>
+          <div>
+            <span class="about-role">INDEPENDENT DEVELOPER</span>
+            <h2 id="developer-heading">Devdas74</h2>
+            <p>LiveStagix is independently designed, developed and maintained under the public GitHub profile <strong>Devdas74</strong>. This is a one-developer project, not a studio or a claimed team. The profile name is the public development identity used for the project; this page does not publish private personal identity details.</p>
+            <div class="about-actions">
+              <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
+              <a href="https://github.com/LiveStagix" target="_blank" rel="noopener noreferrer">LiveStagix project ↗</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-card">
+          <h2>What the project is building</h2>
+          <p>The goal is a practical live wallpaper experience that keeps the user's own media at the centre. Photos can use motion controls; videos have a dedicated playback path; supported devices may offer additional video enhancements.</p>
+          <p>Features are designed around real Android constraints. Hardware support, Android version, manufacturer behaviour, media properties and sustained device load can all affect what is available at a given moment.</p>
+        </section>
+
+        <section class="about-card">
+          <h2>How the app is built</h2>
+          <ul>
+            <li><strong>Native Android layer:</strong> Java-based Android components handle the wallpaper service, rendering path, system integration and device-facing work.</li>
+            <li><strong>WebView interface:</strong> HTML, CSS and JavaScript provide the app's visual interface and controls.</li>
+            <li><strong>Capacitor bridge:</strong> Connects the interface with the Android layer where app workflows need native capabilities.</li>
+          </ul>
+          <p>The interface and wallpaper engine have different jobs. The WebView is the user interface; it is not the wallpaper renderer that must keep animating when the app screen is closed.</p>
+        </section>
+
+        <section class="about-card">
+          <h2>Privacy is part of the design</h2>
+          <p>LiveStagix does not ask users to create a LiveStagix account. Selected photos, videos, settings and local backups are handled on the device; the app does not upload those files to a LiveStagix-operated cloud service. Optional diagnostics are off by default and are not automatically uploaded to a LiveStagix analytics service.</p>
+          <p>Some features connect to third parties. For example, web wallpaper search uses Bing Images. The Privacy Policy explains these flows, storage choices and the limits of what the app controls.</p>
+          <div class="about-links"><a href="https://livestagix.github.io/privacy-policy/">Read the Privacy Policy ↗</a></div>
+        </section>
+
+        <section class="about-card">
+          <h2>Ownership and distribution</h2>
+          <p>LiveStagix is proprietary software. The public release repository distributes official APK files and release notes; it is not the app's public source-code repository. Source code and build tooling are maintained separately.</p>
+          <p>The direct APK is published through the official GitHub release repository. The Google Play route currently leads to a closed test and is not a public production listing.</p>
+          <div class="about-links">
+            <a href="https://github.com/devdas74/LiveWP-Releases/releases">Official APK releases ↗</a>
+            <a href="https://play.google.com/apps/testing/com.livewp.app" target="_blank" rel="noopener noreferrer">Google Play closed test ↗</a>
+          </div>
+        </section>
+
+        <section class="about-card about-wide">
+          <h2>Release verification and security</h2>
+          <p>Each published release can be checked against its SHA-256 checksum. The Security page publishes the current APK identity, signing-certificate verification and any available exact-file VirusTotal results. These checks improve traceability, but neither a valid signature nor a multi-engine scan is a guarantee that software is completely safe.</p>
+          <div class="about-links">
+            <a href="https://livestagix.github.io/security/">Security &amp; Integrity ↗</a>
+            <a href="https://github.com/devdas74/LiveWP-Releases">Release repository ↗</a>
+          </div>
+        </section>
+
+        <section class="about-card about-wide">
+          <h2>Contact and support</h2>
+          <p>For app support, privacy questions or release concerns, use the official contact address or the linked project channels. Support is optional and helps with the ongoing development and maintenance of LiveStagix.</p>
+          <div class="about-links">
+            <a href="mailto:livestagix.contact@gmail.com">livestagix.contact@gmail.com</a>
+            <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">GitHub · Devdas74 ↗</a>
+            <a href="https://github.com/sponsors/devdas74" target="_blank" rel="noopener noreferrer">Support the project ↗</a>
+          </div>
+        </section>
+      </div>
+
+      <div class="about-bottom-cta">
+        <p>Want to explore the app itself? Start with the latest official Android release.</p>
+        <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest">Get the latest release ↗</a>
+      </div>
+      <p class="about-note">Transparency note: LiveStagix is independently maintained under the public GitHub profile Devdas74. This page describes the current project and app architecture; details may change as the app evolves. Release, privacy and security information is published on the linked official pages.</p>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <a class="brand footer-brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+          <span class="brand-mark"><img src="../public/Small%20round%20icon%20192.webp" alt="" width="38" height="38"></span>
+          <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>YOUR SCREEN, IN MOTION.</small></span>
+        </a>
+        <p>A live wallpaper experience for Android.</p>
+      </div>
+      <div class="footer-nav">
+        <div><span class="footer-label">EXPLORE</span><a href="https://livestagix.github.io/#experience">Experience</a><a href="https://livestagix.github.io/#media-tuner">Media Tuner</a><a href="https://livestagix.github.io/#performance">The engine</a><a href="https://livestagix.github.io/#faq">FAQ</a><a href="https://livestagix.github.io/about/" aria-current="page">About &amp; developer</a></div>
+        <div><span class="footer-label">OFFICIAL &amp; SUPPORT</span><a href="https://github.com/devdas74/LiveWP-Releases/releases/latest">Download latest APK</a><a href="https://livestagix.github.io/privacy-policy/">Privacy Policy</a><a href="https://livestagix.github.io/security/">Security &amp; Integrity</a><a href="https://github.com/sponsors/devdas74" target="_blank" rel="noopener noreferrer">Support the project ↗</a></div>
+      </div>
+      <div class="footer-bottom"><span>© <span id="year"></span> LiveStagix</span><span>Made for screens that deserve more.</span><a href="https://livestagix.github.io/">Back to site ↑</a></div>
+    </footer>
+  </div>
+  <script src="../script.js?v=20261031-about-page" defer></script>
+</body>
+</html>
