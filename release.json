@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "metadata_source": "LiveWP-Releases release workflow",
   "repository": "devdas74/LiveWP-Releases",
   "tag_name": "v1.0-beta-74",
   "name": "LiveWP Beta 1.0 - Build 74",
@@ -9,6 +10,5 @@
     "name": "LiveStagix_beta.apk",
     "size": 5392818,
     "digest": "sha256:89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c"
-  },
-  "metadata_source": "LiveWP-Releases release workflow"
+  }
 }
