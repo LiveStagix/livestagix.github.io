@@ -103,13 +103,15 @@
         </section>
 
         <section class="security-card">
-          <span class="security-label pending">SIGNING FINGERPRINT NOT YET PUBLISHED</span>
+          <span class="security-label">SIGNING CERTIFICATE VERIFIED — BUILD 74</span>
           <h2>APK signature verification</h2>
-          <p>The Build 74 release notes state that the APK is signed with the project's permanent release signing key. The signing certificate's SHA-256 fingerprint has not yet been independently verified and published on this page, so no certificate fingerprint is claimed here.</p>
-          <p>Technical users can inspect a downloaded APK with the Android SDK Build Tools command:</p>
+          <p>The certificate fingerprint below was extracted from the Build 74 APK supplied for verification. The APK's SHA-256 exactly matches the digest published in the official GitHub release metadata, and its APK Signature Scheme v2 signer signature was cryptographically verified.</p>
+          <p>Certificate SHA-256 fingerprint</p>
+          <code class="security-hash">49:19:B3:24:92:85:91:8C:4C:4C:89:4E:8B:46:B1:71:3A:E1:03:20:1F:D5:36:D3:37:02:1D:5C:7F:20:5E:78</code>
+          <p style="margin-top:15px">To check a downloaded APK yourself, run this Android SDK Build Tools command:</p>
           <code class="security-hash">apksigner verify --print-certs LiveStagix_beta.apk</code>
-          <p>To establish publisher continuity, compare the reported certificate fingerprint with a value obtained through a separate trusted channel, such as the Play Console app-signing certificate. A signature check without a trusted comparison fingerprint does not independently identify the publisher.</p>
-          <p><a href="https://support.google.com/googleplay/android-developer/answer/16641489">Google's guide to obtaining an APK signing fingerprint</a>.</p>
+          <p>Compare the value shown for <code>Signer #1 certificate SHA-256 digest</code> with the fingerprint above. Letter case and colon separators may differ. This fingerprint identifies the signing certificate used by the verified Build 74 file; unexpected changes in later releases should be investigated before installing.</p>
+          <p>This verification confirms the file's signing identity and integrity, not that the app is malware-free. <a href="https://support.google.com/googleplay/android-developer/answer/16641489">Google's guide to APK signing fingerprints</a>.</p>
         </section>
 
         <section class="security-card">
