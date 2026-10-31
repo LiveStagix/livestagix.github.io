@@ -21,7 +21,7 @@
   setInterval(updatePhoneClock, 15000);
 
   const latestApkUrl = "https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
-  const releaseApiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
+  const releaseMetadataUrl = "/release.json";
   const heroDownload = document.getElementById("hero-download-apk");
   const downloadApk = document.getElementById("download-apk");
   const releaseVersion = document.getElementById("release-version");
@@ -39,14 +39,14 @@
   async function loadLatestRelease() {
     if (!releaseVersion || !releaseSize) return;
     try {
-      const response = await fetch(releaseApiUrl, {
-        headers: { Accept: "application/vnd.github+json" },
-        cache: "no-cache"
+      const response = await fetch(releaseMetadataUrl, {
+        headers: { Accept: "application/json" },
+        cache: "no-store"
       });
       if (!response.ok) throw new Error("Release metadata unavailable");
       const release = await response.json();
-      const asset = Array.isArray(release.assets)
-        ? release.assets.find((item) => item.name === "LiveStagix_beta.apk")
+      const asset = release && release.asset && release.asset.name === "LiveStagix_beta.apk"
+        ? release.asset
         : null;
       if (!asset) throw new Error("Latest APK asset not found");
 
