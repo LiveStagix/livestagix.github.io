@@ -30,6 +30,9 @@ jobs:
       - name: Check out website repository
         uses: actions/checkout@v4
 
+      - name: Validate scanner script syntax
+        run: python3 -m py_compile .github/scripts/virustotal_scan.py
+
       - name: Check whether VirusTotal API key is configured
         id: api-key
         shell: bash
