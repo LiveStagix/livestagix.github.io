@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08090e">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Official LiveStagix Android app identity, release source, SHA-256 integrity information and security-verification guidance.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://livestagix.github.io/security/">
+  <link rel="icon" type="image/webp" href="../public/Small%20round%20icon%20192.webp" sizes="192x192">
+  <title>Security &amp; Integrity — LiveStagix</title>
+  <link rel="stylesheet" href="../styles.css?v=20261031-trust-center">
+  <style>
+    .security-main{width:min(calc(100% - 40px),980px);margin:0 auto;padding:clamp(58px,8vw,100px) 0 100px}
+    .security-kicker{display:flex;align-items:center;gap:10px;color:#aeb6ca;font-size:.68rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+    .security-kicker::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--cyan),var(--violet))}
+    .security-main h1{margin:22px 0 17px;font-size:clamp(2.8rem,7vw,5.4rem);line-height:.99;letter-spacing:-.075em;font-weight:800}
+    .security-main h1 span{color:transparent;background:linear-gradient(100deg,#82efff 4%,#8f9bff 52%,#c69bff 97%);background-clip:text;-webkit-background-clip:text}
+    .security-lead{max-width:790px;color:var(--muted);font-size:1rem;line-height:1.85}
+    .security-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+    .security-meta span{border:1px solid var(--line);border-radius:999px;padding:6px 11px;background:#ffffff04;color:#aeb6ca;font-size:.72rem}
+    .security-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:34px}
+    .security-card{min-width:0;padding:clamp(20px,3vw,29px);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,rgba(16,18,27,.86),rgba(10,12,19,.86));box-shadow:0 24px 80px #0002}
+    .security-card h2{margin:0 0 15px;font-size:1.12rem;letter-spacing:-.025em}
+    .security-card p,.security-card li{color:#aeb4c8;font-size:.86rem;line-height:1.8}
+    .security-card p{margin:0 0 12px}
+    .security-card p:last-child{margin-bottom:0}
+    .security-card ul{padding-left:19px;margin:10px 0 0}
+    .security-card li+li{margin-top:7px}
+    .security-facts{display:grid;grid-template-columns:minmax(105px,.65fr) minmax(0,1.35fr);gap:11px 15px;margin:0}
+    .security-facts dt{color:#7f8aa4;font-size:.75rem}
+    .security-facts dd{margin:0;color:#e3e8f8;font-size:.82rem;overflow-wrap:anywhere}
+    .security-hash{display:block;margin-top:9px;padding:13px 14px;border:1px solid #ffffff14;border-radius:12px;background:#05070c;color:#d8e6ff;font:500 .76rem/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;user-select:all}
+    .security-label{display:inline-flex;align-items:center;gap:7px;margin-bottom:13px;color:#a9dfe9;font-size:.61rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    .security-label::before{content:"";width:6px;height:6px;border-radius:50%;background:#70dcb6}
+    .security-label.pending::before{background:#e9b96b}
+    .security-note{margin-top:26px;padding:19px 21px;border-left:2px solid var(--cyan);background:rgba(98,231,255,.045);color:#aeb4c8;font-size:.83rem;line-height:1.85}
+    .security-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+    .security-links a{display:inline-flex;align-items:center;gap:9px;color:#dce8fa;font-size:.83rem;font-weight:750}
+    .security-links a:hover{color:var(--cyan)}
+    .security-main a:not(.button){text-decoration:underline;text-decoration-color:#62e7ff60;text-underline-offset:3px}
+    .security-main code{color:#dce8fa;font-size:.92em}
+    @media(max-width:780px){.security-main{width:min(calc(100% - 30px),980px);padding-top:54px;padding-bottom:70px}.security-grid{grid-template-columns:1fr}.security-card{border-radius:18px}.security-card p,.security-card li{font-size:.84rem}}
+    @media(max-width:420px){.security-facts{grid-template-columns:1fr;gap:5px}.security-facts dd{margin-bottom:9px}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+        <span class="brand-mark" aria-hidden="true"><img src="../public/Small%20round%20icon%20192.webp" alt="" width="42" height="42"></span>
+        <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>ANDROID WALLPAPER ENGINE</small></span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="primary-nav" aria-label="Primary navigation">
+        <a href="https://livestagix.github.io/#experience">Experience</a>
+        <a href="https://livestagix.github.io/#features">Features</a>
+        <a href="https://livestagix.github.io/#faq">FAQ</a>
+        <a href="https://livestagix.github.io/privacy-policy/">Privacy</a>
+        <a href="https://livestagix.github.io/security/" aria-current="page">Security</a>
+      </nav>
+      <a class="nav-cta" href="https://github.com/devdas74/LiveWP-Releases/releases/latest">Latest release <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="main" class="security-main">
+      <p class="security-kicker">OFFICIAL RELEASE VERIFICATION</p>
+      <h1>Security &amp; <span>Integrity.</span></h1>
+      <p class="security-lead">This page identifies the official LiveStagix Android package and publishes the integrity information available for the current release. It distinguishes verifiable release metadata from security checks that have not yet been independently published. A checksum helps identify a file; it is not, by itself, proof that an app is malware-free.</p>
+      <div class="security-meta"><span>Official project page</span><span>Android app</span><span>Updated October 31, 2026</span></div>
+
+      <div class="security-grid">
+        <section class="security-card">
+          <span class="security-label">APP IDENTITY</span>
+          <h2>Identify the official app</h2>
+          <dl class="security-facts">
+            <dt>App name</dt><dd>LiveStagix</dd>
+            <dt>Android package</dt><dd><code>com.livewp.app</code></dd>
+            <dt>Publisher</dt><dd><a href="https://github.com/LiveStagix">LiveStagix on GitHub</a></dd>
+            <dt>Release repository</dt><dd><a href="https://github.com/devdas74/LiveWP-Releases">Official APK releases</a></dd>
+            <dt>Privacy policy</dt><dd><a href="https://livestagix.github.io/privacy-policy/">Read the Privacy Policy</a></dd>
+          </dl>
+        </section>
+
+        <section class="security-card">
+          <span class="security-label">CURRENT RELEASE</span>
+          <h2>Build 74 — 1.0 beta</h2>
+          <dl class="security-facts">
+            <dt>Release tag</dt><dd><a href="https://github.com/devdas74/LiveWP-Releases/releases/tag/v1.0-beta-74">v1.0-beta-74</a></dd>
+            <dt>Published</dt><dd>October 30, 2026</dd>
+            <dt>APK filename</dt><dd><code>LiveStagix_beta.apk</code></dd>
+            <dt>File size</dt><dd>5,392,818 bytes (about 5.14 MiB)</dd>
+            <dt>Digest source</dt><dd>GitHub release asset metadata</dd>
+          </dl>
+          <p style="margin-top:17px">SHA-256 checksum</p>
+          <code class="security-hash">89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c</code>
+          <p style="margin-top:12px"><a href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download the official APK</a></p>
+        </section>
+
+        <section class="security-card">
+          <span class="security-label pending">SIGNING FINGERPRINT NOT YET PUBLISHED</span>
+          <h2>APK signature verification</h2>
+          <p>The Build 74 release notes state that the APK is signed with the project's permanent release signing key. The signing certificate's SHA-256 fingerprint has not yet been independently verified and published on this page, so no certificate fingerprint is claimed here.</p>
+          <p>Technical users can inspect a downloaded APK with the Android SDK Build Tools command:</p>
+          <code class="security-hash">apksigner verify --print-certs LiveStagix_beta.apk</code>
+          <p>To establish publisher continuity, compare the reported certificate fingerprint with a value obtained through a separate trusted channel, such as the Play Console app-signing certificate. A signature check without a trusted comparison fingerprint does not independently identify the publisher.</p>
+          <p><a href="https://support.google.com/googleplay/android-developer/answer/16641489">Google's guide to obtaining an APK signing fingerprint</a>.</p>
+        </section>
+
+        <section class="security-card">
+          <span class="security-label pending">INDEPENDENT SCAN NOT LINKED</span>
+          <h2>Malware scan status</h2>
+          <p>This page does not currently publish a VirusTotal scan report for the exact Build 74 APK. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
+          <p>You can look up the exact file by its SHA-256 digest on <a href="https://www.virustotal.com/gui/file/89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c" target="_blank" rel="noopener noreferrer">VirusTotal</a>. Confirm that the report's hash matches the checksum above before interpreting any results.</p>
+          <p>Multi-engine scan results are point-in-time signals, not a guarantee that software is completely safe. Android users should also keep Google Play Protect enabled.</p>
+        </section>
+      </div>
+
+      <div class="security-note">Distribution guidance: use this website and the linked <a href="https://github.com/devdas74/LiveWP-Releases/releases">LiveStagix release repository</a> for the direct APK. The Google Play link is currently a closed-test route and is available only to eligible testers; it should not be mistaken for a public production listing. The release repository describes LiveStagix as proprietary software, with source code and build tooling maintained separately.</div>
+
+      <div class="security-links">
+        <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest">Browse official releases ↗</a>
+        <a href="https://play.google.com/apps/testing/com.livewp.app" target="_blank" rel="noopener noreferrer">Google Play closed test ↗</a>
+        <a href="https://livestagix.github.io/privacy-policy/">Privacy Policy ↗</a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <a class="brand footer-brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+          <span class="brand-mark" aria-hidden="true"><img src="../public/Small%20round%20icon%20192.webp" alt="" width="38" height="38"></span>
+          <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>YOUR SCREEN, IN MOTION.</small></span>
+        </a>
+        <p>A live wallpaper experience for Android.</p>
+      </div>
+      <div class="footer-nav">
+        <div><span class="footer-label">EXPLORE</span><a href="https://livestagix.github.io/#experience">Experience</a><a href="https://livestagix.github.io/#features">Features</a><a href="https://livestagix.github.io/#faq">FAQ</a></div>
+        <div><span class="footer-label">TRUST</span><a href="https://livestagix.github.io/privacy-policy/">Privacy Policy</a><a href="https://livestagix.github.io/security/" aria-current="page">Security &amp; Integrity</a><a href="https://github.com/devdas74/LiveWP-Releases/releases">Official APK releases</a></div>
+      </div>
+      <div class="footer-bottom"><span>© <span id="year"></span> LiveStagix</span><span>Made for screens that deserve more.</span><a href="https://livestagix.github.io/">Back to site ↑</a></div>
+    </footer>
+  </div>
+  <script src="../script.js?v=20261031-security-page" defer></script>
+</body>
+</html>
