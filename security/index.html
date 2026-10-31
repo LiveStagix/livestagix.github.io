@@ -10,7 +10,7 @@
   <link rel="canonical" href="https://livestagix.github.io/security/">
   <link rel="icon" type="image/webp" href="../public/Small%20round%20icon%20192.webp" sizes="192x192">
   <title>Security &amp; Integrity — LiveStagix</title>
-  <link rel="stylesheet" href="../styles.css?v=20261031-trust-center">
+  <link rel="stylesheet" href="../styles.css?v=20261031-security-verification-v2">
   <style>
     .security-main{width:min(calc(100% - 40px),980px);margin:0 auto;padding:clamp(58px,8vw,100px) 0 100px}
     .security-kicker{display:flex;align-items:center;gap:10px;color:#aeb6ca;font-size:.68rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
@@ -39,6 +39,29 @@
     .security-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
     .security-links a{display:inline-flex;align-items:center;gap:9px;color:#dce8fa;font-size:.83rem;font-weight:750}
     .security-links a:hover{color:var(--cyan)}
+    .security-copy-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:12px}
+    .security-copy{min-height:36px;padding:7px 11px;border:1px solid rgba(98,231,255,.22);border-radius:9px;color:#d9f9ff;background:rgba(98,231,255,.06);font-size:.72rem;font-weight:750;cursor:pointer}
+    .security-copy:hover{background:rgba(98,231,255,.12)}
+    .security-copy-feedback{color:var(--green);font-size:.7rem}
+    .security-label.status-ok::before{background:#70dcb6}
+    .security-label.status-warn::before{background:#e9b96b}
+    .security-label.status-bad::before{background:#ff7f91}
+    .security-label.status-muted::before{background:#8791a8}
+    .security-fingerprint{display:block;color:#d8e6ff;font:500 .72rem/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+    .security-signature-facts{margin-top:17px}
+    .security-details{margin-top:18px;padding-top:14px;border-top:1px solid #ffffff12}
+    .security-details summary{color:#c6d7f4;font-size:.8rem;font-weight:750;cursor:pointer}
+    .security-details p{margin-top:12px}
+    .security-footnote,.scan-count-note{margin-top:14px!important;color:#818ba3!important;font-size:.76rem!important;line-height:1.75!important}
+    .scan-results{margin-top:17px;padding-top:15px;border-top:1px solid #ffffff12}
+    .scan-results[hidden]{display:none!important}
+    .scan-result-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .scan-result{min-width:0;padding:11px 9px;border:1px solid #ffffff12;border-radius:11px;background:#ffffff04}
+    .scan-result strong,.scan-result span{display:block}
+    .scan-result strong{color:#e5edff;font-size:1.15rem;line-height:1.25;font-variant-numeric:tabular-nums}
+    .scan-result span{margin-top:4px;color:#8792aa;font-size:.62rem;line-height:1.35}
+    #stat-malicious:not(:empty),#stat-suspicious:not(:empty){color:#ff9ca8}
+    @media(max-width:520px){.scan-result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scan-result{padding:10px}.security-copy-row{align-items:stretch}.security-copy{width:100%;text-align:left}}
     .security-main a:not(.button){text-decoration:underline;text-decoration-color:#62e7ff60;text-underline-offset:3px}
     .security-main code{color:#dce8fa;font-size:.92em}
     @media(max-width:780px){.security-main{width:min(calc(100% - 30px),980px);padding-top:54px;padding-bottom:70px}.security-grid{grid-template-columns:1fr}.security-card{border-radius:18px}.security-card p,.security-card li{font-size:.84rem}}
@@ -99,20 +122,31 @@
           </dl>
           <p style="margin-top:17px">SHA-256 checksum for this exact release asset</p>
           <code class="security-hash" id="release-sha" aria-live="polite">Loading checksum from GitHub…</code>
+          <div class="security-copy-row">
+            <button class="security-copy" id="copy-release-sha" type="button" disabled>Copy SHA-256</button>
+            <span class="security-copy-feedback" id="copy-release-feedback" role="status" aria-live="polite"></span>
+          </div>
           <p id="release-status" role="status" aria-live="polite" style="margin-top:10px">Retrieving the latest published APK details from the official release repository.</p>
           <p style="margin-top:12px"><a href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download the latest official APK</a> · <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest">View release notes</a></p>
         </section>
 
-        <section class="security-card">
-          <span class="security-label">SIGNING CERTIFICATE VERIFIED — BUILD 74</span>
-          <h2>APK signature verification</h2>
-          <p>The certificate fingerprint below was extracted from the Build 74 APK supplied for verification. The APK's SHA-256 exactly matches the digest published in the official GitHub release metadata, and its APK Signature Scheme v2 signer signature was cryptographically verified.</p>
-          <p>Certificate SHA-256 fingerprint</p>
-          <code class="security-hash">49:19:B3:24:92:85:91:8C:4C:4C:89:4E:8B:46:B1:71:3A:E1:03:20:1F:D5:36:D3:37:02:1D:5C:7F:20:5E:78</code>
-          <p style="margin-top:15px">To check a downloaded APK yourself, run this Android SDK Build Tools command:</p>
-          <code class="security-hash">apksigner verify --print-certs LiveStagix_beta.apk</code>
-          <p>Compare the value shown for <code>Signer #1 certificate SHA-256 digest</code> with the fingerprint above. Letter case and colon separators may differ. This fingerprint identifies the signing certificate used by the verified Build 74 file; unexpected changes in later releases should be investigated before installing.</p>
-          <p>This verification confirms the file's signing identity and integrity, not that the app is malware-free. <a href="https://support.google.com/googleplay/android-developer/answer/16641489">Google's guide to APK signing fingerprints</a>.</p>
+        <section class="security-card" aria-labelledby="signature-heading">
+          <span class="security-label pending" id="signature-label">SIGNATURE VERIFICATION PENDING</span>
+          <h2 id="signature-heading">Signing certificate verification</h2>
+          <p id="signature-summary">The current official APK's signature has not yet been verified against LiveStagix's trusted release certificate.</p>
+          <dl class="security-facts security-signature-facts">
+            <dt>Trusted certificate</dt><dd><code class="security-fingerprint" id="trusted-fingerprint">Loading trusted fingerprint…</code></dd>
+            <dt>Current APK signer</dt><dd><code class="security-fingerprint" id="current-fingerprint">Not verified yet</code></dd>
+            <dt>Verification method</dt><dd id="signature-tool">Android SDK Build Tools · apksigner</dd>
+            <dt>Last verified</dt><dd id="signature-date">Waiting for release verification…</dd>
+          </dl>
+          <details class="security-details">
+            <summary>How to verify a downloaded APK yourself</summary>
+            <p>Run this command with Android SDK Build Tools installed:</p>
+            <code class="security-hash">apksigner verify --print-certs LiveStagix_beta.apk</code>
+            <p>Compare <code>Signer #1 certificate SHA-256 digest</code> with the trusted certificate fingerprint above. The APK signature must verify and the certificate fingerprint must match. A changed fingerprint is not automatically proof of malware, but it must be investigated before installing.</p>
+          </details>
+          <p class="security-footnote">A valid signature confirms that the APK was signed by the matching release key and has not been modified since signing. It does not establish that the app is free from malicious behaviour.</p>
         </section>
 
         <section class="security-card">
@@ -121,6 +155,19 @@
           <p id="scan-summary">No VirusTotal scan has been published for the current official APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
           <p id="scan-details">When an exact-file report is available, this page displays it only when its SHA-256 matches the current official APK checksum above. You can also <a id="virustotal-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">look up the exact file on VirusTotal</a>.</p>
           <p id="scan-date" aria-live="polite">Scan date: no report published for the current APK.</p>
+          <div class="scan-results" id="scan-results" hidden aria-live="polite">
+            <div class="scan-result-grid">
+              <div class="scan-result"><strong id="stat-malicious">—</strong><span>Malicious</span></div>
+              <div class="scan-result"><strong id="stat-suspicious">—</strong><span>Suspicious</span></div>
+              <div class="scan-result"><strong id="stat-harmless">—</strong><span>Harmless</span></div>
+              <div class="scan-result"><strong id="stat-undetected">—</strong><span>Undetected</span></div>
+              <div class="scan-result"><strong id="stat-type-unsupported">—</strong><span>Unsupported</span></div>
+              <div class="scan-result"><strong id="stat-timeout">—</strong><span>Timeout</span></div>
+              <div class="scan-result"><strong id="stat-confirmed-timeout">—</strong><span>Confirmed timeout</span></div>
+              <div class="scan-result"><strong id="stat-failure">—</strong><span>Failure</span></div>
+            </div>
+            <p class="scan-count-note" id="scan-count-note"></p>
+          </div>
           <p>Multi-engine scan results are point-in-time signals, not a guarantee that software is completely safe. Android users should also keep <a href="https://support.google.com/googleplay/answer/2812853">Google Play Protect enabled</a>; it checks apps from Google Play and can also check apps installed from other sources.</p>
         </section>
       </div>
@@ -150,126 +197,236 @@
     </footer>
   </div>
   <script>
-    async function loadVirusTotalStatus(expectedSha256, releaseTag) {
+    (() => {
       const byId = (id) => document.getElementById(id);
       const setText = (id, value) => {
         const node = byId(id);
         if (node) node.textContent = value;
       };
 
-      try {
-        const statusUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/contents/security/scan-status.json?ref=Stable&cache=" + Date.now();
-        const response = await fetch(statusUrl, {
-          headers: { Accept: "application/vnd.github+json" },
-          cache: "no-store"
-        });
-        if (!response.ok) throw new Error("GitHub scan-status metadata returned HTTP " + response.status);
+      function setLabel(id, text, state) {
+        const node = byId(id);
+        if (!node) return;
+        node.textContent = text;
+        node.classList.remove("pending", "status-ok", "status-warn", "status-bad", "status-muted");
+        if (state === "pending") node.classList.add("pending");
+        else if (state) node.classList.add("status-" + state);
+      }
 
-        const file = await response.json();
-        const encoded = typeof file.content === "string" ? file.content.replace(/\s/g, "") : "";
-        if (!encoded) throw new Error("The published scan-status file is empty.");
+      function formatFingerprint(value) {
+        const normalized = String(value || "").replace(/[^0-9a-f]/gi, "").toUpperCase();
+        if (!/^[0-9A-F]{64}$/.test(normalized)) return "Not available";
+        return normalized.match(/.{2}/g).join(":");
+      }
 
-        const binary = atob(encoded);
-        const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-        const scan = JSON.parse(new TextDecoder().decode(bytes));
+      function formatDate(value) {
+        if (typeof value !== "string") return "Not supplied";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "Not supplied";
+        return new Intl.DateTimeFormat(undefined, {
+          year: "numeric", month: "long", day: "numeric",
+          hour: "numeric", minute: "2-digit", timeZone: "UTC", timeZoneName: "short"
+        }).format(date);
+      }
 
-        if (scan.status !== "available" || scan.sha256 !== expectedSha256) {
-          setText("scan-summary", "No VirusTotal scan has been published for this exact latest APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.");
-          setText("scan-details", "After a release is published, its APK is checked against the GitHub SHA-256 and submitted for an independent scan when the authorised VirusTotal API credential is configured. You can still look up the current APK by its SHA-256 on VirusTotal.");
-          setText("scan-date", "Scan date: no report published for the current APK.");
+      function setSignaturePending(message) {
+        setLabel("signature-label", "SIGNATURE VERIFICATION PENDING", "pending");
+        setText("signature-summary", message || "No signing-verification result has been published for this exact APK yet.");
+        setText("trusted-fingerprint", "Not available");
+        setText("current-fingerprint", "Not verified yet");
+        setText("signature-date", "Not verified yet");
+      }
+
+      function renderSignature(scan, expectedSha256) {
+        const signature = scan && scan.signature;
+        if (!signature || scan.sha256 !== expectedSha256) {
+          setSignaturePending("The latest APK does not yet have a matching published signature-verification result.");
+          return;
+        }
+
+        setText("trusted-fingerprint", formatFingerprint(signature.trustedCertificateSha256));
+        const observed = Array.isArray(signature.observedCertificateSha256)
+          ? signature.observedCertificateSha256.map(formatFingerprint)
+          : [];
+        setText("current-fingerprint", observed.length ? observed.join(" · ") : "No signer fingerprint returned");
+        setText("signature-tool", signature.tool || "Android SDK Build Tools apksigner");
+        setText("signature-date", formatDate(signature.verifiedAt));
+
+        switch (signature.status) {
+          case "verified":
+            setLabel("signature-label", "CURRENT APK SIGNATURE VERIFIED", "ok");
+            setText("signature-summary", "The APK signature is valid and its signer certificate matches the trusted LiveStagix release certificate.");
+            break;
+          case "mismatch":
+            setLabel("signature-label", "SIGNING CERTIFICATE CHANGED", "warn");
+            setText("signature-summary", "The APK signature is valid, but its signer certificate does not match the trusted LiveStagix release certificate. Treat this as an unexpected signing-key change and investigate before installing.");
+            break;
+          case "invalid":
+            setLabel("signature-label", "APK SIGNATURE INVALID", "bad");
+            setText("signature-summary", "Android SDK Build Tools could not verify this APK's signature. Do not install this file until the release is investigated.");
+            break;
+          default:
+            setLabel("signature-label", "SIGNATURE VERIFICATION UNAVAILABLE", "muted");
+            setText("signature-summary", "The APK was retrieved, but the automated verifier could not determine its signer certificate. No verified-signature claim is being made.");
+            break;
+        }
+      }
+
+      function setScanPending(message) {
+        setLabel("scan-label", "SCAN REPORT PENDING", "pending");
+        setText("scan-heading", "VirusTotal scan status");
+        setText("scan-summary", message || "No VirusTotal report has been published for this exact latest APK yet. This is not a malware detection or a clean scan verdict.");
+        setText("scan-details", "The report is shown only when its SHA-256 matches the current official APK. You can also look up the exact file directly on VirusTotal.");
+        setText("scan-date", "Analysis date: no report published for the current APK.");
+        const results = byId("scan-results");
+        if (results) results.hidden = true;
+      }
+
+      function setStatusUnavailable() {
+        setLabel("signature-label", "VERIFICATION STATUS UNAVAILABLE", "muted");
+        setText("signature-summary", "The published signing-verification status could not be retrieved. No verified-signature claim is being made.");
+        setText("signature-date", "Status temporarily unavailable");
+        setLabel("scan-label", "SCAN STATUS UNAVAILABLE", "muted");
+        setText("scan-heading", "VirusTotal scan status");
+        setText("scan-summary", "The published scan status could not be retrieved right now. This is not a malware detection or a clean scan verdict.");
+        setText("scan-details", "Try the direct VirusTotal lookup for the SHA-256 shown above. Confirm that the report hash matches the current APK before interpreting its results.");
+        setText("scan-date", "Scan status temporarily unavailable.");
+        const results = byId("scan-results");
+        if (results) results.hidden = true;
+      }
+
+      function renderScan(scan, expectedSha256, releaseTag) {
+        if (scan.sha256 !== expectedSha256 || scan.status !== "available") {
+          setScanPending("No VirusTotal report has been published for this exact latest APK yet. That is an absence of a published report—not a malware detection, and not a clean scan verdict.");
           return;
         }
 
         const stats = scan.stats && typeof scan.stats === "object" ? scan.stats : {};
+        const keys = ["malicious", "suspicious", "harmless", "undetected", "type-unsupported", "timeout", "confirmed-timeout", "failure"];
         const count = (name) => Number.isSafeInteger(stats[name]) && stats[name] >= 0 ? stats[name] : 0;
-        const total = Object.values(stats).reduce(
-          (sum, value) => sum + (Number.isSafeInteger(value) && value >= 0 ? value : 0),
-          0
-        );
-        if (total < 1) throw new Error("The published report has no engine counts.");
+        const total = keys.reduce((sum, key) => sum + count(key), 0);
+        if (total < 1) {
+          setScanPending("A report is linked to this APK, but it does not contain usable engine statistics yet.");
+          return;
+        }
 
         const malicious = count("malicious");
         const suspicious = count("suspicious");
+        const undetected = count("undetected");
+        const unsupported = count("type-unsupported");
         const summary = malicious + suspicious === 0
-          ? "No malicious or suspicious detections were reported among " + total + " engine results for " + releaseTag + "."
-          : "VirusTotal reported " + malicious + " malicious and " + suspicious + " suspicious engine results among " + total + " engine results for " + releaseTag + ".";
+          ? "No malicious or suspicious detections were reported. " +
+            undetected + " engine results were undetected; " + unsupported +
+            " reported an unsupported file type."
+          : "VirusTotal reported " + malicious + " malicious and " + suspicious +
+            " suspicious detections among " + total + " engine results for " + releaseTag + ".";
 
-        const label = byId("scan-label");
-        if (label) {
-          label.textContent = "INDEPENDENT SCAN PUBLISHED";
-          label.classList.remove("pending");
-        }
+        setLabel("scan-label", "INDEPENDENT SCAN PUBLISHED", malicious + suspicious ? "bad" : "ok");
         setText("scan-heading", "VirusTotal scan results");
         setText("scan-summary", summary);
-        setText("scan-details", "This report is tied to the current official APK: its SHA-256 matches the checksum published above. Open the full VirusTotal report to review individual engine results.");
+        setText("scan-details", "This report is tied to the current official APK: its SHA-256 matches the checksum above. Open the full report to review individual engine results.");
+        setText("scan-date", "Last analysed: " + formatDate(scan.analysisDate) + ".");
         const link = byId("virustotal-link");
         if (link) {
           link.href = "https://www.virustotal.com/gui/file/" + expectedSha256;
           link.textContent = "Open the exact-file VirusTotal report";
         }
 
-        let dateLabel = "Analysis date: not supplied by VirusTotal.";
-        if (typeof scan.analysisDate === "string") {
-          const date = new Date(scan.analysisDate);
-          if (!Number.isNaN(date.getTime())) {
-            dateLabel = "Last analysed: " + new Intl.DateTimeFormat("en", {
-              year: "numeric", month: "long", day: "numeric",
-              hour: "numeric", minute: "2-digit", timeZone: "UTC", timeZoneName: "short"
-            }).format(date) + ".";
+        keys.forEach((key) => setText("stat-" + key, String(count(key))));
+        setText("scan-count-note", total + " engine results reported. “Undetected” means no detection was returned by that engine; “unsupported” means the engine could not analyse this file type. Zero values are shown to make the full breakdown explicit.");
+        const results = byId("scan-results");
+        if (results) results.hidden = false;
+      }
+
+      async function copyText(value, feedbackId) {
+        const feedback = byId(feedbackId);
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+          await navigator.clipboard.writeText(value);
+          if (feedback) feedback.textContent = "Copied.";
+        } catch (error) {
+          if (feedback) feedback.textContent = "Select the value above and copy it manually.";
+        }
+      }
+
+      const copyButton = byId("copy-release-sha");
+      if (copyButton) {
+        copyButton.addEventListener("click", () => {
+          const value = (byId("release-sha")?.textContent || "").trim();
+          if (value && /^[a-f0-9]{64}$/i.test(value)) {
+            copyText(value, "copy-release-feedback");
           }
-        }
-        setText("scan-date", dateLabel);
-      } catch (error) {
-        setText("scan-summary", "The published scan status could not be retrieved right now. This is not a malware detection or a clean scan verdict.");
-        setText("scan-details", "Try the direct VirusTotal lookup for the SHA-256 shown above. Confirm that the report hash matches the current APK before interpreting its results.");
-        setText("scan-date", "Scan status temporarily unavailable.");
-      }
-    }
-
-    (async function loadLatestReleaseIntegrity() {
-      const apiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
-      const byId = (id) => document.getElementById(id);
-      const setText = (id, value) => { const node = byId(id); if (node) node.textContent = value; };
-
-      try {
-        const response = await fetch(apiUrl, {
-          headers: { Accept: "application/vnd.github+json" }
         });
-        if (!response.ok) throw new Error("GitHub release metadata returned HTTP " + response.status);
-
-        const release = await response.json();
-        const apk = Array.isArray(release.assets)
-          ? release.assets.find((asset) => asset.name === "LiveStagix_beta.apk")
-          : null;
-
-        if (!apk) throw new Error("The latest release does not contain LiveStagix_beta.apk.");
-        if (typeof apk.digest !== "string" || !apk.digest.startsWith("sha256:")) {
-          throw new Error("GitHub has not provided a SHA-256 digest for this APK asset.");
-        }
-
-        const tag = byId("release-tag");
-        if (tag) {
-          tag.textContent = release.tag_name || "View release";
-          tag.href = release.html_url || "https://github.com/devdas74/LiveWP-Releases/releases/latest";
-        }
-
-        setText("release-title", release.name || release.tag_name || "Latest LiveStagix APK");
-        setText("release-date", release.published_at
-          ? new Intl.DateTimeFormat("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(new Date(release.published_at))
-          : "Date not supplied");
-        setText("release-filename", apk.name);
-        setText("release-size", Number(apk.size).toLocaleString("en-IN") + " bytes");
-        setText("release-sha", apk.digest.slice("sha256:".length));
-        const virusTotalLink = byId("virustotal-link");
-        if (virusTotalLink) virusTotalLink.href = "https://www.virustotal.com/gui/file/" + apk.digest.slice("sha256:".length);
-        setText("release-status", "Loaded from the official GitHub release API. Compare this checksum with the exact APK file you downloaded.");
-        await loadVirusTotalStatus(apk.digest.slice("sha256:".length), release.tag_name || "the latest release");
-      } catch (error) {
-        setText("release-date", "See official release page");
-        setText("release-size", "See official release page");
-        setText("release-sha", "Checksum could not be loaded automatically.");
-        setText("release-status", "Live checksum lookup unavailable: " + error.message + " Open the official release or its asset metadata to verify the exact file.");
       }
+
+      async function loadPublishedStatus(expectedSha256, releaseTag) {
+        try {
+          const statusUrl = "https://raw.githubusercontent.com/devdas74/LiveWP-Releases/Stable/security/scan-status.json";
+          const response = await fetch(statusUrl, { cache: "no-cache" });
+          if (!response.ok) throw new Error("Published verification status returned HTTP " + response.status);
+          const scan = await response.json();
+
+          if (scan.sha256 !== expectedSha256) {
+            setSignaturePending("Verification for the latest APK has not been published yet.");
+            setScanPending();
+            return;
+          }
+
+          renderSignature(scan, expectedSha256);
+          renderScan(scan, expectedSha256, releaseTag);
+        } catch (error) {
+          setStatusUnavailable();
+        }
+      }
+
+      (async function loadLatestReleaseIntegrity() {
+        const apiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
+        try {
+          const response = await fetch(apiUrl, {
+            headers: { Accept: "application/vnd.github+json" },
+            cache: "no-cache"
+          });
+          if (!response.ok) throw new Error("Release metadata unavailable (HTTP " + response.status + ").");
+          const release = await response.json();
+          const apk = Array.isArray(release.assets)
+            ? release.assets.find((asset) => asset.name === "LiveStagix_beta.apk")
+            : null;
+
+          if (!apk) throw new Error("The latest release does not contain LiveStagix_beta.apk.");
+          if (typeof apk.digest !== "string" || !/^sha256:[a-f0-9]{64}$/i.test(apk.digest)) {
+            throw new Error("GitHub has not provided a valid SHA-256 digest for this APK asset.");
+          }
+
+          const sha256 = apk.digest.slice("sha256:".length).toLowerCase();
+          const tag = byId("release-tag");
+          if (tag) {
+            tag.textContent = release.tag_name || "View latest release";
+            tag.href = release.html_url || "https://github.com/devdas74/LiveWP-Releases/releases/latest";
+          }
+
+          setText("release-title", release.name || release.tag_name || "Latest LiveStagix APK");
+          setText("release-date", release.published_at
+            ? new Intl.DateTimeFormat(undefined, { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(new Date(release.published_at))
+            : "Date not supplied");
+          setText("release-filename", apk.name);
+          setText("release-size", Number(apk.size).toLocaleString(undefined) + " bytes");
+          setText("release-sha", sha256);
+          const copy = byId("copy-release-sha");
+          if (copy) copy.disabled = false;
+          const virusTotalLink = byId("virustotal-link");
+          if (virusTotalLink) virusTotalLink.href = "https://www.virustotal.com/gui/file/" + sha256;
+          setText("release-status", "Loaded from the official GitHub release API. Compare the full SHA-256 with the exact APK file you downloaded.");
+          await loadPublishedStatus(sha256, release.tag_name || "the latest release");
+        } catch (error) {
+          setText("release-date", "See official release page");
+          setText("release-size", "Details unavailable");
+          setText("release-sha", "Checksum could not be loaded automatically.");
+          const copy = byId("copy-release-sha");
+          if (copy) copy.disabled = true;
+          setText("release-status", error.message + " Open the official release page to verify the current file.");
+          setStatusUnavailable();
+        }
+      })();
     })();
   </script>
   <script src="../script.js?v=20261031-security-page" defer></script>
