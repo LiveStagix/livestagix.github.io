@@ -158,7 +158,7 @@
       };
 
       try {
-        const statusUrl = "https://api.github.com/repos/LiveStagix/livestagix.github.io/contents/security/scan-status.json?ref=main&cache=" + Date.now();
+        const statusUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/contents/security/scan-status.json?ref=Stable&cache=" + Date.now();
         const response = await fetch(statusUrl, {
           headers: { Accept: "application/vnd.github+json" },
           cache: "no-store"
@@ -175,7 +175,7 @@
 
         if (scan.status !== "available" || scan.sha256 !== expectedSha256) {
           setText("scan-summary", "No VirusTotal scan has been published for this exact latest APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.");
-          setText("scan-details", "The report will appear here after an exact-file scan completes. You can still look up the current APK by its SHA-256 on VirusTotal.");
+          setText("scan-details", "After a release is published, its APK is checked against the GitHub SHA-256 and submitted for an independent scan when the authorised VirusTotal API credential is configured. You can still look up the current APK by its SHA-256 on VirusTotal.");
           setText("scan-date", "Scan date: no report published for the current APK.");
           return;
         }
