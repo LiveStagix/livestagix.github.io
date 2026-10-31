@@ -60,7 +60,7 @@
     .scan-result strong,.scan-result span{display:block}
     .scan-result strong{color:#e5edff;font-size:1.15rem;line-height:1.25;font-variant-numeric:tabular-nums}
     .scan-result span{margin-top:4px;color:#8792aa;font-size:.62rem;line-height:1.35}
-    #stat-malicious:not(:empty),#stat-suspicious:not(:empty){color:#ff9ca8}
+    .scan-result.is-alert strong{color:#ff9ca8}
     @media(max-width:520px){.scan-result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scan-result{padding:10px}.security-copy-row{align-items:stretch}.security-copy{width:100%;text-align:left}}
     .security-main a:not(.button){text-decoration:underline;text-decoration-color:#62e7ff60;text-underline-offset:3px}
     .security-main code{color:#dce8fa;font-size:.92em}
@@ -150,11 +150,11 @@
         </section>
 
         <section class="security-card">
-          <span class="security-label pending" id="scan-label">INDEPENDENT SCAN NOT LINKED</span>
+          <span class="security-label pending" id="scan-label">SCAN STATUS LOADING</span>
           <h2 id="scan-heading">Malware scan status</h2>
-          <p id="scan-summary">No VirusTotal scan has been published for the current official APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
+          <p id="scan-summary">Loading the latest VirusTotal report for the current official APK…</p>
           <p id="scan-details">When an exact-file report is available, this page displays it only when its SHA-256 matches the current official APK checksum above. You can also <a id="virustotal-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">look up the exact file on VirusTotal</a>.</p>
-          <p id="scan-date" aria-live="polite">Scan date: no report published for the current APK.</p>
+          <p id="scan-date" aria-live="polite">Checking the latest published analysis date…</p>
           <div class="scan-results" id="scan-results" hidden aria-live="polite">
             <div class="scan-result-grid">
               <div class="scan-result"><strong id="stat-malicious">—</strong><span>Malicious</span></div>
@@ -333,6 +333,11 @@
         }
 
         keys.forEach((key) => setText("stat-" + key, String(count(key))));
+        ["malicious", "suspicious"].forEach((key) => {
+          const node = byId("stat-" + key);
+          const tile = node && node.closest(".scan-result");
+          if (tile) tile.classList.toggle("is-alert", count(key) > 0);
+        });
         setText("scan-count-note", total + " engine results reported. “Undetected” means no detection was returned by that engine; “unsupported” means the engine could not analyse this file type. Zero values are shown to make the full breakdown explicit.");
         const results = byId("scan-results");
         if (results) results.hidden = false;
