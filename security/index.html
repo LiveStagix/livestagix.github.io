@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#08090e">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Official LiveStagix Android app identity, release source, SHA-256 integrity information and security-verification guidance. Release metadata last checked October 31, 2026.">
+  <meta name="description" content="Official LiveStagix Android app identity, current release SHA-256 checksum, signing certificate fingerprint and security-verification guidance.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://livestagix.github.io/security/">
   <link rel="icon" type="image/webp" href="../public/Small%20round%20icon%20192.webp" sizes="192x192">
@@ -70,8 +70,8 @@
       <p class="security-kicker">OFFICIAL RELEASE VERIFICATION</p>
       <h1>Security &amp; <span>Integrity.</span></h1>
       <p class="security-lead">This page identifies the official LiveStagix Android package and publishes the integrity information available for the current release. It distinguishes verifiable release metadata from security checks that have not yet been independently published. A checksum helps identify a file; it is not, by itself, proof that an app is malware-free.</p>
-      <div class="security-meta"><span>Official project page</span><span>Android app</span><span>Updated October 31, 2026</span></div>
-      <p class="security-lead" style="margin-top:12px;font-size:.84rem">Release snapshot: the latest public GitHub release was checked on October 31, 2026. Check the official Releases page for any newer build.</p>
+      <div class="security-meta"><span>Official project page</span><span>Android app</span><span>Release details live from GitHub</span></div>
+      <p class="security-lead" style="margin-top:12px;font-size:.84rem">The release tag, APK size and SHA-256 checksum below are loaded from the latest official GitHub release asset metadata, so the checksum follows each new published APK automatically.</p>
 
       <div class="security-grid">
         <section class="security-card">
@@ -88,18 +88,19 @@
         </section>
 
         <section class="security-card">
-          <span class="security-label">LATEST RELEASE SNAPSHOT</span>
-          <h2>Build 74 — 1.0 beta</h2>
+          <span class="security-label">LATEST OFFICIAL RELEASE</span>
+          <h2 id="release-title">Latest LiveStagix APK</h2>
           <dl class="security-facts">
-            <dt>Release tag</dt><dd><a href="https://github.com/devdas74/LiveWP-Releases/releases/tag/v1.0-beta-74">v1.0-beta-74</a></dd>
-            <dt>Published</dt><dd>October 30, 2026</dd>
-            <dt>APK filename</dt><dd><code>LiveStagix_beta.apk</code></dd>
-            <dt>File size</dt><dd>5,392,818 bytes (about 5.14 MiB)</dd>
-            <dt>Digest source</dt><dd>GitHub release asset metadata</dd>
+            <dt>Release tag</dt><dd><a id="release-tag" href="https://github.com/devdas74/LiveWP-Releases/releases/latest">View latest release</a></dd>
+            <dt>Published</dt><dd id="release-date">Loading release details…</dd>
+            <dt>APK filename</dt><dd><code id="release-filename">LiveStagix_beta.apk</code></dd>
+            <dt>File size</dt><dd id="release-size">Loading…</dd>
+            <dt>Digest source</dt><dd>GitHub release asset SHA-256 metadata</dd>
           </dl>
-          <p style="margin-top:17px">SHA-256 checksum</p>
-          <code class="security-hash">89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c</code>
-          <p style="margin-top:12px"><a href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download the official APK</a></p>
+          <p style="margin-top:17px">SHA-256 checksum for this exact release asset</p>
+          <code class="security-hash" id="release-sha" aria-live="polite">Loading checksum from GitHub…</code>
+          <p id="release-status" role="status" aria-live="polite" style="margin-top:10px">Retrieving the latest published APK details from the official release repository.</p>
+          <p style="margin-top:12px"><a href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download the latest official APK</a> · <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest">View release notes</a></p>
         </section>
 
         <section class="security-card">
@@ -147,6 +148,50 @@
       <div class="footer-bottom"><span>© <span id="year"></span> LiveStagix</span><span>Made for screens that deserve more.</span><a href="https://livestagix.github.io/">Back to site ↑</a></div>
     </footer>
   </div>
+  <script>
+    (async function loadLatestReleaseIntegrity() {
+      const apiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
+      const byId = (id) => document.getElementById(id);
+      const setText = (id, value) => { const node = byId(id); if (node) node.textContent = value; };
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: { Accept: "application/vnd.github+json" }
+        });
+        if (!response.ok) throw new Error("GitHub release metadata returned HTTP " + response.status);
+
+        const release = await response.json();
+        const apk = Array.isArray(release.assets)
+          ? release.assets.find((asset) => asset.name === "LiveStagix_beta.apk")
+          : null;
+
+        if (!apk) throw new Error("The latest release does not contain LiveStagix_beta.apk.");
+        if (typeof apk.digest !== "string" || !apk.digest.startsWith("sha256:")) {
+          throw new Error("GitHub has not provided a SHA-256 digest for this APK asset.");
+        }
+
+        const tag = byId("release-tag");
+        if (tag) {
+          tag.textContent = release.tag_name || "View release";
+          tag.href = release.html_url || "https://github.com/devdas74/LiveWP-Releases/releases/latest";
+        }
+
+        setText("release-title", release.name || release.tag_name || "Latest LiveStagix APK");
+        setText("release-date", release.published_at
+          ? new Intl.DateTimeFormat("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(new Date(release.published_at))
+          : "Date not supplied");
+        setText("release-filename", apk.name);
+        setText("release-size", Number(apk.size).toLocaleString("en-IN") + " bytes");
+        setText("release-sha", apk.digest.slice("sha256:".length));
+        setText("release-status", "Loaded from the official GitHub release API. Compare this checksum with the exact APK file you downloaded.");
+      } catch (error) {
+        setText("release-date", "See official release page");
+        setText("release-size", "See official release page");
+        setText("release-sha", "Checksum could not be loaded automatically.");
+        setText("release-status", "Live checksum lookup unavailable: " + error.message + " Open the official release or its asset metadata to verify the exact file.");
+      }
+    })();
+  </script>
   <script src="../script.js?v=20261031-security-page" defer></script>
 </body>
 </html>
