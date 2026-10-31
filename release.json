@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "repository": "devdas74/LiveWP-Releases",
+  "tag_name": "v1.0-beta-74",
+  "name": "LiveWP Beta 1.0 - Build 74",
+  "published_at": "2026-10-30T13:27:28Z",
+  "html_url": "https://github.com/devdas74/LiveWP-Releases/releases/tag/v1.0-beta-74",
+  "asset": {
+    "name": "LiveStagix_beta.apk",
+    "size": 5392818,
+    "digest": "sha256:89b3e246d707d62f646366fb119cb98ac2658eef9d7134d943c81d3784386c3c"
+  }
+}
