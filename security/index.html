@@ -116,10 +116,11 @@
         </section>
 
         <section class="security-card">
-          <span class="security-label pending">INDEPENDENT SCAN NOT LINKED</span>
-          <h2>Malware scan status</h2>
-          <p>This page does not currently publish a VirusTotal scan report for the exact Build 74 APK. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
-          <p>You can look up the exact file by its SHA-256 digest on <a id="virustotal-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">VirusTotal</a>. Confirm that the report's hash matches the checksum above before interpreting any results.</p>
+          <span class="security-label pending" id="scan-label">INDEPENDENT SCAN NOT LINKED</span>
+          <h2 id="scan-heading">Malware scan status</h2>
+          <p id="scan-summary">No VirusTotal scan has been published for the current official APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.</p>
+          <p id="scan-details">When an exact-file report is available, this page displays it only when its SHA-256 matches the current official APK checksum above. You can also <a id="virustotal-link" href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">look up the exact file on VirusTotal</a>.</p>
+          <p id="scan-date" aria-live="polite">Scan date: no report published for the current APK.</p>
           <p>Multi-engine scan results are point-in-time signals, not a guarantee that software is completely safe. Android users should also keep <a href="https://support.google.com/googleplay/answer/2812853">Google Play Protect enabled</a>; it checks apps from Google Play and can also check apps installed from other sources.</p>
         </section>
       </div>
@@ -149,6 +150,82 @@
     </footer>
   </div>
   <script>
+    async function loadVirusTotalStatus(expectedSha256, releaseTag) {
+      const byId = (id) => document.getElementById(id);
+      const setText = (id, value) => {
+        const node = byId(id);
+        if (node) node.textContent = value;
+      };
+
+      try {
+        const statusUrl = "https://api.github.com/repos/LiveStagix/livestagix.github.io/contents/security/scan-status.json?ref=main&cache=" + Date.now();
+        const response = await fetch(statusUrl, {
+          headers: { Accept: "application/vnd.github+json" },
+          cache: "no-store"
+        });
+        if (!response.ok) throw new Error("GitHub scan-status metadata returned HTTP " + response.status);
+
+        const file = await response.json();
+        const encoded = typeof file.content === "string" ? file.content.replace(/\\s/g, "") : "";
+        if (!encoded) throw new Error("The published scan-status file is empty.");
+
+        const binary = atob(encoded);
+        const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+        const scan = JSON.parse(new TextDecoder().decode(bytes));
+
+        if (scan.status !== "available" || scan.sha256 !== expectedSha256) {
+          setText("scan-summary", "No VirusTotal scan has been published for this exact latest APK yet. That is an absence of a published scan result—not a malware detection, and not a clean scan verdict.");
+          setText("scan-details", "The report will appear here after an exact-file scan completes. You can still look up the current APK by its SHA-256 on VirusTotal.");
+          setText("scan-date", "Scan date: no report published for the current APK.");
+          return;
+        }
+
+        const stats = scan.stats && typeof scan.stats === "object" ? scan.stats : {};
+        const count = (name) => Number.isSafeInteger(stats[name]) && stats[name] >= 0 ? stats[name] : 0;
+        const total = Object.values(stats).reduce(
+          (sum, value) => sum + (Number.isSafeInteger(value) && value >= 0 ? value : 0),
+          0
+        );
+        if (total < 1) throw new Error("The published report has no engine counts.");
+
+        const malicious = count("malicious");
+        const suspicious = count("suspicious");
+        const summary = malicious + suspicious === 0
+          ? "No malicious or suspicious detections were reported among " + total + " engine results for " + releaseTag + "."
+          : "VirusTotal reported " + malicious + " malicious and " + suspicious + " suspicious engine results among " + total + " engine results for " + releaseTag + ".";
+
+        const label = byId("scan-label");
+        if (label) {
+          label.textContent = "INDEPENDENT SCAN PUBLISHED";
+          label.classList.remove("pending");
+        }
+        setText("scan-heading", "VirusTotal scan results");
+        setText("scan-summary", summary);
+        setText("scan-details", "This report is tied to the current official APK: its SHA-256 matches the checksum published above. Open the full VirusTotal report to review individual engine results.");
+        const link = byId("virustotal-link");
+        if (link) {
+          link.href = "https://www.virustotal.com/gui/file/" + expectedSha256;
+          link.textContent = "Open the exact-file VirusTotal report";
+        }
+
+        let dateLabel = "Analysis date: not supplied by VirusTotal.";
+        if (typeof scan.analysisDate === "string") {
+          const date = new Date(scan.analysisDate);
+          if (!Number.isNaN(date.getTime())) {
+            dateLabel = "Last analysed: " + new Intl.DateTimeFormat("en", {
+              year: "numeric", month: "long", day: "numeric",
+              hour: "numeric", minute: "2-digit", timeZone: "UTC", timeZoneName: "short"
+            }).format(date) + ".";
+          }
+        }
+        setText("scan-date", dateLabel);
+      } catch (error) {
+        setText("scan-summary", "The published scan status could not be retrieved right now. This is not a malware detection or a clean scan verdict.");
+        setText("scan-details", "Try the direct VirusTotal lookup for the SHA-256 shown above. Confirm that the report hash matches the current APK before interpreting its results.");
+        setText("scan-date", "Scan status temporarily unavailable.");
+      }
+    }
+
     (async function loadLatestReleaseIntegrity() {
       const apiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
       const byId = (id) => document.getElementById(id);
@@ -186,6 +263,7 @@
         const virusTotalLink = byId("virustotal-link");
         if (virusTotalLink) virusTotalLink.href = "https://www.virustotal.com/gui/file/" + apk.digest.slice("sha256:".length);
         setText("release-status", "Loaded from the official GitHub release API. Compare this checksum with the exact APK file you downloaded.");
+        await loadVirusTotalStatus(apk.digest.slice("sha256:".length), release.tag_name || "the latest release");
       } catch (error) {
         setText("release-date", "See official release page");
         setText("release-size", "See official release page");
