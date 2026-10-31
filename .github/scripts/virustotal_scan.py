@@ -200,6 +200,8 @@ def main():
     analysis_id = submit_file(api_key, content)
     print("APK submitted to VirusTotal; waiting for analysis.")
     wait_for_analysis(api_key, analysis_id)
+    # Keep the final report lookup outside the preceding polling request interval.
+    time.sleep(POLL_INTERVAL_SECONDS)
     result = save_report(api_key, release, apk, sha256)
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
