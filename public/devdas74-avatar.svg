@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Devdas74 profile illustration</title>
+  <desc id="desc">A simple hand-drawn stick figure on a plain white background.</desc>
+  <rect width="512" height="512" fill="#fff"/>
+  <g fill="none" stroke="#18181a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M268 58 C239 59 213 69 198 94 C181 124 192 151 216 169 C243 189 284 194 310 178 C336 162 345 126 337 98 C329 72 294 62 270 64 C266 60 270 57 268 58Z"/>
+    <path d="M214 154 C208 178 204 207 197 246 C193 265 184 291 183 312 C182 322 185 331 185 339"/>
+    <path d="M205 190 C181 196 155 215 130 235"/>
+    <path d="M207 190 C231 190 260 203 284 213"/>
+    <path d="M198 246 C219 264 246 288 267 314 C279 329 291 343 299 355"/>
+  </g>
+  <g fill="#18181a">
+    <circle cx="207" cy="92" r="5.8"/>
+    <circle cx="242" cy="102" r="5.8"/>
+  </g>
+</svg>
