@@ -33,14 +33,15 @@
     .about-card ul{padding-left:19px;margin:9px 0 0}
     .about-card li+li{margin-top:7px}
     .about-card a{color:#dce8fa;text-decoration:underline;text-decoration-color:#62e7ff60;text-underline-offset:3px;overflow-wrap:anywhere}
-    .about-profile{grid-column:1/-1;display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;gap:25px;padding:clamp(23px,4vw,36px);background:radial-gradient(ellipse at 0 0,rgba(98,231,255,.07),transparent 48%),linear-gradient(145deg,rgba(17,20,33,.96),rgba(9,11,18,.94))}
-    .about-avatar-wrap{width:132px;aspect-ratio:1;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:28px;background:#fff;box-shadow:0 15px 45px #0005}
+    .about-profile{grid-column:1/-1;display:grid;grid-template-columns:132px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:25px;row-gap:0;align-items:center;padding:clamp(23px,4vw,36px);background:radial-gradient(ellipse at 0 0,rgba(98,231,255,.07),transparent 48%),linear-gradient(145deg,rgba(17,20,33,.96),rgba(9,11,18,.94))}
+    .about-avatar-wrap{grid-column:1;grid-row:1/4;width:132px;aspect-ratio:1;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:28px;background:#fff;box-shadow:0 15px 45px #0005}
     .about-avatar{width:100%;height:100%;object-fit:cover}
+    .about-profile-heading{grid-column:2;grid-row:1;align-self:end}
     .about-role{display:inline-flex;align-items:center;gap:8px;margin-bottom:9px;color:#91deef;font-size:.62rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
     .about-role::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
     .about-profile h2{margin:0 0 8px;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.045em}
-    .about-profile p{max-width:700px}
-    .about-actions{display:flex;flex-wrap:wrap;gap:17px;margin-top:14px}
+    .about-profile>p{grid-column:2;grid-row:2;max-width:700px;margin-bottom:0}
+    .about-actions{grid-column:2;grid-row:3;display:flex;flex-wrap:wrap;gap:17px;margin-top:14px}
     .about-actions a{font-size:.8rem;font-weight:750}
     .about-note{margin-top:22px;padding:17px 20px;border-left:2px solid var(--cyan);background:rgba(98,231,255,.045);color:#aeb4c8;font-size:.82rem;line-height:1.85}
     .about-wide{grid-column:1/-1}
@@ -50,8 +51,8 @@
     .about-bottom-cta p{margin:0;color:#c1c9dc;font-size:.85rem;line-height:1.75}
     .about-bottom-cta a{flex:0 0 auto;color:#e6edff;font-size:.82rem;font-weight:800}
     .about-main a:hover{color:var(--cyan)}
-    @media(max-width:700px){.about-main{width:min(calc(100% - 30px),1040px);padding-top:54px;padding-bottom:70px}.about-grid{grid-template-columns:1fr}.about-profile,.about-wide{grid-column:auto}.about-profile{grid-template-columns:82px minmax(0,1fr);gap:16px;padding:20px}.about-avatar-wrap{width:82px;border-radius:19px}.about-card{border-radius:18px}.about-card p,.about-card li{font-size:.84rem}.about-bottom-cta{align-items:flex-start;flex-direction:column;gap:13px}}
-    @media(max-width:420px){.about-profile{grid-template-columns:1fr;align-items:start}.about-avatar-wrap{width:92px}.about-actions{gap:11px 16px}}
+    @media(max-width:700px){.about-main{width:min(calc(100% - 30px),1040px);padding-top:54px;padding-bottom:70px}.about-grid{grid-template-columns:1fr}.about-profile,.about-wide{grid-column:auto}.about-profile{grid-template-columns:82px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:16px;row-gap:14px;align-items:start;padding:20px}.about-avatar-wrap{grid-column:1;grid-row:1;width:82px;border-radius:19px;align-self:center}.about-profile-heading{grid-column:2;grid-row:1;align-self:center}.about-profile>p{grid-column:1/-1;grid-row:2;max-width:none;margin:0}.about-actions{grid-column:1/-1;grid-row:3;gap:11px 16px;margin-top:0}.about-card{border-radius:18px}.about-card p,.about-card li{font-size:.84rem}.about-bottom-cta{align-items:flex-start;flex-direction:column;gap:13px}}
+    @media(max-width:420px){.about-profile{grid-template-columns:72px minmax(0,1fr);column-gap:13px}.about-avatar-wrap{width:72px;border-radius:17px}}
   </style>
   <script type="application/ld+json">
   {
@@ -94,14 +95,14 @@
       <div class="about-grid">
         <section class="about-card about-profile" aria-labelledby="developer-heading">
           <div class="about-avatar-wrap"><img class="about-avatar" src="../public/devdas74-avatar.svg" alt="Simple hand-drawn stick-figure profile illustration" width="512" height="512"></div>
-          <div>
+          <div class="about-profile-heading">
             <span class="about-role">INDEPENDENT DEVELOPER</span>
             <h2 id="developer-heading">Devdas74</h2>
-            <p>LiveStagix is independently designed, developed and maintained under the public GitHub profile <strong>Devdas74</strong>. This is a one-developer project, not a studio or a claimed team. The profile name is the public development identity used for the project; this page does not publish private personal identity details.</p>
-            <div class="about-actions">
-              <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
-              <a href="https://github.com/LiveStagix" target="_blank" rel="noopener noreferrer">LiveStagix project ↗</a>
-            </div>
+          </div>
+          <p>LiveStagix is independently designed, developed and maintained under the public GitHub profile <strong>Devdas74</strong>. This is a one-developer project, not a studio or a claimed team. The profile name is the public development identity used for the project; this page does not publish private personal identity details.</p>
+          <div class="about-actions">
+            <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
+            <a href="https://github.com/LiveStagix" target="_blank" rel="noopener noreferrer">LiveStagix project ↗</a>
           </div>
         </section>
 
