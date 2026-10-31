@@ -166,7 +166,7 @@
         if (!response.ok) throw new Error("GitHub scan-status metadata returned HTTP " + response.status);
 
         const file = await response.json();
-        const encoded = typeof file.content === "string" ? file.content.replace(/\\s/g, "") : "";
+        const encoded = typeof file.content === "string" ? file.content.replace(/\s/g, "") : "";
         if (!encoded) throw new Error("The published scan-status file is empty.");
 
         const binary = atob(encoded);
