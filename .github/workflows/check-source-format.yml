@@ -1,0 +1,45 @@
+name: Check website source formatting
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: livestagix-website-format-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-formatting:
+    name: Check HTML, CSS and JavaScript formatting
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out website source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pinned Prettier
+        run: npm install --no-save --package-lock=false --ignore-scripts prettier@3.6.2
+
+      - name: Check authored website source formatting
+        run: |
+          set -euo pipefail
+          ./node_modules/.bin/prettier --check \
+            --config .prettierrc.json \
+            --ignore-path .prettierignore \
+            index.html \
+            about/index.html \
+            privacy-policy/index.html \
+            security/index.html \
+            styles.css \
+            script.js
+
+      - name: Check whitespace errors
+        run: git diff --check
