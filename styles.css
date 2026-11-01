@@ -3641,3 +3641,47 @@ canvas {
     white-space: nowrap;
   }
 }
+
+
+/* Fit hero floating cards to the artwork container, not the browser viewport. */
+@supports (container-type: inline-size) {
+  .hero-art {
+    container-name: hero-art;
+    container-type: inline-size;
+  }
+
+  @container hero-art (min-width: 280px) {
+    .float-card {
+      width: clamp(174px, 42cqi, 250px);
+      min-width: 0;
+      padding: clamp(9px, 1.7cqi, 12px) clamp(9px, 2cqi, 14px);
+      gap: clamp(7px, 1.5cqi, 11px);
+    }
+
+    .float-card-top {
+      right: clamp(8px, 2cqi, 15px);
+    }
+
+    .float-card-bottom {
+      left: clamp(8px, 2cqi, 15px);
+    }
+
+    .float-card > span:nth-child(2) {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .float-icon {
+      width: clamp(28px, 5.7cqi, 34px);
+      height: clamp(28px, 5.7cqi, 34px);
+    }
+
+    .float-card strong {
+      font-size: clamp(.5rem, 1.65cqi, .58rem);
+    }
+
+    .float-card small {
+      font-size: clamp(.58rem, 1.9cqi, .66rem);
+    }
+  }
+}
