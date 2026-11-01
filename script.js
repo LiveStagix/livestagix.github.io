@@ -135,6 +135,74 @@
   const menuToggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("primary-nav");
   const topbar = nav ? nav.closest(".topbar") : null;
+  const brand = topbar ? topbar.querySelector(".brand") : null;
+  const downloadLink = topbar ? topbar.querySelector(".nav-cta") : null;
+
+  function updateHeaderNavigationMode() {
+    if (!topbar || !nav || !brand || !downloadLink) return;
+
+    const wasCompact = topbar.classList.contains("is-compact");
+    const wasOpen = nav.classList.contains("is-open");
+
+    // Measure the real desktop row. Temporarily remove compact styling so the
+    // navigation exposes its natural width; this runs synchronously without a paint.
+    if (wasCompact) {
+      topbar.classList.remove("is-compact");
+      nav.classList.remove("is-open");
+    }
+
+    const headerRect = topbar.getBoundingClientRect();
+    const brandRect = brand.getBoundingClientRect();
+    const navRect = nav.getBoundingClientRect();
+    const downloadRect = downloadLink.getBoundingClientRect();
+    const headerStyle = window.getComputedStyle(topbar);
+    const number = (value) => Number.parseFloat(value) || 0;
+    const leftInset = number(headerStyle.borderLeftWidth) + number(headerStyle.paddingLeft);
+    const rightInset = number(headerStyle.borderRightWidth) + number(headerStyle.paddingRight);
+    const requiredGap = number(headerStyle.columnGap);
+    const contentLeft = headerRect.left + leftInset;
+    const contentRight = headerRect.right - rightInset;
+
+    const fits =
+      brandRect.left >= contentLeft - 1 &&
+      navRect.left >= brandRect.right + requiredGap &&
+      downloadRect.left >= navRect.right + requiredGap &&
+      downloadRect.right <= contentRight + 1;
+
+    const shouldBeCompact = !fits;
+    topbar.classList.toggle("is-compact", shouldBeCompact);
+    nav.classList.toggle("is-open", shouldBeCompact && wasOpen);
+    topbar.classList.toggle("menu-open", shouldBeCompact && wasOpen);
+
+    if (menuToggle) {
+      const menuIsOpen = shouldBeCompact && wasOpen;
+      menuToggle.setAttribute("aria-expanded", String(menuIsOpen));
+      menuToggle.setAttribute("aria-label", menuIsOpen ? "Close navigation" : "Open navigation");
+    }
+  }
+
+  let navigationMeasureFrame = 0;
+  const scheduleHeaderNavigationCheck = () => {
+    if (navigationMeasureFrame) window.cancelAnimationFrame(navigationMeasureFrame);
+    navigationMeasureFrame = window.requestAnimationFrame(() => {
+      navigationMeasureFrame = 0;
+      updateHeaderNavigationMode();
+    });
+  };
+
+  if (topbar && nav && brand && downloadLink) {
+    updateHeaderNavigationMode();
+    window.addEventListener("resize", scheduleHeaderNavigationCheck, { passive: true });
+
+    if ("ResizeObserver" in window) {
+      const headerResizeObserver = new ResizeObserver(scheduleHeaderNavigationCheck);
+      headerResizeObserver.observe(topbar);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(scheduleHeaderNavigationCheck);
+    }
+  }
 
   const closeMenu = () => {
     if (!menuToggle || !nav) return;
