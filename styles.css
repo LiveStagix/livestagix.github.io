@@ -18,11 +18,12 @@
   --ease: cubic-bezier(.2,.75,.25,1);
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; scroll-padding-top: 100px; background: var(--bg); scrollbar-color: rgba(181,139,255,.68) transparent; }
+html { scroll-behavior: auto; scroll-padding-top: 100px; background: var(--bg); scrollbar-width: none; }
+html::-webkit-scrollbar { width: 0; height: 0; }
 body {
   margin: 0; color: var(--text); background: var(--bg);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.6; overflow-x: clip; -webkit-font-smoothing: antialiased;
+  line-height: 1.6; width: calc(100% + var(--native-scrollbar-gutter, 0px)); overflow-x: clip; -webkit-font-smoothing: antialiased;
 }
 body::before {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
@@ -542,4 +543,51 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
     padding-inline: 12px;
     margin: 0;
   }
+}
+
+
+/* Native page scrolling remains in place; this thumb is only its visual overlay. */
+.scrollbar-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  opacity: 0;
+  pointer-events: none;
+  background: transparent;
+  touch-action: none;
+  transition: opacity .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.scrollbar-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.scrollbar-overlay-thumb {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  width: 3px;
+  min-height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(98,231,255,.78), rgba(181,139,255,.78));
+  box-shadow: 0 0 9px rgba(98,231,255,.14);
+  pointer-events: none;
+  will-change: transform, height;
+}
+.scrollbar-overlay.is-dragging .scrollbar-overlay-thumb,
+.scrollbar-overlay:focus-visible .scrollbar-overlay-thumb {
+  width: 4px;
+  right: 5px;
+  background: linear-gradient(180deg, rgba(98,231,255,.94), rgba(181,139,255,.94));
+}
+.scrollbar-overlay:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scrollbar-overlay { transition: none; }
 }
