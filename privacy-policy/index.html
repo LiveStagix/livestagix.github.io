@@ -1,205 +1,563 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#08090e">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Privacy Policy for LiveStagix Android. Learn how selected media, prepared wallpaper backups, settings, diagnostics and third-party services are handled.">
-  <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://livestagix.github.io/privacy-policy/">
-  <title>Privacy Policy — LiveStagix</title>
-  <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512">
-  <link rel="stylesheet" href="../styles.css?v=sha256-8e4b34e9f961">
-  <style>
-    .policy-main { padding:clamp(62px,9vw,112px) 0 100px; }
-    .policy-eyebrow { display:flex; align-items:center; gap:10px; color:#aeb6ca; font-size:.68rem; font-weight:850; letter-spacing:.16em; text-transform:uppercase; }
-    .policy-eyebrow::before { content:""; width:26px; height:1px; background:linear-gradient(90deg,var(--cyan),var(--violet)); }
-    .policy-main h1 { margin:22px 0 15px; font-size:clamp(2.6rem,7vw,5.2rem); line-height:1; letter-spacing:-.075em; font-weight:780; }
-    .policy-main h1 span { color:transparent; background:linear-gradient(100deg,#82efff 4%,#8f9bff 52%,#c69bff 97%); background-clip:text; -webkit-background-clip:text; }
-    .policy-intro { max-width:740px; color:var(--muted); font-size:1rem; line-height:1.85; }
-    .policy-meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; color:#9ca4b8; font-size:.76rem; }
-    .policy-meta span { border:1px solid var(--line); border-radius:999px; padding:6px 11px; background:#ffffff04; }
-    .policy-document { margin-top:38px; padding:clamp(23px,4.5vw,42px); border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(145deg,rgba(16,18,27,.86),rgba(10,12,19,.86)); box-shadow:0 24px 80px #0002; }
-    .policy-document section + section { margin-top:33px; padding-top:28px; border-top:1px solid var(--line); }
-    .policy-document h2 { margin:0 0 11px; font-size:1.16rem; line-height:1.35; letter-spacing:-.025em; }
-    .policy-document p, .policy-document li { color:#aeb4c8; font-size:.91rem; line-height:1.85; }
-    .policy-document p { margin:0 0 12px; }
-    .policy-document p:last-child { margin-bottom:0; }
-    .policy-document ul { padding-left:20px; margin:9px 0 0; }
-    .policy-document li + li { margin-top:7px; }
-    .policy-document a { color:var(--cyan); text-decoration:underline; text-decoration-color:#62e7ff60; text-underline-offset:3px; overflow-wrap:anywhere; }
-    .policy-note { margin-top:22px; padding:17px 19px; border-left:2px solid var(--cyan); background:rgba(98,231,255,.045); color:#aeb4c8; font-size:.83rem; line-height:1.8; }
-    .policy-back { display:inline-flex; align-items:center; gap:9px; margin-top:26px; color:#e5e9f8; font-size:.86rem; font-weight:750; }
-    .policy-back:hover { color:var(--cyan); }
-    @media(max-width:780px) { .policy-main { padding-top:54px; padding-bottom:68px; } .policy-document { border-radius:18px; } .policy-document p,.policy-document li { font-size:.87rem; } }
-  </style>
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <div class="site-shell">
-    <header class="topbar">
-      <a class="brand" href="https://livestagix.github.io/#top" aria-label="LiveStagix home">
-        <span class="brand-mark" aria-hidden="true"><img src="/public/Small%20round%20icon%20192.webp" alt="" width="192" height="192" decoding="async"></span>
-        <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>ANDROID WALLPAPER ENGINE</small></span>
-      </a>
-      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
-        <span></span><span></span>
-      </button>
-      <nav class="nav" id="primary-nav" aria-label="Primary navigation">
-        <div class="nav-group" role="group" aria-label="Explore">
-          <span class="nav-group-label">Explore</span>
-          <a href="https://livestagix.github.io/#experience">Experience</a>
-          <a href="https://livestagix.github.io/#features">Features</a>
-          <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
-          <a href="https://livestagix.github.io/#how-it-works">How it works</a>
-          <a href="https://livestagix.github.io/#performance">The engine</a>
-          <a href="https://livestagix.github.io/#faq">FAQ</a>
-        </div>
-        <div class="nav-group" role="group" aria-label="Project">
-          <span class="nav-group-label">Project</span>
-          <a href="https://livestagix.github.io/about/">About</a>
-          <a href="https://livestagix.github.io/privacy-policy/" aria-current="page">Privacy</a>
-          <a href="https://livestagix.github.io/security/">Security</a>
-          <a href="https://livestagix.github.io/#download">Download</a>
-        </div>
-      </nav>
-      <a class="nav-cta" href="https://livestagix.github.io/#download">
-        Download APK <span aria-hidden="true">↓</span>
-      </a>
-    </header>
-
-    <main id="main" class="policy-main">
-      <div class="policy-eyebrow">YOUR DATA, YOUR DEVICE</div>
-      <h1>Privacy <span>Policy.</span></h1>
-      <p class="policy-intro">This policy explains how the LiveStagix Android app handles information when you select media, prepare or tune wallpapers, adjust settings, use web image search or restore backups. Wallpaper processing and active app data are kept on your device in app-private storage. Local backup is optional and off by default. When you enable it, LiveStagix can copy your user configuration, retained prepared media and diagnostic logs to a permitted folder you select or to <code>Download/LiveWP/</code> on Android 10 and newer. LiveStagix does not operate a cloud backup service or upload these files to a LiveStagix server.</p>
-      <div class="policy-meta"><span>Last updated: October 26, 2026</span><span>Applies to: LiveStagix for Android</span></div>
-
-      <div class="policy-document">
-        <section>
-          <h2>1. Who we are</h2>
-          <p>LiveStagix is the name of the Android live-wallpaper app and the project responsible for it. For privacy questions, contact <a href="mailto:livestagix.contact@gmail.com">livestagix.contact@gmail.com</a>.</p>
-        </section>
-
-        <section>
-          <h2>2. Information handled on your device</h2>
-          <p>To provide its wallpaper features, the app processes information you choose to provide or technical information available locally on your device:</p>
-          <ul>
-            <li><strong>Photos and videos you select:</strong> LiveStagix uses Android's media picker or a file source you choose. It may copy selected files into app-private storage while preparing, tuning or rendering them.</li>
-            <li><strong>Prepared media and technical identifiers:</strong> The app may create resized or cropped wallpaper files, tuned versions, thumbnails, file hashes, visual fingerprints and media metadata. Prepared photos and videos can include an embedded LiveStagix marker so the app can recognise them later. For photos the marker is stored in EXIF metadata; for MP4 videos it is stored in a dedicated MP4 UUID box. The marker contains app-generated identifiers, media type and crop/background settings. It is not encrypted and is not a cryptographic proof that a file was created by LiveStagix.</li>
-            <li><strong>Active app data:</strong> The current configuration, prepared media and temporary working files are kept in app-private storage for the app's own operation. This private working data is separate from optional user-accessible backup copies.</li>
-            <li><strong>Optional Local backup:</strong> This feature is off by default. If you enable it, LiveStagix can copy a configuration snapshot named <code>user_config.json</code>, validated prepared-media archives in <code>PreparedMedia/</code>, and diagnostic logs in <code>Logs/</code> to a <code>LiveWP/</code> folder within the location you select with Android's folder picker. On Android 10 and newer, you can instead choose <code>Download/LiveWP/</code> directly. Folder access is limited by the location and permission granted by Android. LiveStagix does not operate a backup server; if the selected location is managed by another storage provider, that provider's own privacy practices apply.</li>
-            <li><strong>Restoration:</strong> When a Local backup location is selected or reselected, LiveStagix checks for a valid configuration backup and can restore missing settings before refreshing backup copies. When you use Restore in Prepared Media, the app validates available prepared-media backups and restores eligible files missing from the private library. Existing backup copies are not removed by these restore actions.</li>
-            <li><strong>Settings and preferences:</strong> Wallpaper choices, rendering options, motion controls, appearance and other configuration are stored in app-private storage. A separate configuration backup is created in shared storage only when Local backup is enabled and a backup location is configured.</li>
-            <li><strong>Device capability information:</strong> The app reads technical details such as display dimensions and refresh rate, Android version, and device or graphics capabilities to select suitable preparation and rendering behaviour.</li>
-          </ul>
-          <p>These operations are designed to run on your device. LiveStagix does not upload your selected photos, videos, settings or backup files to a server operated by LiveStagix. Local backup is a user-controlled copy to the storage location you choose, not a LiveStagix cloud account or hosted backup service.</p>
-        </section>
-
-        <section>
-          <h2>3. Web image search and third-party services</h2>
-          <p>If you use the app's web wallpaper search, LiveStagix opens Bing Images in an embedded browser and sends the search terms you enter to Bing. Bing and its service providers may receive network information such as your IP address, browser information and cookies, in accordance with Microsoft's own terms and privacy practices.</p>
-          <p>If you preview or download an image hosted by another website, your device connects to that website to retrieve the image. The relevant website may receive your IP address and request information. If you open a source page or external link, that site handles the visit under its own privacy policy. LiveStagix does not control third-party services or their retention practices.</p>
-          <p>The Play edition can use Google Play's update services to check for and install app updates. Google Play handles those interactions under Google's privacy terms. The app does not run its own account service or developer-operated cloud database.</p>
-        </section>
-
-        <section>
-          <h2>4. Diagnostics, analytics and advertising</h2>
-          <p>The optional Event Recorder is available in both the Google Play and GitHub editions. It is off by default and records diagnostics only after you enable it in the app's settings. It can capture app and wallpaper-engine events, errors and stack traces, timestamps, and technical device or runtime details such as Android version and API level, device manufacturer and model, process, thread and diagnostic state. If you separately enable runtime-trace or gyro-diagnostics controls, logs can also include rendering trace details or gyro and motion-setting diagnostics. Event-specific technical settings or operation details may be recorded where needed to troubleshoot an issue.</p>
-          <p>Diagnostics are kept in app-private storage. If you also enable Local backup, LiveStagix can copy diagnostic logs to the <code>Logs/</code> folder within your selected <code>LiveWP/</code> backup location. Turning off Local backup stops further backup reads and writes by that feature, but does not erase log copies already written to shared storage. You can turn recording off and clear logs using the app's diagnostic controls; shared copies may need to be removed separately using a file manager.</p>
-          <p>The recorder does not automatically upload diagnostic logs to LiveStagix or send them to a LiveStagix-operated analytics or advertising service. The current app build does not include its own analytics or advertising service. If you choose to copy or share a log, the recipient may be able to read its contents, so review it before sharing.</p>
-          <p>Android, Google Play or the device manufacturer may independently process app, installation or system diagnostic information under their own settings and policies. That processing is separate from LiveStagix's optional Event Recorder.</p>
-        </section>
-
-        <section>
-          <h2>5. Permissions and how they are used</h2>
-          <p>LiveStagix uses Android system features and permissions for wallpaper setup, media you choose to import, internet access for web search and related requests, notifications where needed for ongoing services, and the optional floating overlay. If you enable Local backup, the app uses Android's Storage Access Framework to request access to the folder you select. Alternatively, on Android 10 and newer, it can create backup files in <code>Download/LiveWP/</code> using Android's shared-media storage APIs. Android controls the access available to each location, and access may vary by Android version and document provider. You can review app permissions in Android Settings and change the Local backup location from within the app.</p>
-          <p>Local backup is optional and off by default. LiveStagix does not use a LiveStagix server to collect your media or use it for advertising.</p>
-        </section>
-
-        <section>
-          <h2>6. Storage, retention and deletion</h2>
-          <p>App-private prepared files, configuration and temporary copies are stored separately from optional Local backup files. Uninstalling LiveStagix or clearing its app storage normally removes app-private files and the app's saved folder selection, but it does not automatically remove backup files already written to a user-accessible location. After reinstalling, you may need to select the backup location again before LiveStagix can access and restore eligible backups.</p>
-          <p>When Local backup is enabled, configuration, retained prepared-media archives and diagnostic logs may be stored under <code>LiveWP/</code> in the folder you selected, or under <code>Download/LiveWP/</code> if you chose Downloads. Turning Local backup off stops further backup reads and writes by that feature but deliberately leaves existing files untouched. Selecting another folder also does not automatically delete copies in the previous location.</p>
-          <p>Restoring prepared media or configuration does not delete the backup copy. Clearing a prepared item or the prepared-media library from inside the app does not delete its shared backup archive. To remove user-accessible backup files, use your device's file manager or the file-management interface for the selected storage provider. If you chose a provider that synchronizes files to another service, that provider's own deletion and retention rules may apply.</p>
-          <p>Local backup files are not encrypted by LiveStagix. Anyone or any app that has sufficient access to the selected storage location may be able to read, copy, change or delete them. Keep sensitive content out of shared backups and delete copies you no longer need.</p>
-          <p>LiveStagix does not maintain a server-side profile or account for you, so it has no LiveStagix account data to retrieve or delete. Data held by Bing, Google Play or a third-party image host is handled by that provider and must be managed through its own privacy controls.</p>
-        </section>
-
-        <section>
-          <h2>7. Security</h2>
-          <p>Active app data is kept in app-managed private storage. Local backup copies are placed only in the location you choose or in <code>Download/LiveWP/</code> if you select Downloads. These user-accessible backup files are not encrypted by LiveStagix. The embedded prepared-media marker helps identify eligible files, but it can be inspected and may be forged; it should not be treated as a security mechanism or proof of authorship. Consider this before keeping sensitive content in a backup folder.</p>
-          <p>If you choose a folder supplied by another storage provider, that provider may have separate access, synchronization and security practices. Network requests to Bing, Google Play and other external services use the connections provided by those services; review their privacy and security information before opening or downloading their content. No method of storage or transmission is guaranteed to be completely secure.</p>
-        </section>
-
-        <section>
-          <h2>8. Children</h2>
-          <p>LiveStagix is a general-purpose wallpaper utility and is not specifically directed at children. The app does not ask users to create an account or provide personal profile details to LiveStagix.</p>
-        </section>
-
-        <section>
-          <h2>9. Changes to this policy</h2>
-          <p>This policy may be updated if the app's features or data practices change. The latest version will be published at this URL, with the updated date shown near the top. Please review it occasionally.</p>
-        </section>
-
-        <section>
-          <h2>10. Contact</h2>
-          <p>For questions about this Privacy Policy or LiveStagix's handling of information, email <a href="mailto:livestagix.contact@gmail.com">livestagix.contact@gmail.com</a>.</p>
-        </section>
-      </div>
-      <div class="policy-note">This page describes the current LiveStagix app behaviour. Any change to app permissions, third-party SDKs, analytics, advertising or server-side processing should be reflected in this policy and in the Google Play Data safety form.</div>
-      <a class="policy-back" href="https://livestagix.github.io/">← Back to LiveStagix</a>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-main">
-          <div class="footer-identity">
-            <a class="brand footer-brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
-              <span class="brand-mark" aria-hidden="true"><img src="/public/Small%20round%20icon%20192.webp" alt="" width="46" height="46" loading="lazy" decoding="async"></span>
-              <span class="brand-word">LiveStagix<span class="brand-period">.</span><small>YOUR SCREEN, IN MOTION.</small></span>
-            </a>
-            <p class="footer-description">A live wallpaper experience for Android.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08090e" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Privacy Policy for LiveStagix Android. Learn how selected media, prepared wallpaper backups, settings, diagnostics and third-party services are handled."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://livestagix.github.io/privacy-policy/" />
+    <title>Privacy Policy — LiveStagix</title>
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512" />
+    <link rel="stylesheet" href="../styles.css?v=sha256-8e4b34e9f961" />
+    <style>
+      .policy-main {
+        padding: clamp(62px, 9vw, 112px) 0 100px;
+      }
+      .policy-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #aeb6ca;
+        font-size: 0.68rem;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .policy-eyebrow::before {
+        content: "";
+        width: 26px;
+        height: 1px;
+        background: linear-gradient(90deg, var(--cyan), var(--violet));
+      }
+      .policy-main h1 {
+        margin: 22px 0 15px;
+        font-size: clamp(2.6rem, 7vw, 5.2rem);
+        line-height: 1;
+        letter-spacing: -0.075em;
+        font-weight: 780;
+      }
+      .policy-main h1 span {
+        color: transparent;
+        background: linear-gradient(100deg, #82efff 4%, #8f9bff 52%, #c69bff 97%);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+      .policy-intro {
+        max-width: 740px;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.85;
+      }
+      .policy-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+        color: #9ca4b8;
+        font-size: 0.76rem;
+      }
+      .policy-meta span {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 6px 11px;
+        background: #ffffff04;
+      }
+      .policy-document {
+        margin-top: 38px;
+        padding: clamp(23px, 4.5vw, 42px);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(145deg, rgba(16, 18, 27, 0.86), rgba(10, 12, 19, 0.86));
+        box-shadow: 0 24px 80px #0002;
+      }
+      .policy-document section + section {
+        margin-top: 33px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line);
+      }
+      .policy-document h2 {
+        margin: 0 0 11px;
+        font-size: 1.16rem;
+        line-height: 1.35;
+        letter-spacing: -0.025em;
+      }
+      .policy-document p,
+      .policy-document li {
+        color: #aeb4c8;
+        font-size: 0.91rem;
+        line-height: 1.85;
+      }
+      .policy-document p {
+        margin: 0 0 12px;
+      }
+      .policy-document p:last-child {
+        margin-bottom: 0;
+      }
+      .policy-document ul {
+        padding-left: 20px;
+        margin: 9px 0 0;
+      }
+      .policy-document li + li {
+        margin-top: 7px;
+      }
+      .policy-document a {
+        color: var(--cyan);
+        text-decoration: underline;
+        text-decoration-color: #62e7ff60;
+        text-underline-offset: 3px;
+        overflow-wrap: anywhere;
+      }
+      .policy-note {
+        margin-top: 22px;
+        padding: 17px 19px;
+        border-left: 2px solid var(--cyan);
+        background: rgba(98, 231, 255, 0.045);
+        color: #aeb4c8;
+        font-size: 0.83rem;
+        line-height: 1.8;
+      }
+      .policy-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 26px;
+        color: #e5e9f8;
+        font-size: 0.86rem;
+        font-weight: 750;
+      }
+      .policy-back:hover {
+        color: var(--cyan);
+      }
+      @media (max-width: 780px) {
+        .policy-main {
+          padding-top: 54px;
+          padding-bottom: 68px;
+        }
+        .policy-document {
+          border-radius: 18px;
+        }
+        .policy-document p,
+        .policy-document li {
+          font-size: 0.87rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="https://livestagix.github.io/#top" aria-label="LiveStagix home">
+          <span class="brand-mark" aria-hidden="true"
+            ><img
+              src="/public/Small%20round%20icon%20192.webp"
+              alt=""
+              width="192"
+              height="192"
+              decoding="async"
+          /></span>
+          <span class="brand-word"
+            >LiveStagix<span class="brand-period">.</span
+            ><small>ANDROID WALLPAPER ENGINE</small></span
+          >
+        </a>
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open navigation"
+        >
+          <span></span><span></span>
+        </button>
+        <nav class="nav" id="primary-nav" aria-label="Primary navigation">
+          <div class="nav-group" role="group" aria-label="Explore">
+            <span class="nav-group-label">Explore</span>
+            <a href="https://livestagix.github.io/#experience">Experience</a>
+            <a href="https://livestagix.github.io/#features">Features</a>
+            <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
+            <a href="https://livestagix.github.io/#how-it-works">How it works</a>
+            <a href="https://livestagix.github.io/#performance">The engine</a>
+            <a href="https://livestagix.github.io/#faq">FAQ</a>
           </div>
-          <nav class="footer-nav" aria-label="Footer navigation">
-            <details class="footer-nav-group" open>
-              <summary class="footer-label">EXPLORE</summary>
-              <a href="https://livestagix.github.io/#experience">Experience</a>
-              <a href="https://livestagix.github.io/#features">Features</a>
-              <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
-              <a href="https://livestagix.github.io/#performance">The engine</a>
-              <a href="https://livestagix.github.io/#faq">FAQ</a>
-              <a href="https://livestagix.github.io/about/">About &amp; developer</a>
-            </details>
-            <details class="footer-nav-group" open>
-              <summary class="footer-label">GET THE APP</summary>
-              <a href="https://play.google.com/store/apps/details?id=com.livewp.app" target="_blank" rel="noopener noreferrer">Google Play ↗</a>
-              <a href="https://play.google.com/apps/testing/com.livewp.app" target="_blank" rel="noopener noreferrer">Join closed test ↗</a>
-              <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download latest APK</a>
-              <a href="https://github.com/devdas74/LiveWP-Releases/releases" target="_blank" rel="noopener noreferrer">All APK releases ↗</a>
-            </details>
-            <details class="footer-nav-group" open>
-              <summary class="footer-label">PROJECT</summary>
-              <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">Developer profile ↗</a>
-              
-              <a href="https://github.com/LiveStagix/livestagix.github.io" target="_blank" rel="noopener noreferrer">Website source ↗</a>
-              <a href="https://github.com/sponsors/devdas74" target="_blank" rel="noopener noreferrer">Support the project ↗</a>
-            </details>
-            <details class="footer-nav-group" open>
-              <summary class="footer-label">TRUST</summary>
-              <a href="https://livestagix.github.io/privacy-policy/" aria-current="page">Privacy Policy</a>
-              <a href="https://livestagix.github.io/security/">Security &amp; Integrity</a>
-            </details>
-          </nav>
+          <div class="nav-group" role="group" aria-label="Project">
+            <span class="nav-group-label">Project</span>
+            <a href="https://livestagix.github.io/about/">About</a>
+            <a href="https://livestagix.github.io/privacy-policy/" aria-current="page">Privacy</a>
+            <a href="https://livestagix.github.io/security/">Security</a>
+            <a href="https://livestagix.github.io/#download">Download</a>
+          </div>
+        </nav>
+        <a class="nav-cta" href="https://livestagix.github.io/#download">
+          Download APK <span aria-hidden="true">↓</span>
+        </a>
+      </header>
+
+      <main id="main" class="policy-main">
+        <div class="policy-eyebrow">YOUR DATA, YOUR DEVICE</div>
+        <h1>Privacy <span>Policy.</span></h1>
+        <p class="policy-intro">
+          This policy explains how the LiveStagix Android app handles information when you select
+          media, prepare or tune wallpapers, adjust settings, use web image search or restore
+          backups. Wallpaper processing and active app data are kept on your device in app-private
+          storage. Local backup is optional and off by default. When you enable it, LiveStagix can
+          copy your user configuration, retained prepared media and diagnostic logs to a permitted
+          folder you select or to <code>Download/LiveWP/</code> on Android 10 and newer. LiveStagix
+          does not operate a cloud backup service or upload these files to a LiveStagix server.
+        </p>
+        <div class="policy-meta">
+          <span>Last updated: October 26, 2026</span><span>Applies to: LiveStagix for Android</span>
         </div>
-        <div class="footer-bottom">
-          <span>© <span id="year"></span> LiveStagix</span>
-          <span class="footer-motto">Made for screens that deserve more.</span>
-          <a class="footer-back-top" href="#">Back to top <span aria-hidden="true">↑</span></a>
+
+        <div class="policy-document">
+          <section>
+            <h2>1. Who we are</h2>
+            <p>
+              LiveStagix is the name of the Android live-wallpaper app and the project responsible
+              for it. For privacy questions, contact
+              <a href="mailto:livestagix.contact@gmail.com">livestagix.contact@gmail.com</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2>2. Information handled on your device</h2>
+            <p>
+              To provide its wallpaper features, the app processes information you choose to provide
+              or technical information available locally on your device:
+            </p>
+            <ul>
+              <li>
+                <strong>Photos and videos you select:</strong> LiveStagix uses Android's media
+                picker or a file source you choose. It may copy selected files into app-private
+                storage while preparing, tuning or rendering them.
+              </li>
+              <li>
+                <strong>Prepared media and technical identifiers:</strong> The app may create
+                resized or cropped wallpaper files, tuned versions, thumbnails, file hashes, visual
+                fingerprints and media metadata. Prepared photos and videos can include an embedded
+                LiveStagix marker so the app can recognise them later. For photos the marker is
+                stored in EXIF metadata; for MP4 videos it is stored in a dedicated MP4 UUID box.
+                The marker contains app-generated identifiers, media type and crop/background
+                settings. It is not encrypted and is not a cryptographic proof that a file was
+                created by LiveStagix.
+              </li>
+              <li>
+                <strong>Active app data:</strong> The current configuration, prepared media and
+                temporary working files are kept in app-private storage for the app's own operation.
+                This private working data is separate from optional user-accessible backup copies.
+              </li>
+              <li>
+                <strong>Optional Local backup:</strong> This feature is off by default. If you
+                enable it, LiveStagix can copy a configuration snapshot named
+                <code>user_config.json</code>, validated prepared-media archives in
+                <code>PreparedMedia/</code>, and diagnostic logs in <code>Logs/</code> to a
+                <code>LiveWP/</code> folder within the location you select with Android's folder
+                picker. On Android 10 and newer, you can instead choose
+                <code>Download/LiveWP/</code> directly. Folder access is limited by the location and
+                permission granted by Android. LiveStagix does not operate a backup server; if the
+                selected location is managed by another storage provider, that provider's own
+                privacy practices apply.
+              </li>
+              <li>
+                <strong>Restoration:</strong> When a Local backup location is selected or
+                reselected, LiveStagix checks for a valid configuration backup and can restore
+                missing settings before refreshing backup copies. When you use Restore in Prepared
+                Media, the app validates available prepared-media backups and restores eligible
+                files missing from the private library. Existing backup copies are not removed by
+                these restore actions.
+              </li>
+              <li>
+                <strong>Settings and preferences:</strong> Wallpaper choices, rendering options,
+                motion controls, appearance and other configuration are stored in app-private
+                storage. A separate configuration backup is created in shared storage only when
+                Local backup is enabled and a backup location is configured.
+              </li>
+              <li>
+                <strong>Device capability information:</strong> The app reads technical details such
+                as display dimensions and refresh rate, Android version, and device or graphics
+                capabilities to select suitable preparation and rendering behaviour.
+              </li>
+            </ul>
+            <p>
+              These operations are designed to run on your device. LiveStagix does not upload your
+              selected photos, videos, settings or backup files to a server operated by LiveStagix.
+              Local backup is a user-controlled copy to the storage location you choose, not a
+              LiveStagix cloud account or hosted backup service.
+            </p>
+          </section>
+
+          <section>
+            <h2>3. Web image search and third-party services</h2>
+            <p>
+              If you use the app's web wallpaper search, LiveStagix opens Bing Images in an embedded
+              browser and sends the search terms you enter to Bing. Bing and its service providers
+              may receive network information such as your IP address, browser information and
+              cookies, in accordance with Microsoft's own terms and privacy practices.
+            </p>
+            <p>
+              If you preview or download an image hosted by another website, your device connects to
+              that website to retrieve the image. The relevant website may receive your IP address
+              and request information. If you open a source page or external link, that site handles
+              the visit under its own privacy policy. LiveStagix does not control third-party
+              services or their retention practices.
+            </p>
+            <p>
+              The Play edition can use Google Play's update services to check for and install app
+              updates. Google Play handles those interactions under Google's privacy terms. The app
+              does not run its own account service or developer-operated cloud database.
+            </p>
+          </section>
+
+          <section>
+            <h2>4. Diagnostics, analytics and advertising</h2>
+            <p>
+              The optional Event Recorder is available in both the Google Play and GitHub editions.
+              It is off by default and records diagnostics only after you enable it in the app's
+              settings. It can capture app and wallpaper-engine events, errors and stack traces,
+              timestamps, and technical device or runtime details such as Android version and API
+              level, device manufacturer and model, process, thread and diagnostic state. If you
+              separately enable runtime-trace or gyro-diagnostics controls, logs can also include
+              rendering trace details or gyro and motion-setting diagnostics. Event-specific
+              technical settings or operation details may be recorded where needed to troubleshoot
+              an issue.
+            </p>
+            <p>
+              Diagnostics are kept in app-private storage. If you also enable Local backup,
+              LiveStagix can copy diagnostic logs to the <code>Logs/</code> folder within your
+              selected <code>LiveWP/</code> backup location. Turning off Local backup stops further
+              backup reads and writes by that feature, but does not erase log copies already written
+              to shared storage. You can turn recording off and clear logs using the app's
+              diagnostic controls; shared copies may need to be removed separately using a file
+              manager.
+            </p>
+            <p>
+              The recorder does not automatically upload diagnostic logs to LiveStagix or send them
+              to a LiveStagix-operated analytics or advertising service. The current app build does
+              not include its own analytics or advertising service. If you choose to copy or share a
+              log, the recipient may be able to read its contents, so review it before sharing.
+            </p>
+            <p>
+              Android, Google Play or the device manufacturer may independently process app,
+              installation or system diagnostic information under their own settings and policies.
+              That processing is separate from LiveStagix's optional Event Recorder.
+            </p>
+          </section>
+
+          <section>
+            <h2>5. Permissions and how they are used</h2>
+            <p>
+              LiveStagix uses Android system features and permissions for wallpaper setup, media you
+              choose to import, internet access for web search and related requests, notifications
+              where needed for ongoing services, and the optional floating overlay. If you enable
+              Local backup, the app uses Android's Storage Access Framework to request access to the
+              folder you select. Alternatively, on Android 10 and newer, it can create backup files
+              in <code>Download/LiveWP/</code> using Android's shared-media storage APIs. Android
+              controls the access available to each location, and access may vary by Android version
+              and document provider. You can review app permissions in Android Settings and change
+              the Local backup location from within the app.
+            </p>
+            <p>
+              Local backup is optional and off by default. LiveStagix does not use a LiveStagix
+              server to collect your media or use it for advertising.
+            </p>
+          </section>
+
+          <section>
+            <h2>6. Storage, retention and deletion</h2>
+            <p>
+              App-private prepared files, configuration and temporary copies are stored separately
+              from optional Local backup files. Uninstalling LiveStagix or clearing its app storage
+              normally removes app-private files and the app's saved folder selection, but it does
+              not automatically remove backup files already written to a user-accessible location.
+              After reinstalling, you may need to select the backup location again before LiveStagix
+              can access and restore eligible backups.
+            </p>
+            <p>
+              When Local backup is enabled, configuration, retained prepared-media archives and
+              diagnostic logs may be stored under <code>LiveWP/</code> in the folder you selected,
+              or under <code>Download/LiveWP/</code> if you chose Downloads. Turning Local backup
+              off stops further backup reads and writes by that feature but deliberately leaves
+              existing files untouched. Selecting another folder also does not automatically delete
+              copies in the previous location.
+            </p>
+            <p>
+              Restoring prepared media or configuration does not delete the backup copy. Clearing a
+              prepared item or the prepared-media library from inside the app does not delete its
+              shared backup archive. To remove user-accessible backup files, use your device's file
+              manager or the file-management interface for the selected storage provider. If you
+              chose a provider that synchronizes files to another service, that provider's own
+              deletion and retention rules may apply.
+            </p>
+            <p>
+              Local backup files are not encrypted by LiveStagix. Anyone or any app that has
+              sufficient access to the selected storage location may be able to read, copy, change
+              or delete them. Keep sensitive content out of shared backups and delete copies you no
+              longer need.
+            </p>
+            <p>
+              LiveStagix does not maintain a server-side profile or account for you, so it has no
+              LiveStagix account data to retrieve or delete. Data held by Bing, Google Play or a
+              third-party image host is handled by that provider and must be managed through its own
+              privacy controls.
+            </p>
+          </section>
+
+          <section>
+            <h2>7. Security</h2>
+            <p>
+              Active app data is kept in app-managed private storage. Local backup copies are placed
+              only in the location you choose or in <code>Download/LiveWP/</code> if you select
+              Downloads. These user-accessible backup files are not encrypted by LiveStagix. The
+              embedded prepared-media marker helps identify eligible files, but it can be inspected
+              and may be forged; it should not be treated as a security mechanism or proof of
+              authorship. Consider this before keeping sensitive content in a backup folder.
+            </p>
+            <p>
+              If you choose a folder supplied by another storage provider, that provider may have
+              separate access, synchronization and security practices. Network requests to Bing,
+              Google Play and other external services use the connections provided by those
+              services; review their privacy and security information before opening or downloading
+              their content. No method of storage or transmission is guaranteed to be completely
+              secure.
+            </p>
+          </section>
+
+          <section>
+            <h2>8. Children</h2>
+            <p>
+              LiveStagix is a general-purpose wallpaper utility and is not specifically directed at
+              children. The app does not ask users to create an account or provide personal profile
+              details to LiveStagix.
+            </p>
+          </section>
+
+          <section>
+            <h2>9. Changes to this policy</h2>
+            <p>
+              This policy may be updated if the app's features or data practices change. The latest
+              version will be published at this URL, with the updated date shown near the top.
+              Please review it occasionally.
+            </p>
+          </section>
+
+          <section>
+            <h2>10. Contact</h2>
+            <p>
+              For questions about this Privacy Policy or LiveStagix's handling of information, email
+              <a href="mailto:livestagix.contact@gmail.com">livestagix.contact@gmail.com</a>.
+            </p>
+          </section>
         </div>
-      </div>
-    </footer>
-  </div>
-  <script src="../script.js?v=20261101-footer-accordion-v1" defer></script>
-</body>
+        <div class="policy-note">
+          This page describes the current LiveStagix app behaviour. Any change to app permissions,
+          third-party SDKs, analytics, advertising or server-side processing should be reflected in
+          this policy and in the Google Play Data safety form.
+        </div>
+        <a class="policy-back" href="https://livestagix.github.io/">← Back to LiveStagix</a>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-main">
+            <div class="footer-identity">
+              <a
+                class="brand footer-brand"
+                href="https://livestagix.github.io/"
+                aria-label="LiveStagix home"
+              >
+                <span class="brand-mark" aria-hidden="true"
+                  ><img
+                    src="/public/Small%20round%20icon%20192.webp"
+                    alt=""
+                    width="46"
+                    height="46"
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <span class="brand-word"
+                  >LiveStagix<span class="brand-period">.</span
+                  ><small>YOUR SCREEN, IN MOTION.</small></span
+                >
+              </a>
+              <p class="footer-description">A live wallpaper experience for Android.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">EXPLORE</summary>
+                <a href="https://livestagix.github.io/#experience">Experience</a>
+                <a href="https://livestagix.github.io/#features">Features</a>
+                <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
+                <a href="https://livestagix.github.io/#performance">The engine</a>
+                <a href="https://livestagix.github.io/#faq">FAQ</a>
+                <a href="https://livestagix.github.io/about/">About &amp; developer</a>
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">GET THE APP</summary>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.livewp.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Google Play ↗</a
+                >
+                <a
+                  href="https://play.google.com/apps/testing/com.livewp.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Join closed test ↗</a
+                >
+                <a
+                  href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                  >Download latest APK</a
+                >
+                <a
+                  href="https://github.com/devdas74/LiveWP-Releases/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >All APK releases ↗</a
+                >
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">PROJECT</summary>
+                <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer"
+                  >Developer profile ↗</a
+                >
+
+                <a
+                  href="https://github.com/LiveStagix/livestagix.github.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Website source ↗</a
+                >
+                <a
+                  href="https://github.com/sponsors/devdas74"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Support the project ↗</a
+                >
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">TRUST</summary>
+                <a href="https://livestagix.github.io/privacy-policy/" aria-current="page"
+                  >Privacy Policy</a
+                >
+                <a href="https://livestagix.github.io/security/">Security &amp; Integrity</a>
+              </details>
+            </nav>
+          </div>
+          <div class="footer-bottom">
+            <span>© <span id="year"></span> LiveStagix</span>
+            <span class="footer-motto">Made for screens that deserve more.</span>
+            <a class="footer-back-top" href="#">Back to top <span aria-hidden="true">↑</span></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="../script.js?v=20261101-footer-accordion-v1" defer></script>
+  </body>
 </html>
