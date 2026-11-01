@@ -518,7 +518,7 @@
       panel.setAttribute("aria-hidden", "true");
       panel.style.cssText = [
         "position:fixed", "inset:auto 6px 6px 6px", "z-index:2147483647",
-        "max-height:38vh", "overflow:auto", "box-sizing:border-box",
+        "max-height:58vh", "overflow:auto", "box-sizing:border-box",
         "margin:0", "padding:10px", "border:1px solid rgba(255,255,255,.35)",
         "border-radius:8px", "background:rgba(12,10,24,.94)",
         "color:#fff", "font:11px/1.4 ui-monospace,monospace",
@@ -596,15 +596,31 @@
 
         const lines = [
           "LIVESTAGIX MOBILE LAYOUT DIAGNOSTIC",
-          "Viewport: " + viewport + "px | innerWidth: " + window.innerWidth +
+          "Visible width: " + viewport + "px | innerWidth: " + window.innerWidth +
             "px | visualViewport: " + (window.visualViewport ? px(window.visualViewport.width) + "px @ " + px(window.visualViewport.scale) + "x" : "n/a"),
           "HTML: client " + document.documentElement.clientWidth + "px / scroll " + document.documentElement.scrollWidth + "px",
+          "HTML scrollWidth - innerWidth: " + (document.documentElement.scrollWidth - window.innerWidth) + "px",
           "BODY: client " + document.body.clientWidth + "px / scroll " + document.body.scrollWidth + "px",
           "SHELL: rect " + px(shell.getBoundingClientRect().width) + "px / scroll " + shell.scrollWidth + "px",
           "MAIN: rect " + px(main.getBoundingClientRect().width) + "px / scroll " + main.scrollWidth + "px",
           "",
-          "VISIBLE ELEMENTS PAST VIEWPORT EDGE:"
+          "HORIZONTAL ALIGNMENT (left / right margin / width):"
         ];
+
+        const layoutItems = [
+          { label: "TOPBAR", element: document.querySelector(".topbar") },
+          { label: "MAIN", element: main },
+          ...[...main.children].map((element) => ({ label: describe(element), element }))
+        ].filter((item) => item.element);
+
+        layoutItems.forEach(({ label, element }) => {
+          const rect = element.getBoundingClientRect();
+          lines.push(label + " | " + px(rect.left) + " / " +
+            px(viewport - rect.right) + " / " + px(rect.width) +
+            "px | scroll/client " + element.scrollWidth + "/" + element.clientWidth);
+        });
+
+        lines.push("", "VISIBLE ELEMENTS PAST VIEWPORT EDGE:");
 
         if (!overflowing.length) {
           lines.push("None detected.");
