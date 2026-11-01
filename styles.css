@@ -944,6 +944,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .signal-inner span {
+  flex: 0 0 auto;
   white-space: nowrap;
   color: #7f879e;
   font-size: .64rem;
