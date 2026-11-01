@@ -297,6 +297,14 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   right: 0;
 }
 
+.nav a[aria-current="page"] {
+  color: #fff;
+}
+
+.nav a[aria-current="page"]::after {
+  right: 0;
+}
+
 .nav-cta {
   justify-self: end;
   display: inline-flex;
