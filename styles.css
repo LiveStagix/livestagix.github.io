@@ -112,6 +112,29 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   margin-inline: auto;
 }
 
+/* Homepage layout: explicit page width with intentional full-bleed bands. */
+.home-main {
+  display: flow-root;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.home-main > .section {
+  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--max));
+  max-width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.home-main > .signal-strip,
+.home-main > .performance-section {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .about-main {
   width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), 1040px);
   max-width: 100%;
