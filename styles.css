@@ -80,6 +80,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  outline: 2px solid #ff2bd6;
+  outline-offset: -2px;
 }
 
 .site-shell::before {
