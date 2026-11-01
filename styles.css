@@ -2572,6 +2572,14 @@ summary:focus-visible {
     grid-template-columns: 1fr auto auto;
     gap: 10px;
     border-radius: 17px;
+    transition: border-radius 0.24s cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+  .topbar::before {
+    transition: border-radius 0.24s cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+  .topbar.menu-open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
   .brand-mark {
     width: 37px;

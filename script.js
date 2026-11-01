@@ -134,20 +134,24 @@
 
   const menuToggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("primary-nav");
+  const topbar = nav ? nav.closest(".topbar") : null;
 
   const closeMenu = () => {
     if (!menuToggle || !nav) return;
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "Open navigation");
     nav.classList.remove("is-open");
+    if (topbar) topbar.classList.remove("menu-open");
   };
 
   if (menuToggle && nav) {
     menuToggle.addEventListener("click", () => {
       const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-      menuToggle.setAttribute("aria-expanded", String(!isOpen));
-      menuToggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
-      nav.classList.toggle("is-open", !isOpen);
+      const shouldOpen = !isOpen;
+      menuToggle.setAttribute("aria-expanded", String(shouldOpen));
+      menuToggle.setAttribute("aria-label", shouldOpen ? "Close navigation" : "Open navigation");
+      nav.classList.toggle("is-open", shouldOpen);
+      if (topbar) topbar.classList.toggle("menu-open", shouldOpen);
     });
 
     nav.querySelectorAll("a").forEach((link) => {
