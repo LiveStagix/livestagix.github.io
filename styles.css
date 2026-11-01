@@ -41,6 +41,8 @@ body {
   line-height: 1.6;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  outline: 3px solid #00e676;
+  outline-offset: -3px;
 }
 
 
