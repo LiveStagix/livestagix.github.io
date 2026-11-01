@@ -206,12 +206,36 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
-  border: 1px solid rgba(226,234,255,.12);
+  border: 1px solid transparent;
   border-radius: 21px;
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+}
+
+/* Keep the header's frosted surface on a separate layer. This preserves its blur
+   without making the dropdown's backdrop-filter inherit a filtered ancestor. */
+.topbar::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border: 1px solid rgba(226,234,255,.12);
+  border-radius: inherit;
   background: rgba(9,10,16,.8);
-  backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
   box-shadow: 0 14px 44px rgba(0,0,0,.17);
+  pointer-events: none;
+}
+
+.topbar > :not(.nav) {
+  position: relative;
+  z-index: 1;
+}
+
+.topbar > .nav {
+  z-index: 2;
 }
 
 .brand {
@@ -2426,9 +2450,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     top: calc(100% + 8px);
     left: 0;
     right: 0;
-    display: none;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
     gap: 0;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-9px) scale(.985);
+    transform-origin: top center;
+    pointer-events: none;
+    transition:
+      opacity .2s ease,
+      transform .24s cubic-bezier(.2,.75,.25,1),
+      visibility 0s linear .24s;
     padding: 8px;
     border: 1px solid rgba(226,234,255,.15);
     border-radius: 17px;
@@ -2440,15 +2474,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     box-shadow: 0 14px 44px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055);
   }
 
-  /* A filtered ancestor traps descendant backdrop filters. Release that boundary
-     while the menu is open so the dropdown can blur the page behind it. */
-  .topbar:has(.nav.is-open) {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
   .nav.is-open {
-    display: flex;
-    flex-direction: column;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition-delay: 0s;
   }
   .nav a {
     padding: 12px 13px;
@@ -3784,5 +3815,11 @@ canvas {
   .nav a {
     padding-inline: 8px;
     font-size: .76rem;
+  }
+}
+
+@media (max-width: 780px) and (prefers-reduced-motion: reduce) {
+  .topbar > .nav {
+    transition: none;
   }
 }
