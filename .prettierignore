@@ -1,0 +1,29 @@
+# Binary images, icons, fonts and other non-source assets.
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.otf
+*.pdf
+
+# Search-engine verification and deployment metadata.
+BingSiteAuth.xml
+google*.html
+release.json
+sitemap.xml
+robots.txt
+llms.txt
+
+# Static public assets are not source files.
+public/**
+
+# Generated or archived output.
+node_modules/
+dist/
+.cache/
