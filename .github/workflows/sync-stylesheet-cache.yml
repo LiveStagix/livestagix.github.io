@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - styles.css
+      - .github/workflows/sync-stylesheet-cache.yml
   workflow_dispatch:
 
 permissions:
