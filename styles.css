@@ -2613,7 +2613,7 @@ summary:focus-visible {
   }
   .nav {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% - 1px);
     left: 0;
     right: 0;
     display: flex;
@@ -2630,16 +2630,13 @@ summary:focus-visible {
       transform 0.24s cubic-bezier(0.2, 0.75, 0.25, 1),
       visibility 0s linear 0.24s;
     padding: 8px;
-    border: 1px solid rgba(226, 234, 255, 0.15);
-    border-radius: 17px;
-    background:
-      radial-gradient(ellipse at 100% 0%, rgba(181, 139, 255, 0.085), transparent 42%),
-      linear-gradient(145deg, rgba(21, 24, 39, 0.8), rgba(9, 10, 16, 0.82));
-    -webkit-backdrop-filter: blur(28px) saturate(1.35);
-    backdrop-filter: blur(28px) saturate(1.35);
-    box-shadow:
-      0 14px 44px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(226, 234, 255, 0.12);
+    border-top-color: rgba(226, 234, 255, 0.08);
+    border-radius: 0 0 17px 17px;
+    background: rgba(9, 10, 16, 0.8);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.17);
   }
 
   .nav.is-open {
