@@ -83,9 +83,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 .site-shell {
   min-height: 100vh;
-  margin-right: none;
-  margin-top: none;
-  margin-top: none;
+  max-width: default;
 }
 
 .section {
