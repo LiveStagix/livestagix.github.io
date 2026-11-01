@@ -2,6 +2,38 @@
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 
+  // Keep all footer links visible on desktop and use compact disclosures on mobile.
+  function initFooterAccordions() {
+    const groups = Array.from(document.querySelectorAll(".footer-nav-group"));
+    if (!groups.length || typeof window.matchMedia !== "function") return;
+
+    const mobileQuery = window.matchMedia("(max-width: 780px)");
+    let wasMobile = null;
+
+    function syncFooterMode() {
+      const isMobile = mobileQuery.matches;
+      groups.forEach((group) => {
+        const summary = group.querySelector(":scope > summary");
+        if (isMobile && wasMobile !== true) {
+          group.open = false;
+        } else if (!isMobile) {
+          group.open = true;
+        }
+        if (summary) summary.tabIndex = isMobile ? 0 : -1;
+      });
+      wasMobile = isMobile;
+    }
+
+    syncFooterMode();
+    if (typeof mobileQuery.addEventListener === "function") {
+      mobileQuery.addEventListener("change", syncFooterMode);
+    } else if (typeof mobileQuery.addListener === "function") {
+      mobileQuery.addListener(syncFooterMode);
+    }
+  }
+
+  initFooterAccordions();
+
   function updatePhoneClock() {
     const now = new Date();
     let hours = now.getHours();
