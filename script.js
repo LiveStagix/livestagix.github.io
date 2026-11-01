@@ -186,25 +186,6 @@
     const body = document.body;
     if (!root || !body || document.querySelector(".scrollbar-overlay")) return;
 
-    // Measure the platform's classic scrollbar before replacing its visible UI.
-    const probe = document.createElement("div");
-    probe.setAttribute("aria-hidden", "true");
-    probe.style.cssText = [
-      "position:absolute",
-      "top:-9999px",
-      "left:-9999px",
-      "width:100px",
-      "height:100px",
-      "overflow:scroll",
-      "visibility:hidden",
-      "scrollbar-width:auto",
-      "scrollbar-color:auto"
-    ].join(";");
-    body.appendChild(probe);
-    const nativeGutter = Math.max(0, probe.offsetWidth - probe.clientWidth);
-    probe.remove();
-    root.style.setProperty("--native-scrollbar-gutter", nativeGutter + "px");
-
     const scrollbar = document.createElement("div");
     scrollbar.className = "scrollbar-overlay";
     scrollbar.setAttribute("role", "scrollbar");
