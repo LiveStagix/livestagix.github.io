@@ -37,12 +37,12 @@
   function updatePhoneClock() {
     const now = new Date();
     let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+
     // Formats 24h into clean 12h phone style (e.g., 2:41 instead of 14:41)
-    hours = hours % 12 || 12; 
-    
-    const clockElement = document.getElementById('phone-time');
+    hours = hours % 12 || 12;
+
+    const clockElement = document.getElementById("phone-time");
     if (clockElement) {
       clockElement.textContent = `${hours}:${minutes}`;
     }
@@ -52,7 +52,8 @@
   // Refresh structural minutes cleanly every 15 seconds
   setInterval(updatePhoneClock, 15000);
 
-  const latestApkUrl = "https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
+  const latestApkUrl =
+    "https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
   const releaseMetadataUrl = "/release.json";
   const heroDownload = document.getElementById("hero-download-apk");
   const downloadApk = document.getElementById("download-apk");
@@ -73,20 +74,21 @@
     try {
       const response = await fetch(releaseMetadataUrl, {
         headers: { Accept: "application/json" },
-        cache: "no-store"
+        cache: "no-store",
       });
       if (!response.ok) throw new Error("Release metadata unavailable");
       const release = await response.json();
-      const asset = release && release.asset && release.asset.name === "LiveStagix_beta.apk"
-        ? release.asset
-        : null;
+      const asset =
+        release && release.asset && release.asset.name === "LiveStagix_beta.apk"
+          ? release.asset
+          : null;
       if (!asset) throw new Error("Latest APK asset not found");
 
       const tag = String(release.tag_name || "").replace(/^v/i, "");
       const betaMatch = tag.match(new RegExp("^(\\d+(?:\\.\\d+)*)-beta-(\\d+)$", "i"));
       releaseVersion.textContent = betaMatch
         ? "Beta " + betaMatch[1] + " · Build " + betaMatch[2]
-        : (tag || "Latest official APK");
+        : tag || "Latest official APK";
 
       const mib = Number(asset.size) / (1024 * 1024);
       releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
@@ -95,7 +97,8 @@
         const date = new Date(publishedAt);
         releasePublished.textContent = Number.isNaN(date.getTime())
           ? "Latest published release"
-          : "Published " + date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+          : "Published " +
+            date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
       }
       if (releasePageLink && release.html_url) releasePageLink.href = release.html_url;
 
@@ -119,7 +122,8 @@
       const value = releaseChecksum.textContent.trim();
       if (!value) return;
       try {
-        if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+        if (!navigator.clipboard || !navigator.clipboard.writeText)
+          throw new Error("Clipboard unavailable");
         await navigator.clipboard.writeText(value);
         checksumFeedback.textContent = "Checksum copied.";
       } catch (error) {
@@ -127,7 +131,6 @@
       }
     });
   }
-
 
   const menuToggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("primary-nav");
@@ -161,7 +164,8 @@
     document.addEventListener("click", (event) => {
       if (!nav.classList.contains("is-open")) return;
       const target = event.target;
-      if (target instanceof Node && !nav.contains(target) && !menuToggle.contains(target)) closeMenu();
+      if (target instanceof Node && !nav.contains(target) && !menuToggle.contains(target))
+        closeMenu();
     });
   }
 
@@ -170,8 +174,15 @@
   const reduceMotionForAnchors = window.matchMedia("(prefers-reduced-motion: reduce)");
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
-      if (!(event instanceof MouseEvent) || event.button !== 0 ||
-          event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (
+        !(event instanceof MouseEvent) ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
 
       const href = link.getAttribute("href");
       if (!href || href.length < 2) return;
@@ -190,24 +201,26 @@
       if (window.location.hash !== href) window.history.pushState(null, "", href);
       target.scrollIntoView({
         behavior: reduceMotionForAnchors.matches ? "auto" : "smooth",
-        block: "start"
+        block: "start",
       });
     });
   });
 
-
-
   const revealItems = document.querySelectorAll(".reveal");
-  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if ("IntersectionObserver" in window && !reducedMotion) {
     document.documentElement.classList.add("js-motion");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -30px 0px" },
+    );
 
     revealItems.forEach((item) => observer.observe(item));
   }
@@ -245,16 +258,23 @@
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
     function getMetrics() {
-      const layoutHeight = Math.max(1, scroller.clientHeight || root.clientHeight || window.innerHeight);
+      const layoutHeight = Math.max(
+        1,
+        scroller.clientHeight || root.clientHeight || window.innerHeight,
+      );
       const viewportHeight = Math.max(1, visualViewport ? visualViewport.height : layoutHeight);
-      const viewportWidth = Math.max(1, visualViewport ? visualViewport.width : (scroller.clientWidth || root.clientWidth || window.innerWidth));
+      const viewportWidth = Math.max(
+        1,
+        visualViewport
+          ? visualViewport.width
+          : scroller.clientWidth || root.clientWidth || window.innerWidth,
+      );
       const offsetTop = visualViewport ? visualViewport.offsetTop : 0;
       const offsetLeft = visualViewport ? visualViewport.offsetLeft : 0;
-      const visualScale = visualViewport && Number.isFinite(visualViewport.scale)
-        ? visualViewport.scale
-        : 1;
+      const visualScale =
+        visualViewport && Number.isFinite(visualViewport.scale) ? visualViewport.scale : 1;
       const currentDpr = Math.max(1, window.devicePixelRatio || initialDpr);
-      const effectiveScale = Math.max(.25, (currentDpr / initialDpr) * visualScale);
+      const effectiveScale = Math.max(0.25, (currentDpr / initialDpr) * visualScale);
       const cssUnit = 1 / effectiveScale;
 
       // Use one canonical scroller and include visual-viewport panning during pinch zoom.
@@ -262,16 +282,29 @@
       const maxScroll = Math.max(0, scrollHeight - viewportHeight);
       const scrollTop = clamp(scroller.scrollTop + offsetTop, 0, maxScroll);
       const minThumb = Math.min(32 * cssUnit, viewportHeight);
-      const thumbHeight = maxScroll > 0
-        ? Math.min(viewportHeight, Math.max(minThumb, viewportHeight * viewportHeight / scrollHeight))
-        : viewportHeight;
+      const thumbHeight =
+        maxScroll > 0
+          ? Math.min(
+              viewportHeight,
+              Math.max(minThumb, (viewportHeight * viewportHeight) / scrollHeight),
+            )
+          : viewportHeight;
       const travel = Math.max(0, viewportHeight - thumbHeight);
       const maxLayoutScroll = Math.max(0, scrollHeight - layoutHeight);
 
       return {
-        layoutHeight, viewportHeight, viewportWidth, offsetTop, offsetLeft,
-        scrollHeight, maxScroll, scrollTop, thumbHeight, travel,
-        maxLayoutScroll, cssUnit
+        layoutHeight,
+        viewportHeight,
+        viewportWidth,
+        offsetTop,
+        offsetLeft,
+        scrollHeight,
+        maxScroll,
+        scrollTop,
+        thumbHeight,
+        travel,
+        maxLayoutScroll,
+        cssUnit,
       };
     }
 
@@ -280,13 +313,12 @@
       const trackWidth = 18 * metrics.cssUnit;
       const thumbWidth = (dragging ? 4 : 3) * metrics.cssUnit;
       const thumbRight = (dragging ? 5 : 6) * metrics.cssUnit;
-      const thumbTop = metrics.maxScroll > 0
-        ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel
-        : 0;
+      const thumbTop =
+        metrics.maxScroll > 0 ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel : 0;
 
       // Pin the track to the visible viewport, not the larger layout viewport.
       scrollbar.style.top = metrics.offsetTop + "px";
-      scrollbar.style.left = (metrics.offsetLeft + metrics.viewportWidth - trackWidth) + "px";
+      scrollbar.style.left = metrics.offsetLeft + metrics.viewportWidth - trackWidth + "px";
       scrollbar.style.right = "auto";
       scrollbar.style.bottom = "auto";
       scrollbar.style.width = trackWidth + "px";
@@ -295,14 +327,14 @@
       thumb.style.height = metrics.thumbHeight + "px";
       thumb.style.width = thumbWidth + "px";
       thumb.style.right = thumbRight + "px";
-      thumb.style.minHeight = (32 * metrics.cssUnit) + "px";
+      thumb.style.minHeight = 32 * metrics.cssUnit + "px";
       thumb.style.transform = "translate3d(0," + thumbTop + "px,0)";
 
       scrollbar.setAttribute(
         "aria-valuenow",
-        String(metrics.maxScroll > 0
-          ? Math.round((metrics.scrollTop / metrics.maxScroll) * 1000)
-          : 0)
+        String(
+          metrics.maxScroll > 0 ? Math.round((metrics.scrollTop / metrics.maxScroll) * 1000) : 0,
+        ),
       );
       scrollbar.setAttribute("aria-disabled", metrics.maxScroll > 0 ? "false" : "true");
       return metrics;
@@ -362,12 +394,9 @@
 
       // Pointer coordinates are relative to the visible viewport.
       const pointerY = clamp(event.clientY, 0, metrics.viewportHeight);
-      const currentTop = metrics.maxScroll > 0
-        ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel
-        : 0;
-      dragOffset = event.target === thumb
-        ? pointerY - currentTop
-        : metrics.thumbHeight / 2;
+      const currentTop =
+        metrics.maxScroll > 0 ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel : 0;
+      dragOffset = event.target === thumb ? pointerY - currentTop : metrics.thumbHeight / 2;
       updateThumb();
 
       try {
@@ -406,13 +435,26 @@
       const pageStep = Math.max(120, metrics.viewportHeight * 0.85);
 
       switch (event.key) {
-        case "ArrowDown": target += 48; break;
-        case "ArrowUp": target -= 48; break;
-        case "PageDown": target += pageStep; break;
-        case "PageUp": target -= pageStep; break;
-        case "Home": target = 0; break;
-        case "End": target = metrics.maxScroll; break;
-        default: return;
+        case "ArrowDown":
+          target += 48;
+          break;
+        case "ArrowUp":
+          target -= 48;
+          break;
+        case "PageDown":
+          target += pageStep;
+          break;
+        case "PageUp":
+          target -= pageStep;
+          break;
+        case "Home":
+          target = 0;
+          break;
+        case "End":
+          target = metrics.maxScroll;
+          break;
+        default:
+          return;
       }
 
       event.preventDefault();
@@ -444,5 +486,4 @@
   }
 
   initOverlayScrollbar();
-
 })();
