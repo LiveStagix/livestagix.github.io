@@ -2430,12 +2430,21 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     align-items: stretch;
     gap: 0;
     padding: 8px;
-    border: 1px solid rgba(226,234,255,.12);
+    border: 1px solid rgba(226,234,255,.15);
     border-radius: 17px;
-    background: rgba(9,10,16,.8);
-    -webkit-backdrop-filter: blur(24px);
-    backdrop-filter: blur(24px);
-    box-shadow: 0 14px 44px rgba(0,0,0,.17);
+    background:
+      radial-gradient(ellipse at 100% 0%,rgba(181,139,255,.085),transparent 42%),
+      linear-gradient(145deg,rgba(21,24,39,.80),rgba(9,10,16,.82));
+    -webkit-backdrop-filter: blur(28px) saturate(1.35);
+    backdrop-filter: blur(28px) saturate(1.35);
+    box-shadow: 0 14px 44px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.055);
+  }
+
+  /* A filtered ancestor traps descendant backdrop filters. Release that boundary
+     while the menu is open so the dropdown can blur the page behind it. */
+  .topbar:has(.nav.is-open) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   .nav.is-open {
     display: flex;
