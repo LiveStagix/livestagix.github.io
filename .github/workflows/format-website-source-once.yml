@@ -1,0 +1,78 @@
+name: Format website source once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/format-website-source-once.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: livestagix-website-source-format-main
+  cancel-in-progress: false
+
+jobs:
+  format-source:
+    name: Format and verify website source
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out website source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pinned Prettier
+        run: npm install --no-save --package-lock=false --ignore-scripts prettier@3.6.2
+
+      - name: Format authored website source only
+        run: |
+          set -euo pipefail
+          ./node_modules/.bin/prettier --write \
+            --config .prettierrc.json \
+            --ignore-path .prettierignore \
+            index.html \
+            about/index.html \
+            privacy-policy/index.html \
+            security/index.html \
+            styles.css \
+            script.js
+
+      - name: Verify formatting and whitespace
+        run: |
+          set -euo pipefail
+          ./node_modules/.bin/prettier --check \
+            --config .prettierrc.json \
+            --ignore-path .prettierignore \
+            index.html \
+            about/index.html \
+            privacy-policy/index.html \
+            security/index.html \
+            styles.css \
+            script.js
+          git diff --check
+
+      - name: Commit formatting-only changes
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- index.html about/index.html privacy-policy/index.html \
+            security/index.html styles.css script.js
+
+          if git diff --cached --quiet; then
+            echo "All authored website source files were already formatted."
+          else
+            git commit -m "Format website source for readability"
+            git push origin "HEAD:main"
+          fi
