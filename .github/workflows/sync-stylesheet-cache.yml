@@ -1,0 +1,111 @@
+name: Sync stylesheet cache version
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - styles.css
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stylesheet-cache-version-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Generate and sync the CSS content version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out website source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Generate and apply the stylesheet version
+        id: sync
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          import re
+
+          css_path = Path("styles.css")
+          if not css_path.is_file():
+              raise SystemExit("styles.css was not found.")
+
+          version = "sha256-" + sha256(css_path.read_bytes()).hexdigest()[:12]
+
+          pages = {
+              "index.html": ("styles.css", 2),
+              "about/index.html": ("../styles.css", 1),
+              "privacy-policy/index.html": ("../styles.css", 1),
+              "security/index.html": ("../styles.css", 1),
+          }
+
+          stylesheet_link = re.compile(
+              r"""href=(?P<quote>["'])(?P<path>(?:\.\./)?styles\.css)\?v=[^"']+(?P=quote)"""
+          )
+
+          changed = []
+          for filename, (expected_path, expected_count) in pages.items():
+              page = Path(filename)
+              if not page.is_file():
+                  raise SystemExit(f"Required page is missing: {filename}")
+
+              source = page.read_text(encoding="utf-8")
+              matches = list(stylesheet_link.finditer(source))
+
+              if len(matches) != expected_count:
+                  raise SystemExit(
+                      f"{filename}: expected {expected_count} stylesheet references, "
+                      f"found {len(matches)}. No files were committed."
+                  )
+
+              wrong_paths = [match.group("path") for match in matches
+                             if match.group("path") != expected_path]
+              if wrong_paths:
+                  raise SystemExit(
+                      f"{filename}: unexpected stylesheet path(s): {wrong_paths}"
+                  )
+
+              updated = stylesheet_link.sub(
+                  lambda match: (
+                      "href=" + match.group("quote") + match.group("path")
+                      + "?v=" + version + match.group("quote")
+                  ),
+                  source
+              )
+
+              if updated != source:
+                  page.write_text(updated, encoding="utf-8", newline="")
+                  changed.append(filename)
+
+          print(f"Stylesheet content version: {version}")
+          if changed:
+              print("Updated pages:")
+              for filename in changed:
+                  print(f" - {filename}")
+          else:
+              print("All four pages already use the current stylesheet version.")
+
+          with open(__import__("os").environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"version={version}\n")
+              output.write(f"changed={'true' if changed else 'false'}\n")
+          PY
+
+      - name: Commit updated page references
+        if: steps.sync.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html about/index.html privacy-policy/index.html security/index.html
+          git commit -m "Sync stylesheet cache version to ${{ steps.sync.outputs.version }}"
+          git push
