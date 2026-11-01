@@ -135,6 +135,26 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   min-width: 0;
 }
 
+/* Keep the homepage footer balanced without changing the other page footers. */
+@media (max-width: 780px) {
+  .home-footer-nav {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(18px, 6vw, 32px);
+    row-gap: 0;
+  }
+
+  .home-footer-nav > div {
+    min-width: 0;
+  }
+
+  .home-footer-nav a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
 .about-main {
   width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), 1040px);
   max-width: 100%;
