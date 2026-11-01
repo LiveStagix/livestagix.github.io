@@ -4023,8 +4023,6 @@ canvas {
   }
 }
 
-
-
 /* Adaptive shared footer: the navigation grid responds to available width, not device labels. */
 @media (max-width: 860px) {
   .footer-main {
