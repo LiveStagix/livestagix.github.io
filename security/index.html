@@ -270,6 +270,32 @@
       .scan-results[hidden] {
         display: none !important;
       }
+      .scan-report-link {
+        margin-top: 18px;
+        padding-top: 15px;
+        border-top: 1px solid #ffffff12;
+      }
+      .scan-report-link[hidden] {
+        display: none !important;
+      }
+      .scan-report-link a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #dce8fa;
+        font-size: 0.83rem;
+        font-weight: 800;
+      }
+      .scan-report-link a:hover {
+        color: var(--cyan);
+      }
+      .scan-report-caption {
+        display: block;
+        margin-top: 6px;
+        color: #818ba3;
+        font-size: 0.74rem;
+        line-height: 1.65;
+      }
       .scan-result-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -553,14 +579,8 @@
             </p>
             <p id="scan-details">
               When an exact-file report is available, this page displays it only when its SHA-256
-              matches the current official APK checksum above. You can also
-              <a
-                id="virustotal-link"
-                href="https://www.virustotal.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >look up the exact file on VirusTotal</a
-              >.
+              matches the current official APK checksum above. The full-report link appears only
+              after that match is confirmed.
             </p>
             <p id="scan-date" aria-live="polite">Checking the latest published analysis date…</p>
             <div class="scan-results" id="scan-results" hidden aria-live="polite">
@@ -600,6 +620,18 @@
               >; it checks apps from Google Play and can also check apps installed from other
               sources.
             </p>
+            <div class="scan-report-link" id="scan-report-link-wrap" hidden>
+              <a
+                id="virustotal-link"
+                href="https://www.virustotal.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >View full VirusTotal report ↗</a
+              >
+              <span class="scan-report-caption"
+                >Opens the full report for this exact APK, including individual engine results.</span
+              >
+            </div>
           </section>
         </div>
 
@@ -854,9 +886,11 @@
           );
           setText(
             "scan-details",
-            "A VirusTotal result is displayed only when its SHA-256 matches the current official APK. A report for an older release or a different file does not apply to this version. You can also look up this exact file directly on VirusTotal.",
+            "A scan result is displayed only when its SHA-256 matches the current official APK. The full-report link appears once a matching report is published.",
           );
           setText("scan-date", "Analysis date: no matching report published for the current APK.");
+          const reportLink = byId("scan-report-link-wrap");
+          if (reportLink) reportLink.hidden = true;
           const results = byId("scan-results");
           if (results) results.hidden = true;
         }
@@ -882,9 +916,11 @@
           );
           setText(
             "scan-details",
-            "Try the direct VirusTotal lookup for the SHA-256 shown above. Confirm that the report hash matches the current APK before interpreting its results.",
+            "The published scan record could not be retrieved. The full-report link stays hidden until the site can confirm that it matches the current APK. Compare the SHA-256 above before relying on a manual VirusTotal lookup.",
           );
           setText("scan-date", "Scan status temporarily unavailable.");
+          const reportLink = byId("scan-report-link-wrap");
+          if (reportLink) reportLink.hidden = true;
           const results = byId("scan-results");
           if (results) results.hidden = true;
         }
@@ -955,14 +991,13 @@
           setText("scan-summary", summary);
           setText(
             "scan-details",
-            "This report is tied to the current official APK: its SHA-256 matches the checksum above. Open the full report to review individual engine results.",
+            "This report is tied to the current official APK: its SHA-256 matches the checksum above.",
           );
           setText("scan-date", "Last analysed: " + formatDate(scan.analysisDate) + ".");
           const link = byId("virustotal-link");
-          if (link) {
-            link.href = "https://www.virustotal.com/gui/file/" + expectedSha256;
-            link.textContent = "Open the exact-file VirusTotal report";
-          }
+          if (link) link.href = "https://www.virustotal.com/gui/file/" + expectedSha256;
+          const reportLink = byId("scan-report-link-wrap");
+          if (reportLink) reportLink.hidden = false;
 
           keys.forEach((key) => setText("stat-" + key, String(count(key))));
           ["malicious", "suspicious"].forEach((key) => {
@@ -1079,9 +1114,6 @@
             setText("release-sha", sha256);
             const copy = byId("copy-release-sha");
             if (copy) copy.disabled = false;
-            const virusTotalLink = byId("virustotal-link");
-            if (virusTotalLink)
-              virusTotalLink.href = "https://www.virustotal.com/gui/file/" + sha256;
             setText(
               "release-status",
               "Loaded from the official GitHub release API. Compare the full SHA-256 with the exact APK file you downloaded.",
