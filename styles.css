@@ -546,6 +546,26 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 }
 
 
+/* Keep homepage hero decoration inside the mobile viewport. */
+@media (max-width: 780px) {
+  .hero-art {
+    min-width: 0;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .glow-blue {
+    width: min(360px, 100%);
+    left: 0;
+  }
+  .glow-violet {
+    width: min(340px, 100%);
+    right: 0;
+  }
+  .float-card-top { right: 0; }
+  .float-card-bottom { left: 0; }
+  .art-index { right: 0; }
+}
+
 /* Native page scrolling remains in place; this thumb is only its visual overlay. */
 .scrollbar-overlay {
   position: fixed;
