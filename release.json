@@ -2,13 +2,13 @@
   "schema_version": 1,
   "metadata_source": "LiveWP-Releases release workflow",
   "repository": "devdas74/LiveWP-Releases",
-  "tag_name": "v1.0-beta-75",
-  "name": "LiveWP Beta 1.0 - Build 75",
-  "published_at": "2026-11-01T11:51:33Z",
-  "html_url": "https://github.com/devdas74/LiveWP-Releases/releases/tag/v1.0-beta-75",
+  "tag_name": "v1.0-beta-76",
+  "name": "LiveWP Beta 1.0 - Build 76",
+  "published_at": "2026-11-01T15:38:33Z",
+  "html_url": "https://github.com/devdas74/LiveWP-Releases/releases/tag/v1.0-beta-76",
   "asset": {
     "name": "LiveStagix_beta.apk",
-    "size": 5396110,
-    "digest": "sha256:ad0f6323414c3c4bee7887d0c057255543126f3821e0337a777fa6ffa7b07b0a"
+    "size": 5396118,
+    "digest": "sha256:6ff863e4ae13d1b2f9d7044b1d4410d97b4aa033dde53a850e623e30a523c8e7"
   }
 }
