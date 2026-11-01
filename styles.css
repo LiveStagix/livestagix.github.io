@@ -574,7 +574,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   border-radius: 999px;
   background: linear-gradient(180deg, rgba(98,231,255,.78), rgba(181,139,255,.78));
   box-shadow: 0 0 9px rgba(98,231,255,.14);
-  pointer-events: none;
   will-change: transform, height;
 }
 .scrollbar-overlay.is-dragging .scrollbar-overlay-thumb,
