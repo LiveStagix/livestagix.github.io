@@ -180,11 +180,13 @@
     revealItems.forEach((item) => observer.observe(item));
   }
 
-  // LiveStagix overlay scrollbar: keeps native document scrolling and draws only a fading thumb.
+  // Overlay indicator follows the real document scroller while accounting for the visual viewport.
   function initOverlayScrollbar() {
     const root = document.documentElement;
     const body = document.body;
-    if (!root || !body || document.querySelector(".scrollbar-overlay")) return;
+    const scroller = document.scrollingElement || root || body;
+    const visualViewport = window.visualViewport || null;
+    if (!root || !body || !scroller || document.querySelector(".scrollbar-overlay")) return;
 
     const scrollbar = document.createElement("div");
     scrollbar.className = "scrollbar-overlay";
@@ -203,36 +205,67 @@
     root.appendChild(scrollbar);
 
     let hideTimer = 0;
+    let updateFrame = 0;
     let dragging = false;
     let dragOffset = 0;
 
+    const initialDpr = Math.max(1, window.devicePixelRatio || 1);
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
     function getMetrics() {
-      const viewport = Math.max(1, window.innerHeight || root.clientHeight);
-      const scrollHeight = Math.max(root.scrollHeight, body.scrollHeight);
-      const maxScroll = Math.max(0, scrollHeight - viewport);
-      const minThumb = Math.min(34, viewport);
+      const layoutHeight = Math.max(1, scroller.clientHeight || root.clientHeight || window.innerHeight);
+      const viewportHeight = Math.max(1, visualViewport ? visualViewport.height : layoutHeight);
+      const viewportWidth = Math.max(1, visualViewport ? visualViewport.width : (scroller.clientWidth || root.clientWidth || window.innerWidth));
+      const offsetTop = visualViewport ? visualViewport.offsetTop : 0;
+      const offsetLeft = visualViewport ? visualViewport.offsetLeft : 0;
+      const visualScale = visualViewport && Number.isFinite(visualViewport.scale)
+        ? visualViewport.scale
+        : 1;
+      const currentDpr = Math.max(1, window.devicePixelRatio || initialDpr);
+      const effectiveScale = Math.max(.25, (currentDpr / initialDpr) * visualScale);
+      const cssUnit = 1 / effectiveScale;
+
+      // Use one canonical scroller and include visual-viewport panning during pinch zoom.
+      const scrollHeight = Math.max(scroller.scrollHeight, layoutHeight);
+      const maxScroll = Math.max(0, scrollHeight - viewportHeight);
+      const scrollTop = clamp(scroller.scrollTop + offsetTop, 0, maxScroll);
+      const minThumb = Math.min(32 * cssUnit, viewportHeight);
       const thumbHeight = maxScroll > 0
-        ? Math.min(viewport, Math.max(minThumb, viewport * viewport / scrollHeight))
-        : viewport;
-      const travel = Math.max(0, viewport - thumbHeight);
-      const scrollTop = clamp(
-        window.scrollY || root.scrollTop || body.scrollTop || 0,
-        0,
-        maxScroll
-      );
-      return { viewport, scrollHeight, maxScroll, thumbHeight, travel, scrollTop };
+        ? Math.min(viewportHeight, Math.max(minThumb, viewportHeight * viewportHeight / scrollHeight))
+        : viewportHeight;
+      const travel = Math.max(0, viewportHeight - thumbHeight);
+      const maxLayoutScroll = Math.max(0, scrollHeight - layoutHeight);
+
+      return {
+        layoutHeight, viewportHeight, viewportWidth, offsetTop, offsetLeft,
+        scrollHeight, maxScroll, scrollTop, thumbHeight, travel,
+        maxLayoutScroll, cssUnit
+      };
     }
 
     function updateThumb() {
       const metrics = getMetrics();
-      const top = metrics.maxScroll > 0
+      const trackWidth = 18 * metrics.cssUnit;
+      const thumbWidth = (dragging ? 4 : 3) * metrics.cssUnit;
+      const thumbRight = (dragging ? 5 : 6) * metrics.cssUnit;
+      const thumbTop = metrics.maxScroll > 0
         ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel
         : 0;
 
+      // Pin the track to the visible viewport, not the larger layout viewport.
+      scrollbar.style.top = metrics.offsetTop + "px";
+      scrollbar.style.left = (metrics.offsetLeft + metrics.viewportWidth - trackWidth) + "px";
+      scrollbar.style.right = "auto";
+      scrollbar.style.bottom = "auto";
+      scrollbar.style.width = trackWidth + "px";
+      scrollbar.style.height = metrics.viewportHeight + "px";
+
       thumb.style.height = metrics.thumbHeight + "px";
-      thumb.style.transform = "translate3d(0," + top + "px,0)";
+      thumb.style.width = thumbWidth + "px";
+      thumb.style.right = thumbRight + "px";
+      thumb.style.minHeight = (32 * metrics.cssUnit) + "px";
+      thumb.style.transform = "translate3d(0," + thumbTop + "px,0)";
+
       scrollbar.setAttribute(
         "aria-valuenow",
         String(metrics.maxScroll > 0
@@ -241,6 +274,14 @@
       );
       scrollbar.setAttribute("aria-disabled", metrics.maxScroll > 0 ? "false" : "true");
       return metrics;
+    }
+
+    function requestUpdate() {
+      if (updateFrame) return;
+      updateFrame = window.requestAnimationFrame(() => {
+        updateFrame = 0;
+        updateThumb();
+      });
     }
 
     function showThumb() {
@@ -257,16 +298,26 @@
     }
 
     function onScroll() {
-      updateThumb();
+      requestUpdate();
       showThumb();
       scheduleHide();
     }
 
+    function onViewportChange() {
+      requestUpdate();
+      if (scrollbar.classList.contains("is-visible")) scheduleHide();
+    }
+
+    function setDocumentScrollTop(documentTop, metrics) {
+      const layoutTop = clamp(documentTop - metrics.offsetTop, 0, metrics.maxLayoutScroll);
+      scroller.scrollTop = layoutTop;
+    }
+
     function scrollToPointer(clientY, metrics, offset) {
       if (metrics.maxScroll <= 0 || metrics.travel <= 0) return;
-      const bounds = scrollbar.getBoundingClientRect();
-      const wantedTop = clamp(clientY - bounds.top - offset, 0, metrics.travel);
-      window.scrollTo(0, (wantedTop / metrics.travel) * metrics.maxScroll);
+      const wantedTop = clamp(clientY - offset, 0, metrics.travel);
+      const documentTop = (wantedTop / metrics.travel) * metrics.maxScroll;
+      setDocumentScrollTop(documentTop, metrics);
     }
 
     scrollbar.addEventListener("pointerdown", (event) => {
@@ -276,14 +327,16 @@
       showThumb();
       dragging = true;
       scrollbar.classList.add("is-dragging");
-      const bounds = scrollbar.getBoundingClientRect();
-      const pointerY = event.clientY - bounds.top;
+
+      // Pointer coordinates are relative to the visible viewport.
+      const pointerY = clamp(event.clientY, 0, metrics.viewportHeight);
       const currentTop = metrics.maxScroll > 0
         ? (metrics.scrollTop / metrics.maxScroll) * metrics.travel
         : 0;
       dragOffset = event.target === thumb
         ? pointerY - currentTop
         : metrics.thumbHeight / 2;
+      updateThumb();
 
       try {
         scrollbar.setPointerCapture(event.pointerId);
@@ -291,15 +344,14 @@
         // Pointer capture is optional; native document scrolling remains available.
       }
 
-      if (event.target !== thumb) {
-        scrollToPointer(event.clientY, metrics, dragOffset);
-      }
+      if (event.target !== thumb) scrollToPointer(pointerY, metrics, dragOffset);
     });
 
     scrollbar.addEventListener("pointermove", (event) => {
       if (!dragging) return;
-      const metrics = updateThumb();
+      const metrics = getMetrics();
       scrollToPointer(event.clientY, metrics, dragOffset);
+      requestUpdate();
       showThumb();
     });
 
@@ -307,7 +359,7 @@
       if (!dragging) return;
       dragging = false;
       scrollbar.classList.remove("is-dragging");
-      updateThumb();
+      requestUpdate();
       scheduleHide();
     }
 
@@ -319,7 +371,7 @@
       const metrics = getMetrics();
       if (metrics.maxScroll <= 0) return;
       let target = metrics.scrollTop;
-      const pageStep = Math.max(120, metrics.viewport * 0.85);
+      const pageStep = Math.max(120, metrics.viewportHeight * 0.85);
 
       switch (event.key) {
         case "ArrowDown": target += 48; break;
@@ -333,7 +385,8 @@
 
       event.preventDefault();
       showThumb();
-      window.scrollTo(0, clamp(target, 0, metrics.maxScroll));
+      setDocumentScrollTop(clamp(target, 0, metrics.maxScroll), metrics);
+      requestUpdate();
       scheduleHide();
     });
 
@@ -341,15 +394,18 @@
     scrollbar.addEventListener("blur", scheduleHide);
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", () => {
-      updateThumb();
-      if (scrollbar.classList.contains("is-visible")) scheduleHide();
-    }, { passive: true });
-    window.addEventListener("orientationchange", updateThumb, { passive: true });
+    window.addEventListener("resize", onViewportChange, { passive: true });
+    window.addEventListener("orientationchange", onViewportChange, { passive: true });
+
+    if (visualViewport) {
+      visualViewport.addEventListener("scroll", onScroll, { passive: true });
+      visualViewport.addEventListener("resize", onViewportChange, { passive: true });
+    }
 
     if ("ResizeObserver" in window) {
-      const resizeObserver = new ResizeObserver(() => updateThumb());
-      resizeObserver.observe(body);
+      const resizeObserver = new ResizeObserver(requestUpdate);
+      resizeObserver.observe(scroller);
+      if (body !== scroller) resizeObserver.observe(body);
     }
 
     updateThumb();
