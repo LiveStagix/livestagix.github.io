@@ -465,7 +465,7 @@
               </dd>
               <dt>Release repository</dt>
               <dd>
-                <a href="https://github.com/devdas74/LiveWP-Releases">Official APK releases</a>
+                <a href="https://github.com/LiveStagix/LiveWP-Releases">Official APK releases</a>
               </dd>
               <dt>Privacy policy</dt>
               <dd>
@@ -482,7 +482,7 @@
               <dd>
                 <a
                   id="release-tag"
-                  href="https://github.com/devdas74/LiveWP-Releases/releases/latest"
+                  href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
                   >View latest release</a
                 >
               </dd>
@@ -515,11 +515,11 @@
             </p>
             <p style="margin-top: 12px">
               <a
-                href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
                 >Download the latest official APK</a
               >
               ·
-              <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest"
+              <a href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
                 >View release notes</a
               >
             </p>
@@ -637,7 +637,7 @@
 
         <div class="security-note">
           Distribution guidance: use this website and the linked
-          <a href="https://github.com/devdas74/LiveWP-Releases/releases"
+          <a href="https://github.com/LiveStagix/LiveWP-Releases/releases"
             >LiveStagix release repository</a
           >
           for the direct APK. The Google Play link is currently a closed-test route and is available
@@ -647,7 +647,7 @@
         </div>
 
         <div class="security-links">
-          <a href="https://github.com/devdas74/LiveWP-Releases/releases/latest"
+          <a href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
             >Browse official releases ↗</a
           >
           <a
@@ -710,11 +710,11 @@
                   >Join closed test ↗</a
                 >
                 <a
-                  href="https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                  href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
                   >Download latest APK</a
                 >
                 <a
-                  href="https://github.com/devdas74/LiveWP-Releases/releases"
+                  href="https://github.com/LiveStagix/LiveWP-Releases/releases"
                   target="_blank"
                   rel="noopener noreferrer"
                   >All APK releases ↗</a
@@ -1039,7 +1039,7 @@
         async function loadPublishedStatus(expectedSha256, releaseTag) {
           try {
             const statusUrl =
-              "https://raw.githubusercontent.com/devdas74/LiveWP-Releases/Stable/security/scan-status.json";
+              "https://raw.githubusercontent.com/LiveStagix/LiveWP-Releases/Stable/security/scan-status.json";
             const response = await fetch(statusUrl, { cache: "no-cache" });
             if (!response.ok)
               throw new Error("Published verification status returned HTTP " + response.status);
@@ -1069,7 +1069,7 @@
         }
 
         (async function loadLatestReleaseIntegrity() {
-          const apiUrl = "https://api.github.com/repos/devdas74/LiveWP-Releases/releases/latest";
+          const apiUrl = "https://api.github.com/repos/LiveStagix/LiveWP-Releases/releases/latest";
           let currentReleaseTag = "";
           try {
             const response = await fetch(apiUrl, {
@@ -1094,7 +1094,7 @@
             if (tag) {
               tag.textContent = release.tag_name || "View latest release";
               tag.href =
-                release.html_url || "https://github.com/devdas74/LiveWP-Releases/releases/latest";
+                release.html_url || "https://github.com/LiveStagix/LiveWP-Releases/releases/latest";
             }
 
             setText("release-title", release.name || release.tag_name || "Latest LiveStagix APK");
