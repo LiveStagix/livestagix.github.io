@@ -17,8 +17,8 @@ This is a lightweight static site built with HTML, CSS and vanilla JavaScript. G
 
 The primary website download points directly to the APK asset in the public release repository. The site does not store duplicate APK files. The download button uses GitHub's latest-release route, while the release card reads the current tag, publication date, file size and SHA-256 digest from the public GitHub Releases API. If release metadata is unavailable, the direct download link remains usable.
 
-- **Direct APK download:** https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk
-- **All APK releases and release notes:** https://github.com/devdas74/LiveWP-Releases/releases
+- **Direct APK download:** https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk
+- **All APK releases and release notes:** https://github.com/LiveStagix/LiveWP-Releases/releases
 - **Google Play listing:** https://play.google.com/store/apps/details?id=com.livewp.app
 - **Google Play closed-test opt-in:** https://play.google.com/apps/testing/com.livewp.app
 - **Privacy Policy:** https://livestagix.github.io/privacy-policy/
@@ -27,6 +27,6 @@ The Google Play closed test is restricted to eligible testers configured through
 
 ## Maintenance
 
-Publish official APK assets in `devdas74/LiveWP-Releases` using the consistent filename `LiveStagix_beta.apk`. The website's latest-download route follows the newest published GitHub release automatically. Keep the asset filename consistent so the download button continues to resolve.
+Publish official APK assets in `LiveStagix/LiveWP-Releases` using the consistent filename `LiveStagix_beta.apk`. The website's latest-download route follows the newest published GitHub release automatically. Keep the asset filename consistent so the download button continues to resolve.
 
 © LiveStagix
