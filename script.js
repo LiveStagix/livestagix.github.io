@@ -53,7 +53,7 @@
   setInterval(updatePhoneClock, 15000);
 
   const latestApkUrl =
-    "https://github.com/devdas74/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
+    "https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk";
   const releaseMetadataUrl = "/release.json";
   const heroDownload = document.getElementById("hero-download-apk");
   const downloadApk = document.getElementById("download-apk");
