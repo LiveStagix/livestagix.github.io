@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08090e" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="The full LiveStagix user guide: choose and prepare wallpapers, configure photo motion and video enhancements, frame media, use Media Tuner, apply wallpapers and manage backups."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://livestagix.github.io/user-guide/" />
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="LiveStagix User Guide" />
+    <meta
+      property="og:description"
+      content="Learn how to prepare, customize, apply and manage photo and video live wallpapers with LiveStagix."
+    />
+    <meta property="og:url" content="https://livestagix.github.io/user-guide/" />
+    <title>LiveStagix User Guide — Setup, Motion, Tuning &amp; Backup</title>
+    <link rel="stylesheet" href="../styles.css?v=sha256-197d61e5808f" />
+    <style>
+      .guide-main {
+        width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), 1180px);
+        max-width: 100%;
+        margin-inline: auto;
+        padding: clamp(58px, 8vw, 94px) 0 100px;
+      }
+      .guide-kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #aeb6ca;
+        font-size: 0.68rem;
+        font-weight: 850;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .guide-kicker::before {
+        content: "";
+        width: 26px;
+        height: 1px;
+        background: linear-gradient(90deg, var(--cyan), var(--violet));
+      }
+      .guide-hero h1 {
+        max-width: 900px;
+        margin: 20px 0 18px;
+        font-size: clamp(2.9rem, 7vw, 5.8rem);
+        line-height: 0.98;
+        letter-spacing: -0.075em;
+        font-weight: 820;
+      }
+      .guide-hero h1 span {
+        color: transparent;
+        background: linear-gradient(100deg, #82efff 4%, #8f9bff 52%, #c69bff 97%);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+      .guide-lead {
+        max-width: 820px;
+        color: var(--muted);
+        font-size: clamp(0.96rem, 1.5vw, 1.08rem);
+        line-height: 1.85;
+      }
+      .guide-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 21px;
+      }
+      .guide-meta span {
+        padding: 6px 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff04;
+        color: #aeb6ca;
+        font-size: 0.72rem;
+      }
+      .guide-layout {
+        display: grid;
+        grid-template-columns: 226px minmax(0, 1fr);
+        align-items: start;
+        gap: clamp(20px, 3.5vw, 42px);
+        margin-top: 45px;
+      }
+      .guide-toc {
+        position: sticky;
+        top: 108px;
+        display: grid;
+        gap: 5px;
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(14, 16, 25, 0.82);
+        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px);
+      }
+      .guide-toc-label {
+        padding: 5px 9px 8px;
+        color: #7f8aa5;
+        font-size: 0.62rem;
+        font-weight: 850;
+        letter-spacing: 0.15em;
+      }
+      .guide-toc a {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 10px;
+        border-radius: 10px;
+        color: #aeb6ca;
+        font-size: 0.76rem;
+        font-weight: 650;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .guide-toc a:hover,
+      .guide-toc a:focus-visible {
+        color: #f3f5ff;
+        background: rgba(98, 231, 255, 0.07);
+      }
+      .guide-toc a span {
+        color: #68738e;
+        font-size: 0.64rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .guide-content {
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+      .guide-section {
+        scroll-margin-top: 106px;
+        padding: clamp(20px, 3vw, 30px);
+        border: 1px solid var(--line);
+        border-radius: 23px;
+        background:
+          radial-gradient(ellipse at 0 0, rgba(98, 231, 255, 0.035), transparent 55%),
+          linear-gradient(145deg, rgba(17, 19, 29, 0.96), rgba(10, 12, 19, 0.94));
+        box-shadow: 0 22px 70px #0002;
+      }
+      .guide-section-kicker {
+        margin: 0 0 9px;
+        color: #91cfe0;
+        font-size: 0.64rem;
+        font-weight: 850;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .guide-section h2 {
+        margin: 0 0 14px;
+        color: #f3f5ff;
+        font-size: clamp(1.35rem, 2.8vw, 1.8rem);
+        line-height: 1.15;
+        letter-spacing: -0.045em;
+      }
+      .guide-section h3 {
+        margin: 23px 0 8px;
+        color: #e7ebfa;
+        font-size: 1.02rem;
+        letter-spacing: -0.025em;
+      }
+      .guide-section h3:first-child {
+        margin-top: 0;
+      }
+      .guide-section p,
+      .guide-section li {
+        color: #aeb6ca;
+        font-size: 0.86rem;
+        line-height: 1.85;
+      }
+      .guide-section p {
+        margin: 0 0 12px;
+      }
+      .guide-section p:last-child {
+        margin-bottom: 0;
+      }
+      .guide-section ul,
+      .guide-section ol {
+        display: grid;
+        gap: 7px;
+        padding-left: 21px;
+        margin: 10px 0 15px;
+      }
+      .guide-section li::marker {
+        color: #79dff0;
+      }
+      .guide-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 15px;
+      }
+      .guide-card {
+        min-width: 0;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .guide-card h3 {
+        margin: 0 0 7px;
+        font-size: 0.94rem;
+      }
+      .guide-card p {
+        margin: 0;
+        font-size: 0.8rem;
+      }
+      .guide-tag {
+        display: inline-flex;
+        align-items: center;
+        margin: 0 0 10px;
+        padding: 4px 8px;
+        border: 1px solid rgba(181, 139, 255, 0.2);
+        border-radius: 999px;
+        color: #c5a9ff;
+        background: rgba(181, 139, 255, 0.07);
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .guide-note {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border: 1px solid rgba(98, 231, 255, 0.15);
+        border-left: 2px solid var(--cyan);
+        border-radius: 12px;
+        background: rgba(98, 231, 255, 0.045);
+        color: #bdc8dc;
+        font-size: 0.81rem;
+        line-height: 1.8;
+      }
+      .guide-note strong,
+      .guide-section strong {
+        color: #e8edff;
+      }
+      .guide-section a {
+        color: #b6eefa;
+        text-decoration: underline;
+        text-decoration-color: #62e7ff65;
+        text-underline-offset: 3px;
+        overflow-wrap: anywhere;
+      }
+      .guide-section a:hover {
+        color: #fff;
+      }
+      .guide-steps {
+        display: grid;
+        gap: 12px;
+        margin-top: 17px;
+        counter-reset: guide-step;
+      }
+      .guide-step {
+        position: relative;
+        padding: 15px 16px 15px 56px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+        counter-increment: guide-step;
+      }
+      .guide-step::before {
+        content: counter(guide-step, decimal-leading-zero);
+        position: absolute;
+        top: 15px;
+        left: 16px;
+        color: #87e7f4;
+        font-size: 0.73rem;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+      }
+      .guide-step h3 {
+        margin: 0 0 5px;
+        font-size: 0.91rem;
+      }
+      .guide-step p {
+        margin: 0;
+        font-size: 0.8rem;
+      }
+      .guide-faq {
+        display: grid;
+        gap: 8px;
+        margin-top: 15px;
+      }
+      .guide-faq details {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .guide-faq summary {
+        cursor: pointer;
+        padding: 13px 15px;
+        color: #e5eaf9;
+        font-size: 0.83rem;
+        font-weight: 750;
+      }
+      .guide-faq details p {
+        padding: 0 15px 14px;
+        margin: 0;
+        font-size: 0.8rem;
+      }
+      .guide-end {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 20px;
+        padding: 18px 20px;
+        border: 1px solid rgba(181, 139, 255, 0.19);
+        border-radius: 16px;
+        background: linear-gradient(110deg, rgba(98, 231, 255, 0.045), rgba(181, 139, 255, 0.06));
+      }
+      .guide-end p {
+        margin: 0;
+        color: #bdc8dc;
+        font-size: 0.82rem;
+      }
+      .guide-end a {
+        color: #e9efff;
+        font-size: 0.8rem;
+        font-weight: 850;
+      }
+      @media (max-width: 850px) {
+        .guide-main {
+          padding-top: 54px;
+          padding-bottom: 70px;
+        }
+        .guide-layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 17px;
+          margin-top: 29px;
+        }
+        .guide-toc {
+          position: static;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          overflow-x: auto;
+          padding: 9px;
+          scrollbar-width: none;
+        }
+        .guide-toc::-webkit-scrollbar {
+          display: none;
+        }
+        .guide-toc-label {
+          display: none;
+        }
+        .guide-toc a {
+          flex: 0 0 auto;
+          white-space: nowrap;
+        }
+        .guide-section {
+          scroll-margin-top: 24px;
+        }
+      }
+      @media (max-width: 560px) {
+        .guide-grid {
+          grid-template-columns: 1fr;
+        }
+        .guide-section {
+          border-radius: 18px;
+        }
+        .guide-section p,
+        .guide-section li {
+          font-size: 0.82rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+          <span class="brand-mark" aria-hidden="true"
+            ><img
+              src="/public/Small%20round%20icon%20192.webp"
+              alt="LiveStagix logo"
+              width="192"
+              height="192"
+              decoding="async"
+          /></span>
+          <span class="brand-word"
+            >LiveStagix<span class="brand-period">.</span
+            ><small>ANDROID WALLPAPER ENGINE</small></span
+          >
+        </a>
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open navigation"
+        >
+          <span></span><span></span>
+        </button>
+        <nav class="nav" id="primary-nav" aria-label="Primary navigation">
+          <div class="nav-group" role="group" aria-label="Explore">
+            <span class="nav-group-label">Explore</span>
+            <a href="https://livestagix.github.io/#experience">Experience</a>
+            <a href="https://livestagix.github.io/#features">Features</a>
+            <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
+            <a href="https://livestagix.github.io/user-guide/" aria-current="page">User Guide</a>
+            <a href="https://livestagix.github.io/#how-it-works">How it works</a>
+            <a href="https://livestagix.github.io/#performance">The engine</a>
+            <a href="https://livestagix.github.io/#faq">FAQ</a>
+          </div>
+          <div class="nav-group" role="group" aria-label="Project">
+            <span class="nav-group-label">Project</span>
+            <a href="https://livestagix.github.io/about/">About</a>
+            <a href="https://livestagix.github.io/privacy-policy/">Privacy</a>
+            <a href="https://livestagix.github.io/security/">Security</a>
+            <a href="https://livestagix.github.io/#download">Download</a>
+          </div>
+        </nav>
+        <a class="nav-cta" href="https://livestagix.github.io/#download">
+          Download APK <span aria-hidden="true">↓</span>
+        </a>
+      </header>
+
+      <main id="main" class="guide-main">
+        <section class="guide-hero" id="top">
+          <p class="guide-kicker">LiveStagix / Help centre</p>
+          <h1>Make your screen<br /><span>your own.</span></h1>
+          <p class="guide-lead">
+            Learn how to prepare photo and video wallpapers, configure motion and enhancements,
+            frame your media, create tuned versions, apply wallpapers and manage your backups.
+            This guide is public, so you can read it before or after installing the app.
+          </p>
+          <div class="guide-meta">
+            <span>Photo + video</span>
+            <span>Motion controls</span>
+            <span>Media tuning</span>
+            <span>Prepared Media &amp; backup</span>
+          </div>
+        </section>
+
+        <div class="guide-layout">
+          <nav class="guide-toc" aria-label="On this page">
+            <span class="guide-toc-label">ON THIS PAGE</span>
+            <a href="#getting-started"><span>01</span> Getting started</a>
+            <a href="#photo-motion"><span>02</span> Photo Motion</a>
+            <a href="#video-enhancements"><span>03</span> Video enhancements</a>
+            <a href="#crop-frame"><span>04</span> Crop &amp; Frame</a>
+            <a href="#media-tuner"><span>05</span> Media Tuner</a>
+            <a href="#apply-wallpaper"><span>06</span> Apply wallpaper</a>
+            <a href="#prepared-media"><span>07</span> Prepared Media &amp; backup</a>
+            <a href="#advanced-settings"><span>08</span> Advanced Settings</a>
+            <a href="#troubleshooting"><span>09</span> Troubleshooting</a>
+          </nav>
+
+          <div class="guide-content">
+            <section class="guide-section" id="getting-started">
+              <p class="guide-section-kicker">01 / First run</p>
+              <h2>Getting started</h2>
+              <p>
+                LiveStagix uses a preparation step to create media that is ready for the live
+                wallpaper engine. Start with one photo or video from your device.
+              </p>
+              <div class="guide-steps">
+                <article class="guide-step">
+                  <h3>Choose your media</h3>
+                  <p>
+                    Tap <strong>Choose Media</strong>. Select <strong>Photos &amp; videos</strong>
+                    to use the Android photo picker, or choose <strong>Browse device files</strong>
+                    to open folders and document providers. Web Wallpaper Search is another way
+                    to find online media; it requires an internet connection.
+                  </p>
+                </article>
+                <article class="guide-step">
+                  <h3>Choose the controls for that media type</h3>
+                  <p>
+                    Photos can use the <strong>Motion</strong> controls. Videos use
+                    <strong>Enhancements</strong>. The two panels are labelled Photo and Video in
+                    Controls, and unavailable controls are disabled for the other media type.
+                  </p>
+                </article>
+                <article class="guide-step">
+                  <h3>Open LiveStage and frame the media</h3>
+                  <p>
+                    Tap <strong>LiveStage</strong> at the top of Controls. Reposition and frame the
+                    image or video in the preview. Use Orientation for original media when a
+                    rotation is needed.
+                  </p>
+                </article>
+                <article class="guide-step">
+                  <h3>Prepare and apply</h3>
+                  <p>
+                    Tap <strong>Prepare</strong> and let preparation finish. Then tap
+                    <strong>Set as Wallpaper</strong>, choose Home, Lock or Both when the choices
+                    are offered, and complete Android's wallpaper preview and confirmation.
+                  </p>
+                </article>
+              </div>
+              <div class="guide-note">
+                <strong>Already prepared this media?</strong> Open Prepared Media from Controls to
+                reuse a prepared version instead of preparing the source again.
+              </div>
+            </section>
+
+            <section class="guide-section" id="photo-motion">
+              <p class="guide-section-kicker">02 / Photos only</p>
+              <h2>Photo Motion</h2>
+              <p>
+                Motion responds to the phone's movement and is available for photo wallpapers.
+                Open the <strong>Motion</strong> card in Controls, then choose the movement style
+                you want to use. Try one mode at a time while learning how each one feels.
+              </p>
+              <div class="guide-grid">
+                <article class="guide-card">
+                  <span class="guide-tag">2D Motion</span>
+                  <h3>Pan across the image</h3>
+                  <p>
+                    Moves the photo horizontally and vertically as the phone tilts. Sensitivity
+                    controls how strongly the image responds on the X and Y axes. Axis inversion
+                    reverses the corresponding direction.
+                  </p>
+                </article>
+                <article class="guide-card">
+                  <span class="guide-tag">3D Motion</span>
+                  <h3>Tilt and depth</h3>
+                  <p>
+                    Adds perspective movement through Roll, Pitch and Depth. Each axis has its own
+                    sensitivity and recovery behaviour. Speed limits help control how quickly the
+                    effect moves.
+                  </p>
+                </article>
+                <article class="guide-card">
+                  <span class="guide-tag">Rotation</span>
+                  <h3>Z-axis movement</h3>
+                  <p>
+                    Adds a separate rotational effect. Its sensitivity, recovery and rotation
+                    speed limit can be adjusted independently of 2D and 3D movement.
+                  </p>
+                </article>
+                <article class="guide-card">
+                  <span class="guide-tag">Edge Safety</span>
+                  <h3>Help keep the frame filled</h3>
+                  <p>
+                    Adjusts the zoom response during motion to help prevent empty areas from
+                    appearing around the edge of the wallpaper.
+                  </p>
+                </article>
+              </div>
+
+              <h3>Understanding the motion settings</h3>
+              <p>
+                Expand a motion mode to reveal its settings. The settings are organised into
+                <strong>Sensitivity</strong>, <strong>Stabilisation</strong> and
+                <strong>Advanced</strong> groups. Open a group to adjust it; tap outside the
+                expanded group to move back one level, then tap outside the Motion card to close
+                it after returning to the main rows.
+              </p>
+              <ul>
+                <li>
+                  <strong>Sensitivity:</strong> controls how much the image responds to phone
+                  movement. 2D has separate horizontal and vertical sensitivity; 3D separates
+                  Roll, Pitch and Depth.
+                </li>
+                <li>
+                  <strong>Stabilisation:</strong> controls how motion settles back toward its
+                  resting position. Recovery controls are available for the relevant axes.
+                </li>
+                <li>
+                  <strong>Advanced:</strong> provides additional rate and speed controls. 3D
+                  includes depth and zoom recovery options; Rotation has its own Z-axis speed
+                  limit.
+                </li>
+              </ul>
+
+              <h3>More Motion Settings</h3>
+              <p>
+                Open <strong>More Motion Settings</strong> for Safety Zoom Response,
+                <strong>Quick Presets</strong> and <strong>Reset to Defaults</strong>. Quick
+                Presets combine sensitivity levels from 1× to 4× with Gentle, Balanced or Fast
+                stabilisation. Use a preset as a starting point, then fine-tune individual
+                controls.
+              </p>
+              <div class="guide-note">
+                Motion is for photos. Video playback does not use these photo motion controls.
+                Keep Edge Safety and motion sensitivity balanced: stronger movement can need more
+                frame coverage.
+              </div>
+            </section>
+
+            <section class="guide-section" id="video-enhancements">
+              <p class="guide-section-kicker">03 / Videos only</p>
+              <h2>Video Enhancements</h2>
+              <p>
+                The <strong>Enhancements</strong> card in Controls contains video playback
+                options. Their actual activity depends on the video, display, supported processing
+                path and available device performance.
+              </p>
+              <div class="guide-grid">
+                <article class="guide-card">
+                  <span class="guide-tag">Frame Interpolation</span>
+                  <h3>Smoother movement</h3>
+                  <p>
+                    Creates intermediate frames between source frames to make eligible video
+                    movement appear smoother. Turn it on and adjust <strong>Interpolation
+                    Strength</strong> to control the effect.
+                  </p>
+                </article>
+                <article class="guide-card">
+                  <span class="guide-tag">Smart Upscale</span>
+                  <h3>Video scaling and sharpening</h3>
+                  <p>
+                    Select <strong>Auto</strong> to let the device profile choose a suitable path,
+                    or choose an available method such as <strong>Snapdragon GSR (SGSR)</strong>,
+                    <strong>AMD RCAS</strong> or <strong>Linear Sharpener</strong>.
+                  </p>
+                </article>
+              </div>
+              <h3>Performance vs Quality</h3>
+              <p>
+                The Smart Upscale slider balances processing preference against image quality.
+                Moving toward Performance favours a lighter path; moving toward Quality favours
+                stronger processing. A more demanding option is not automatically better on every
+                device.
+              </p>
+              <div class="guide-note">
+                <strong>Enabled does not always mean active.</strong> A feature can remain enabled
+                while the current video or device conditions make it ineligible to process. Check
+                its active status and try Auto or a lighter setting when playback is not smooth.
+              </div>
+            </section>
+
+            <section class="guide-section" id="crop-frame">
+              <p class="guide-section-kicker">04 / LiveStage</p>
+              <h2>Crop &amp; Frame</h2>
+              <p>
+                Use the crop/framing tool on LiveStage to position the media within the wallpaper
+                preview. This is useful when the source image or video has a different shape from
+                the phone screen.
+              </p>
+              <ul>
+                <li><strong>Reposition:</strong> drag the media in the preview to move the visible
+                  area into the composition you want.</li>
+                <li><strong>Zoom:</strong> change the media scale. Zooming out can reveal space
+                  around the source media.</li>
+                <li><strong>Background:</strong> when zoomed out, choose a blurred background or a
+                  solid colour fill.</li>
+                <li><strong>Blur:</strong> when zoomed out with Background set to Blur, adjust how
+                  strongly the enlarged background is blurred.</li>
+                <li><strong>Brightness:</strong> with the same zoomed-out Blur background, adjust
+                  the background brightness.</li>
+                <li><strong>Feather:</strong> soften the transition at the edge of the main media
+                  when using the zoomed-out background. A value of zero keeps the edge sharp.</li>
+              </ul>
+              <p>
+                Zoom, Blur, Brightness and Feather open one adjustment slider at a time. Tap the
+                selected control again to close its slider. Some controls remain unavailable
+                until their required zoom/background conditions are met.
+              </p>
+              <h3>Preview and movement tools</h3>
+              <p>
+                The phone-shaped preview button simulates the wallpaper with home-screen elements
+                such as icons and a clock. For photos, the compass can simulate a handheld tilt,
+                while the gauge can show live motion and scale readings. These are preview aids;
+                they do not change the original media file.
+              </p>
+              <h3>Orientation</h3>
+              <p>
+                Use the Orientation control on LiveStage to choose Original, 90°, 180° or 270°
+                rotation for original media. The control is hidden while viewing prepared media.
+              </p>
+            </section>
+
+            <section class="guide-section" id="media-tuner">
+              <p class="guide-section-kicker">05 / Photo &amp; video</p>
+              <h2>Media Tuner</h2>
+              <p>
+                Open Media Tuner from the sliders icon on the LiveStage toolbar when a prepared
+                wallpaper is ready. It adjusts the current prepared media, not the original source
+                file.
+              </p>
+              <div class="guide-grid">
+                <article class="guide-card">
+                  <h3>Light</h3>
+                  <p>Brightness, Contrast, Highlights and Shadows adjust overall light and tonal
+                    balance.</p>
+                </article>
+                <article class="guide-card">
+                  <h3>Color</h3>
+                  <p>Saturation and Temperature adjust colour intensity and the warmer or cooler
+                    appearance.</p>
+                </article>
+                <article class="guide-card">
+                  <h3>Details</h3>
+                  <p>Denoise reduces noise; Structure adjusts local texture; Sharpness enhances
+                    edge definition.</p>
+                </article>
+                <article class="guide-card">
+                  <h3>Before / After</h3>
+                  <p>Press and hold <strong>Before</strong> to compare the unadjusted preview with
+                    your current tuning.</p>
+                </article>
+              </div>
+              <p>
+                Use <strong>Reset</strong> to return the tuning controls to their default values.
+                Applying your edits creates a separate <strong>Tuned</strong> prepared version;
+                the base prepared version remains available. Applying a tune does not automatically
+                replace the wallpaper already active in Android. Set the tuned version as wallpaper
+                when you are ready.
+              </p>
+            </section>
+
+            <section class="guide-section" id="apply-wallpaper">
+              <p class="guide-section-kicker">06 / Android setup</p>
+              <h2>Apply a wallpaper</h2>
+              <ol>
+                <li>On LiveStage, make sure the intended media is selected and preparation has
+                  finished.</li>
+                <li>Tap <strong>Set as Wallpaper</strong>. Choose <strong>Home</strong>,
+                  <strong>Lock</strong> or <strong>Both</strong> when those choices are shown.</li>
+                <li>Android opens its wallpaper preview/confirmation flow. Review the preview and
+                  confirm the destination in the system interface.</li>
+                <li>Return to LiveStagix and allow the app to update its wallpaper status.</li>
+              </ol>
+              <h3>Wallpaper ownership and the ready state</h3>
+              <p>
+                LiveStagix checks which screen destinations are currently using its wallpaper.
+                The app's compact resting view is associated with both Home and Lock being owned by
+                LiveStagix; owning only one screen does not mean both destinations are set. When
+                you select a new media item, return to the controls and follow the available
+                Set as Wallpaper action again.
+              </p>
+              <div class="guide-note">
+                Android manufacturers can customise the wallpaper confirmation flow. The exact
+                wording and whether Home, Lock or Both is offered can vary by device and Android
+                version.
+              </div>
+              <p>
+                On some devices, replacing an existing LiveStagix wallpaper may also remove the
+                current Lock screen wallpaper. If that happens, set your preferred Lock screen
+                wallpaper again from your phone's wallpaper settings.
+              </p>
+            </section>
+
+            <section class="guide-section" id="prepared-media">
+              <p class="guide-section-kicker">07 / Your library</p>
+              <h2>Prepared Media &amp; Local Backup</h2>
+              <p>
+                Open <strong>Prepared Media</strong> from Controls to find and manage wallpaper
+                versions that have already been prepared. Use the three-dot menu for library and
+                storage actions.
+              </p>
+              <h3>Prepared Media menu</h3>
+              <ul>
+                <li><strong>Restore:</strong> checks the available backup location, restores
+                  verified prepared copies that are missing or fail integrity checks, and can
+                  rebuild missing library entries from healthy files already stored privately.</li>
+                <li><strong>Clear all:</strong> removes prepared-media entries and their managed
+                  files. Review the confirmation carefully before clearing.</li>
+                <li><strong>Storage information:</strong> review the space used by prepared media.</li>
+                <li><strong>Local backup:</strong> choose whether to copy supported app data and
+                  retained prepared media to a user-selected shared folder.</li>
+              </ul>
+              <h3>Choose a backup folder</h3>
+              <p>
+                Enable Local backup from the Prepared Media menu and use the Android folder picker
+                to select a location you control, such as a folder in Documents, Downloads,
+                Pictures or Videos. Once enabled, LiveStagix copies its configuration, retained
+                prepared media and the current log to that selected location. Keep the selected
+                folder accessible when you want to restore from it.
+              </p>
+              <p>
+                When Local backup is off, LiveStagix keeps its working data in private app
+                storage. Turning Local backup off stops future shared-storage reads and writes;
+                backup files already created in the selected folder are left untouched. Restore
+                is available from the menu and checks the backup location when you tap it.
+              </p>
+              <div class="guide-note">
+                A backup is useful only when its folder remains available. Avoid deleting or
+                moving the LiveStagix backup folder if you may need to restore from it later.
+              </div>
+            </section>
+
+            <section class="guide-section" id="advanced-settings">
+              <p class="guide-section-kicker">08 / Preferences</p>
+              <h2>Advanced Settings</h2>
+              <p>
+                Open Advanced Settings from the app's settings control to manage app preferences,
+                rendering and diagnostics. Some options are device- or distribution-dependent.
+              </p>
+              <h3>Theme and renderer</h3>
+              <ul>
+                <li><strong>Theme:</strong> choose the available System, Dark or Light appearance.</li>
+                <li><strong>Renderer:</strong> Auto lets the app choose a suitable backend;
+                  Modern uses the modern rendering path; Compatibility selects the compatibility
+                  path when supported. The active backend can differ from the requested setting
+                  when a backend is unavailable.</li>
+              </ul>
+              <h3>Updates</h3>
+              <p>
+                LiveStagix checks for updates when the app opens and when it returns to the
+                foreground. You can also check manually from Advanced Settings. If you choose
+                <strong>Not now</strong> for an available update, that version's popup is
+                dismissed while a reminder shortcut remains available in the app.
+              </p>
+              <h3>Diagnostics and privacy</h3>
+              <p>
+                Optional diagnostic and event-recording controls are available for troubleshooting.
+                Enable them only when needed and use the app's available log/backup controls to
+                manage the resulting files. Read the <a href="/privacy-policy/">Privacy Policy</a>
+                to understand how app data is handled. The
+                <a href="/security/">Security &amp; Integrity</a> page explains release
+                verification information.
+              </p>
+            </section>
+
+            <section class="guide-section" id="troubleshooting">
+              <p class="guide-section-kicker">09 / Quick help</p>
+              <h2>Troubleshooting</h2>
+              <div class="guide-faq">
+                <details>
+                  <summary>Why are Motion controls unavailable?</summary>
+                  <p>Photo Motion is designed for photo wallpapers. Select a photo to use 2D,
+                    3D or Rotation controls. Video uses the Enhancements panel instead.</p>
+                </details>
+                <details>
+                  <summary>Why are Video Enhancements unavailable?</summary>
+                  <p>Enhancements are for video playback. Select a video to access Frame
+                    Interpolation and Smart Upscale options.</p>
+                </details>
+                <details>
+                  <summary>Why is Smart Upscale enabled but not active?</summary>
+                  <p>Enabled is the selected preference; active means the current video and device
+                    conditions allow that processing path to run. Try Auto or a lighter quality
+                    setting if playback performance is affected.</p>
+                </details>
+                <details>
+                  <summary>Why can't I adjust Blur or Brightness in Crop &amp; Frame?</summary>
+                  <p>Those background adjustments require the media to be zoomed out and
+                    Background to be set to Blur. Feather is also intended for the zoomed-out
+                    background blend.</p>
+                </details>
+                <details>
+                  <summary>Does tuning change my original photo or video?</summary>
+                  <p>No. Media Tuner works on prepared media and creates a separate Tuned prepared
+                    version when you apply the changes.</p>
+                </details>
+                <details>
+                  <summary>What if a prepared item is missing?</summary>
+                  <p>Open Prepared Media, choose Restore from its three-dot menu and let
+                    LiveStagix check the configured backup location and repair eligible library
+                    entries.</p>
+                </details>
+                <details>
+                  <summary>Why does the wallpaper look or behave differently on another phone?</summary>
+                  <p>Android wallpaper behaviour, GPU capability, refresh rate, codecs and
+                    manufacturer background restrictions vary. A setting that works on one phone
+                    may use a different processing path or be unavailable on another.</p>
+                </details>
+              </div>
+            </section>
+
+            <div class="guide-end">
+              <p>Need the app or the latest release? Visit the official LiveStagix homepage.</p>
+              <a href="https://livestagix.github.io/">Visit LiveStagix ↗</a>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-main">
+            <div class="footer-identity">
+              <a class="brand footer-brand" href="https://livestagix.github.io/" aria-label="LiveStagix home">
+                <span class="brand-mark" aria-hidden="true"
+                  ><img
+                    src="/public/Small%20round%20icon%20192.webp"
+                    alt=""
+                    width="46"
+                    height="46"
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <span class="brand-word"
+                  >LiveStagix<span class="brand-period">.</span
+                  ><small>YOUR SCREEN, IN MOTION.</small></span
+                >
+              </a>
+              <p class="footer-description">A live wallpaper experience for Android.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">EXPLORE</summary>
+                <a href="https://livestagix.github.io/#experience">Experience</a>
+                <a href="https://livestagix.github.io/#features">Features</a>
+                <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
+                <a href="https://livestagix.github.io/user-guide/" aria-current="page">User Guide</a>
+                <a href="https://livestagix.github.io/#performance">The engine</a>
+                <a href="https://livestagix.github.io/#faq">FAQ</a>
+                <a href="https://livestagix.github.io/about/">About &amp; developer</a>
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">GET THE APP</summary>
+                <a href="https://play.google.com/store/apps/details?id=com.livewp.app" target="_blank" rel="noopener noreferrer">Google Play ↗</a>
+                <a href="https://play.google.com/apps/testing/com.livewp.app" target="_blank" rel="noopener noreferrer">Join closed test ↗</a>
+                <a href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk">Download latest APK</a>
+                <a href="https://github.com/LiveStagix/LiveWP-Releases/releases" target="_blank" rel="noopener noreferrer">All APK releases ↗</a>
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">PROJECT</summary>
+                <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer">Developer profile ↗</a>
+                <a href="https://github.com/LiveStagix/livestagix.github.io" target="_blank" rel="noopener noreferrer">Website source ↗</a>
+                <a href="https://github.com/sponsors/devdas74" target="_blank" rel="noopener noreferrer">Support the project ↗</a>
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">TRUST</summary>
+                <a href="https://livestagix.github.io/privacy-policy/">Privacy Policy</a>
+                <a href="https://livestagix.github.io/security/">Security &amp; Integrity</a>
+              </details>
+            </nav>
+          </div>
+          <div class="footer-bottom">
+            <span>© <span id="year"></span> LiveStagix</span>
+            <span class="footer-motto">Made for screens that deserve more.</span>
+            <a class="footer-back-top" href="#">Back to top <span aria-hidden="true">↑</span></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="../script.js?v=20261101-container-query-nav-v1" defer></script>
+  </body>
+</html>
