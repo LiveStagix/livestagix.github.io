@@ -7,9 +7,13 @@ This is a lightweight static site built with HTML, CSS and vanilla JavaScript. G
 ## Site structure
 
 - **index.html** — product landing page, features, direct APK download, Google Play links and FAQ
+- **user-guide/index.html** — public, full LiveStagix user guide
+- **about/index.html**, **privacy-policy/index.html** and **security/index.html** — public project, privacy and release-verification pages
+- **_includes/header.html** and **_includes/footer.html** — single shared source for site-wide navigation and footer
 - **styles.css** — responsive dark visual design, glass surfaces, CSS device mockups and motion
 - **script.js** — accessible mobile navigation, in-page scrolling, phone-clock display, reveal animations and latest-release metadata
-- **privacy-policy/index.html** — public privacy policy
+
+GitHub Pages uses its built-in Jekyll processing to insert the shared HTML includes at publish time. The published pages remain complete static HTML; there is no client-side template fetch or added runtime framework.
 - **social-preview.png** — public 1200×630 social preview served to link unfurlers
 - **social-preview.svg** — source artwork for the social preview image
 
