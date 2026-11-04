@@ -168,8 +168,11 @@ active_nav: "privacy"
           processing and active app data are kept on your device in app-private storage. Local
           backup is optional and off by default. When enabled, LiveStagix can copy your user
           configuration, retained prepared media and diagnostic logs to a permitted folder you
-          select or to <code>Download/LiveWP/</code> on Android 10 and newer. LiveStagix does not
-          operate a cloud backup service or upload these app files to a LiveStagix server.
+          select or to <code>Download/LiveWP/</code> on Android 10 and newer. The separate
+          <strong>Hide from Gallery</strong> option is off by default and can create or remove an
+          empty <code>.nomedia</code> marker in an eligible, accessible <code>LiveWP/</code> folder.
+          LiveStagix does not operate a cloud backup service or upload these app files to a
+          LiveStagix server.
         </p>
         <div class="policy-meta">
           <span>Last updated: November 4, 2026</span
@@ -224,6 +227,17 @@ active_nav: "privacy"
                 permission granted by Android. LiveStagix does not operate a backup server; if the
                 selected location is managed by another storage provider, that provider's own
                 privacy practices apply.
+              </li>
+              <li>
+                <strong>Hide from Gallery:</strong> This optional setting is off by default and is
+                separate from the Local backup switch. When you enable it, LiveStagix creates an
+                empty <code>.nomedia</code> marker in the accessible app-managed
+                <code>LiveWP/</code> folder. Android media scanners that respect this marker normally
+                skip supported media in that folder and its subfolders. Turning the setting off
+                removes the marker; it does not delete or change the media files. The setting can be
+                changed while Local backup is off, provided the selected destination remains
+                accessible. The marker does not restrict other apps that already have storage access
+                and does not control syncing by another storage provider.
               </li>
               <li>
                 <strong>Restoration:</strong> When a Local backup location is selected or
@@ -340,13 +354,16 @@ active_nav: "privacy"
             <p>
               LiveStagix uses Android system features and permissions for wallpaper setup, media you
               choose to import, internet access for web search and related requests, notifications
-              where needed for ongoing services, and the optional floating overlay. If you enable
-              Local backup, the app uses Android's Storage Access Framework to request access to the
-              folder you select. Alternatively, on Android 10 and newer, it can create backup files
-              in <code>Download/LiveWP/</code> using Android's shared-media storage APIs. Android
-              controls the access available to each location, and access may vary by Android version
-              and document provider. You can review app permissions in Android Settings and change
-              the Local backup location from within the app.
+              where needed for ongoing services, and the optional floating overlay. When you select
+              a user-managed folder, the app uses the Storage Access Framework access granted for
+              that location. Local backup uses the destination when its switch is on. The separate
+              Hide from Gallery setting can create or remove the <code>.nomedia</code> marker in an
+              eligible, accessible <code>LiveWP/</code> folder even while Local backup is off. On
+              Android 10 and newer, the app can also manage files in <code>Download/LiveWP/</code>
+              using Android's shared-media storage APIs. Android controls the access available to
+              each location, and access may vary by Android version and document provider. You can
+              review app permissions in Android Settings and change the selected destination from
+              within the app.
             </p>
             <p>
               Local backup is optional and off by default. LiveStagix does not use a LiveStagix
@@ -369,8 +386,20 @@ active_nav: "privacy"
               diagnostic logs may be stored under <code>LiveWP/</code> in the folder you selected,
               or under <code>Download/LiveWP/</code> if you chose Downloads. Turning Local backup
               off stops further backup reads and writes by that feature but deliberately leaves
-              existing files untouched. Selecting another folder also does not automatically delete
-              copies in the previous location.
+              existing files untouched. It does not remove or change a
+              <code>.nomedia</code> marker managed by the separate Hide from Gallery setting.
+              Selecting another folder also does not automatically delete copies in the previous
+              location.
+            </p>
+            <p>
+              Hide from Gallery creates or removes only the empty <code>.nomedia</code> marker in
+              the accessible <code>LiveWP/</code> folder. If the marker exists when Local backup is
+              turned off, it remains until you turn Hide from Gallery off or remove it yourself.
+              Removing the marker does not delete media. The marker asks Android media scanners to
+              skip supported media in that folder and its subfolders; it is not a security boundary
+              and does not block access by other apps that already have permission. It also does not
+              prevent a cloud or storage provider from syncing the folder or its contents. Provider
+              behaviour is governed by that service's own settings and policies.
             </p>
             <p>
               Restoring prepared media or configuration does not delete the backup copy. Clearing a

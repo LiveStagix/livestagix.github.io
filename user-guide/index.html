@@ -785,6 +785,28 @@ active_nav: "user-guide"
                 already created in the selected folder are left untouched. Restore is available from
                 the menu and checks the backup location when you tap it.
               </p>
+              <h3>Hide from Gallery</h3>
+              <p>
+                The optional <strong>Hide from Gallery</strong> setting controls whether Android's
+                media scanner indexes supported media in the app-managed <code>LiveWP/</code> folder.
+                It is off by default. When you turn it on, LiveStagix creates an empty
+                <code>.nomedia</code> marker in that folder. Gallery apps that follow Android's media
+                index will normally stop showing media from the folder and its subfolders. Existing
+                files are not deleted, moved or changed.
+              </p>
+              <p>
+                This setting is available when a supported, accessible <code>LiveWP/</code>
+                destination is selected. It is independent of Local backup and can be changed while
+                Local backup is either on or off. Turning Local backup off does not remove the
+                marker or change this setting. Turn Hide from Gallery off to remove the marker and
+                allow Android to index the folder again; the Gallery may take time to refresh.
+              </p>
+              <div class="guide-note">
+                <strong>What this does not do:</strong> <code>.nomedia</code> is not a security
+                feature. It does not prevent other apps with storage access from reading the files
+                or stop a cloud or storage provider from syncing them. Apps that scan storage
+                independently may also behave differently.
+              </div>
               <div class="guide-note">
                 A backup is useful only when its folder remains available. Avoid deleting or moving
                 the LiveStagix backup folder if you may need to restore from it later.
