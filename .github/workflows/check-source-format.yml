@@ -32,7 +32,7 @@ jobs:
           node-version: 22
 
       - name: Install pinned Prettier
-        run: npm install --no-save --package-lock=false --ignore-scripts prettier@3.6.2
+        run: npm install --no-save --package-lock=false --ignore-scripts prettier@3.6.2 @shopify/prettier-plugin-liquid@1.11.3
 
       - name: Check authored website source formatting
         run: |
@@ -40,10 +40,19 @@ jobs:
           ./node_modules/.bin/prettier --check \
             --config .prettierrc.json \
             --ignore-path .prettierignore \
+            --plugin @shopify/prettier-plugin-liquid \
+            --parser liquid-html \
             index.html \
+            user-guide/index.html \
             about/index.html \
             privacy-policy/index.html \
             security/index.html \
+            _includes/header.html \
+            _includes/footer.html
+
+          ./node_modules/.bin/prettier --check \
+            --config .prettierrc.json \
+            --ignore-path .prettierignore \
             styles.css \
             script.js
 
