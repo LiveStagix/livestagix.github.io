@@ -48,6 +48,7 @@ jobs:
               "about/index.html": ("../styles.css", 1),
               "privacy-policy/index.html": ("../styles.css", 1),
               "security/index.html": ("../styles.css", 1),
+              "user-guide/index.html": ("../styles.css", 1),
           }
 
           stylesheet_link = re.compile(
