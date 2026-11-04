@@ -50,7 +50,8 @@ jobs:
             privacy-policy/index.html \
             security/index.html \
             _includes/header.html \
-            _includes/footer.html
+            _includes/footer.html \\
+            _includes/clarity.html
 
       - name: Verify website source formatting
         run: |
@@ -66,7 +67,8 @@ jobs:
             privacy-policy/index.html \
             security/index.html \
             _includes/header.html \
-            _includes/footer.html
+            _includes/footer.html \\
+            _includes/clarity.html
 
           ./node_modules/.bin/prettier --check \
             --config .prettierrc.json \
@@ -83,7 +85,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html user-guide/index.html about/index.html privacy-policy/index.html security/index.html _includes/header.html _includes/footer.html
+          git add index.html user-guide/index.html about/index.html privacy-policy/index.html security/index.html _includes/header.html _includes/footer.html _includes/clarity.html
           if ! git diff --cached --quiet; then
             git commit -m "Format website HTML and Liquid source"
             git push
