@@ -3974,6 +3974,12 @@ canvas {
     gap: 5px 6px;
   }
 
+  /* The group label occupies the first grid cell. If the final link is
+     therefore in an even child position, it has no partner and spans both columns. */
+  .topbar .nav-group > a:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+  }
+
   .topbar .nav-group + .nav-group {
     margin-top: 9px;
     padding-top: 10px;
