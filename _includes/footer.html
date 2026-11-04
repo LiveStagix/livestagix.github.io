@@ -1,0 +1,95 @@
+<footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-main">
+            <div class="footer-identity">
+              <a
+                class="brand footer-brand"
+                href="https://livestagix.github.io/"
+                aria-label="LiveStagix home"
+                {% if page.active_nav == "home" %}aria-current="page"{% endif %}
+              >
+                <span class="brand-mark" aria-hidden="true"
+                  ><img
+                    src="/public/Small%20round%20icon%20192.webp"
+                    alt="LiveStagix logo"
+                    width="46"
+                    height="46"
+                    loading="lazy"
+                    decoding="async"
+                /></span>
+                <span class="brand-word"
+                  >LiveStagix<span class="brand-period">.</span
+                  ><small>YOUR SCREEN, IN MOTION.</small></span
+                >
+              </a>
+              <p class="footer-description">A live wallpaper experience for Android.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">EXPLORE</summary>
+                <a href="https://livestagix.github.io/#experience">Experience</a>
+                <a href="https://livestagix.github.io/#features">Features</a>
+                <a href="https://livestagix.github.io/#media-tuner">Media Tuner</a>
+                <a href="https://livestagix.github.io/user-guide/" {% if page.active_nav == "user-guide" %}aria-current="page"{% endif %}>User Guide</a>
+                <a href="https://livestagix.github.io/#performance">The engine</a>
+                <a href="https://livestagix.github.io/#faq">FAQ</a>
+                <a href="https://livestagix.github.io/about/" {% if page.active_nav == "about" %}aria-current="page"{% endif %}>About &amp; developer</a>
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">GET THE APP</summary>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.livewp.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Google Play ↗</a
+                >
+                <a
+                  href="https://play.google.com/apps/testing/com.livewp.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Join closed test ↗</a
+                >
+                <a
+                  href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                  >Download latest APK</a
+                >
+                <a
+                  href="https://github.com/LiveStagix/LiveWP-Releases/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >All APK releases ↗</a
+                >
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">PROJECT</summary>
+                <a href="https://github.com/devdas74" target="_blank" rel="noopener noreferrer"
+                  >Developer profile ↗</a
+                >
+
+                <a
+                  href="https://github.com/LiveStagix/livestagix.github.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Website source ↗</a
+                >
+                <a
+                  href="https://github.com/sponsors/devdas74"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Support the project ↗</a
+                >
+              </details>
+              <details class="footer-nav-group" open>
+                <summary class="footer-label">TRUST</summary>
+                <a href="https://livestagix.github.io/privacy-policy/" {% if page.active_nav == "privacy" %}aria-current="page"{% endif %}>Privacy Policy</a>
+                <a href="https://livestagix.github.io/security/" {% if page.active_nav == "security" %}aria-current="page"{% endif %}>Security &amp; Integrity</a>
+              </details>
+            </nav>
+          </div>
+          <div class="footer-bottom">
+            <span>© <span id="year"></span> LiveStagix</span>
+            <span class="footer-motto">Made for screens that deserve more.</span>
+            <a class="footer-back-top" href="#">Back to top <span aria-hidden="true">↑</span></a>
+          </div>
+        </div>
+      </footer>
