@@ -50,7 +50,7 @@ jobs:
             privacy-policy/index.html \
             security/index.html \
             _includes/header.html \
-            _includes/footer.html \\
+            _includes/footer.html \
             _includes/clarity.html
 
       - name: Verify website source formatting
@@ -67,7 +67,7 @@ jobs:
             privacy-policy/index.html \
             security/index.html \
             _includes/header.html \
-            _includes/footer.html \\
+            _includes/footer.html \
             _includes/clarity.html
 
           ./node_modules/.bin/prettier --check \
