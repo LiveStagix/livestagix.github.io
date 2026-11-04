@@ -2,7 +2,6 @@
 layout: null
 active_nav: "home"
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -830,43 +829,43 @@ active_nav: "home"
     <!-- Temporary mobile layout diagnostic: open the homepage with ?layoutDebug=1 -->
     <script>
       (() => {
-        if (new URLSearchParams(window.location.search).get("layoutDebug") !== "1") return;
+        if (new URLSearchParams(window.location.search).get('layoutDebug') !== '1') return;
 
-        const shell = document.querySelector(".site-shell");
-        const main = document.querySelector("main.home-main");
+        const shell = document.querySelector('.site-shell');
+        const main = document.querySelector('main.home-main');
         if (!shell || !main) return;
 
-        const panel = document.createElement("pre");
-        panel.id = "layout-debug-panel";
-        panel.setAttribute("aria-hidden", "true");
+        const panel = document.createElement('pre');
+        panel.id = 'layout-debug-panel';
+        panel.setAttribute('aria-hidden', 'true');
         panel.style.cssText = [
-          "position:fixed",
-          "inset:auto 6px 6px 6px",
-          "z-index:2147483647",
-          "max-height:58vh",
-          "overflow:auto",
-          "box-sizing:border-box",
-          "margin:0",
-          "padding:10px",
-          "border:1px solid rgba(255,255,255,.35)",
-          "border-radius:8px",
-          "background:rgba(12,10,24,.94)",
-          "color:#fff",
-          "font:11px/1.4 ui-monospace,monospace",
-          "white-space:pre-wrap",
-          "overflow-wrap:anywhere",
-          "pointer-events:none",
-          "text-align:left",
-        ].join(";");
+          'position:fixed',
+          'inset:auto 6px 6px 6px',
+          'z-index:2147483647',
+          'max-height:58vh',
+          'overflow:auto',
+          'box-sizing:border-box',
+          'margin:0',
+          'padding:10px',
+          'border:1px solid rgba(255,255,255,.35)',
+          'border-radius:8px',
+          'background:rgba(12,10,24,.94)',
+          'color:#fff',
+          'font:11px/1.4 ui-monospace,monospace',
+          'white-space:pre-wrap',
+          'overflow-wrap:anywhere',
+          'pointer-events:none',
+          'text-align:left',
+        ].join(';');
         document.body.append(panel);
 
         const px = (value) => Math.round(value * 10) / 10;
         const describe = (element) => {
           const classes = [...element.classList]
             .slice(0, 3)
-            .map((name) => "." + name)
-            .join("");
-          return element.tagName.toLowerCase() + (element.id ? "#" + element.id : "") + classes;
+            .map((name) => '.' + name)
+            .join('');
+          return element.tagName.toLowerCase() + (element.id ? '#' + element.id : '') + classes;
         };
 
         const visibleBounds = (element) => {
@@ -877,7 +876,7 @@ active_nav: "home"
 
           while (ancestor && ancestor !== document.documentElement) {
             const overflowX = getComputedStyle(ancestor).overflowX;
-            if (["hidden", "clip", "auto", "scroll"].includes(overflowX)) {
+            if (['hidden', 'clip', 'auto', 'scroll'].includes(overflowX)) {
               const clipRect = ancestor.getBoundingClientRect();
               left = Math.max(left, clipRect.left);
               right = Math.min(right, clipRect.right);
@@ -889,7 +888,7 @@ active_nav: "home"
 
         const scan = () => {
           const viewport = document.documentElement.clientWidth || window.innerWidth;
-          const nodes = [shell, ...shell.querySelectorAll("*")];
+          const nodes = [shell, ...shell.querySelectorAll('*')];
           const overflowing = [];
           const wideContents = [];
           const scrollAreas = [];
@@ -897,7 +896,7 @@ active_nav: "home"
           nodes.forEach((element) => {
             if (element === panel) return;
             const style = getComputedStyle(element);
-            if (style.display === "none" || style.visibility === "hidden") return;
+            if (style.display === 'none' || style.visibility === 'hidden') return;
 
             const bounds = visibleBounds(element);
             const left = Math.max(0, -bounds.left);
@@ -906,7 +905,7 @@ active_nav: "home"
               overflowing.push({
                 element,
                 amount: Math.max(left, right),
-                side: right > left ? "right" : "left",
+                side: right > left ? 'right' : 'left',
                 left: px(bounds.left),
                 right: px(bounds.right),
               });
@@ -918,9 +917,9 @@ active_nav: "home"
                 amount: element.scrollWidth - element.clientWidth,
                 overflowX: style.overflowX,
               };
-              if (["auto", "scroll"].includes(style.overflowX)) {
+              if (['auto', 'scroll'].includes(style.overflowX)) {
                 scrollAreas.push(item);
-              } else if (!["hidden", "clip"].includes(style.overflowX)) {
+              } else if (!['hidden', 'clip'].includes(style.overflowX)) {
                 wideContents.push(item);
               }
             }
@@ -931,45 +930,45 @@ active_nav: "home"
           scrollAreas.sort((a, b) => b.amount - a.amount);
 
           const lines = [
-            "LIVESTAGIX MOBILE LAYOUT DIAGNOSTIC",
-            "Visible width: " +
+            'LIVESTAGIX MOBILE LAYOUT DIAGNOSTIC',
+            'Visible width: ' +
               viewport +
-              "px | innerWidth: " +
+              'px | innerWidth: ' +
               window.innerWidth +
-              "px | visualViewport: " +
+              'px | visualViewport: ' +
               (window.visualViewport
-                ? px(window.visualViewport.width) + "px @ " + px(window.visualViewport.scale) + "x"
-                : "n/a"),
-            "HTML: client " +
+                ? px(window.visualViewport.width) + 'px @ ' + px(window.visualViewport.scale) + 'x'
+                : 'n/a'),
+            'HTML: client ' +
               document.documentElement.clientWidth +
-              "px / scroll " +
+              'px / scroll ' +
               document.documentElement.scrollWidth +
-              "px",
-            "HTML scrollWidth - innerWidth: " +
+              'px',
+            'HTML scrollWidth - innerWidth: ' +
               (document.documentElement.scrollWidth - window.innerWidth) +
-              "px",
-            "BODY: client " +
+              'px',
+            'BODY: client ' +
               document.body.clientWidth +
-              "px / scroll " +
+              'px / scroll ' +
               document.body.scrollWidth +
-              "px",
-            "SHELL: rect " +
+              'px',
+            'SHELL: rect ' +
               px(shell.getBoundingClientRect().width) +
-              "px / scroll " +
+              'px / scroll ' +
               shell.scrollWidth +
-              "px",
-            "MAIN: rect " +
+              'px',
+            'MAIN: rect ' +
               px(main.getBoundingClientRect().width) +
-              "px / scroll " +
+              'px / scroll ' +
               main.scrollWidth +
-              "px",
-            "",
-            "HORIZONTAL ALIGNMENT (left / right margin / width):",
+              'px',
+            '',
+            'HORIZONTAL ALIGNMENT (left / right margin / width):',
           ];
 
           const layoutItems = [
-            { label: "TOPBAR", element: document.querySelector(".topbar") },
-            { label: "MAIN", element: main },
+            { label: 'TOPBAR', element: document.querySelector('.topbar') },
+            { label: 'MAIN', element: main },
             ...[...main.children].map((element) => ({ label: describe(element), element })),
           ].filter((item) => item.element);
 
@@ -977,76 +976,76 @@ active_nav: "home"
             const rect = element.getBoundingClientRect();
             lines.push(
               label +
-                " | " +
+                ' | ' +
                 px(rect.left) +
-                " / " +
+                ' / ' +
                 px(viewport - rect.right) +
-                " / " +
+                ' / ' +
                 px(rect.width) +
-                "px | scroll/client " +
+                'px | scroll/client ' +
                 element.scrollWidth +
-                "/" +
+                '/' +
                 element.clientWidth,
             );
           });
 
-          lines.push("", "VISIBLE ELEMENTS PAST VIEWPORT EDGE:");
+          lines.push('', 'VISIBLE ELEMENTS PAST VIEWPORT EDGE:');
 
           if (!overflowing.length) {
-            lines.push("None detected.");
+            lines.push('None detected.');
           } else {
             overflowing.slice(0, 14).forEach((item) => {
               lines.push(
                 item.side.toUpperCase() +
-                  " +" +
+                  ' +' +
                   px(item.amount) +
-                  "px | " +
+                  'px | ' +
                   describe(item.element) +
-                  " | bounds " +
+                  ' | bounds ' +
                   item.left +
-                  "…" +
+                  '…' +
                   item.right +
-                  "px",
+                  'px',
               );
             });
           }
 
-          lines.push("", "WIDE CONTENT (not explicitly scrollable):");
+          lines.push('', 'WIDE CONTENT (not explicitly scrollable):');
           if (!wideContents.length) {
-            lines.push("None detected.");
+            lines.push('None detected.');
           } else {
             wideContents.slice(0, 8).forEach((item) => {
               lines.push(
-                "+" +
+                '+' +
                   item.amount +
-                  "px | " +
+                  'px | ' +
                   describe(item.element) +
-                  " | overflow-x:" +
+                  ' | overflow-x:' +
                   item.overflowX,
               );
             });
           }
 
-          lines.push("", "INTENTIONAL / SCROLLABLE AREAS:");
+          lines.push('', 'INTENTIONAL / SCROLLABLE AREAS:');
           if (!scrollAreas.length) {
-            lines.push("None detected.");
+            lines.push('None detected.');
           } else {
             scrollAreas.slice(0, 5).forEach((item) => {
-              lines.push("+" + item.amount + "px | " + describe(item.element));
+              lines.push('+' + item.amount + 'px | ' + describe(item.element));
             });
           }
 
-          panel.textContent = lines.join("\n");
+          panel.textContent = lines.join('\n');
         };
 
         const runAfterLayout = () => requestAnimationFrame(() => requestAnimationFrame(scan));
         runAfterLayout();
-        window.addEventListener("resize", runAfterLayout, { passive: true });
-        window.addEventListener("orientationchange", runAfterLayout, { passive: true });
-        window.addEventListener("pageshow", runAfterLayout);
-        window.addEventListener("load", runAfterLayout, { once: true });
+        window.addEventListener('resize', runAfterLayout, { passive: true });
+        window.addEventListener('orientationchange', runAfterLayout, { passive: true });
+        window.addEventListener('pageshow', runAfterLayout);
+        window.addEventListener('load', runAfterLayout, { once: true });
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(runAfterLayout);
-        if ("ResizeObserver" in window) {
+        if ('ResizeObserver' in window) {
           const observer = new ResizeObserver(runAfterLayout);
           observer.observe(shell);
           observer.observe(main);
