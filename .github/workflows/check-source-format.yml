@@ -1,4 +1,4 @@
-
+ 
 name: Check website source formatting
 
 on:
@@ -37,39 +37,39 @@ jobs:
 
       - name: Format approved HTML and Liquid files
         run: |
-          ./node_modules/.bin/prettier --write \
-            --config .prettierrc.json \
-            --ignore-path .prettierignore \
-            --plugin @shopify/prettier-plugin-liquid \
-            --parser liquid-html \
-            index.html \
-            user-guide/index.html \
-            about/index.html \
-            privacy-policy/index.html \
-            security/index.html \
-            _includes/header.html \
+          ./node_modules/.bin/prettier --write \\
+            --config .prettierrc.json \\
+            --ignore-path .prettierignore \\
+            --plugin @shopify/prettier-plugin-liquid \\
+            --parser liquid-html \\
+            index.html \\
+            user-guide/index.html \\
+            about/index.html \\
+            privacy-policy/index.html \\
+            security/index.html \\
+            _includes/header.html \\
             _includes/footer.html
 
       - name: Verify website source formatting
         run: |
           set -euo pipefail
-          ./node_modules/.bin/prettier --check \
-            --config .prettierrc.json \
-            --ignore-path .prettierignore \
-            --plugin @shopify/prettier-plugin-liquid \
-            --parser liquid-html \
-            index.html \
-            user-guide/index.html \
-            about/index.html \
-            privacy-policy/index.html \
-            security/index.html \
-            _includes/header.html \
+          ./node_modules/.bin/prettier --check \\
+            --config .prettierrc.json \\
+            --ignore-path .prettierignore \\
+            --plugin @shopify/prettier-plugin-liquid \\
+            --parser liquid-html \\
+            index.html \\
+            user-guide/index.html \\
+            about/index.html \\
+            privacy-policy/index.html \\
+            security/index.html \\
+            _includes/header.html \\
             _includes/footer.html
 
-          ./node_modules/.bin/prettier --check \
-            --config .prettierrc.json \
-            --ignore-path .prettierignore \
-            styles.css \
+          ./node_modules/.bin/prettier --check \\
+            --config .prettierrc.json \\
+            --ignore-path .prettierignore \\
+            styles.css \\
             script.js
 
       - name: Check whitespace errors
@@ -88,3 +88,126 @@ jobs:
           else
             echo "No formatting changes needed."
           fi
+
+      - name: Notify participating search engines through IndexNow
+        if: github.event_name != 'pull_request'
+        env:
+          INDEXNOW_KEY: "919e7cac8a65bc93669d5a83faa8b2dc"
+          INDEXNOW_KEY_URL: "https://livestagix.github.io/919e7cac8a65bc93669d5a83faa8b2dc.txt"
+          SITE_HOST: "livestagix.github.io"
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${PUSH_BEFORE}" ]] || [[ "${PUSH_BEFORE}" =~ ^0+$ ]] || ! git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
+            changed_files="$(git ls-files)"
+          else
+            changed_files="$(git diff --name-only "${PUSH_BEFORE}" HEAD)"
+          fi
+
+          submit_all=false
+          declare -A selected_urls=()
+          declare -a urls=()
+
+          while IFS= read -r file; do
+            case "$file" in
+              index.html)
+                selected_urls["https://livestagix.github.io/"]=1
+                ;;
+              about/index.html)
+                selected_urls["https://livestagix.github.io/about/"]=1
+                ;;
+              privacy-policy/index.html)
+                selected_urls["https://livestagix.github.io/privacy-policy/"]=1
+                ;;
+              security/index.html)
+                selected_urls["https://livestagix.github.io/security/"]=1
+                ;;
+              user-guide/index.html)
+                selected_urls["https://livestagix.github.io/user-guide/"]=1
+                ;;
+              _includes/*|_layouts/*|_config.yml|styles.css|script.js|sitemap.xml|.github/workflows/check-source-format.yml|919e7cac8a65bc93669d5a83faa8b2dc.txt)
+                submit_all=true
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          if [[ "$submit_all" == true ]]; then
+            mapfile -t urls < <(python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from urllib.parse import urlsplit
+
+          sitemap = ET.parse("sitemap.xml").getroot()
+          namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+
+          for item in sitemap.findall("sm:url/sm:loc", namespace):
+              url = (item.text or "").strip()
+              parsed = urlsplit(url)
+              if parsed.scheme == "https" and parsed.netloc == "livestagix.github.io":
+                  print(url)
+          PY
+            )
+          elif (("${#selected_urls[@]}" > 0)); then
+            mapfile -t urls < <(printf '%s\\n' "${!selected_urls[@]}" | sort)
+          fi
+
+          if (("${#urls[@]}" == 0)); then
+            echo "No public website pages changed; skipping IndexNow."
+            exit 0
+          fi
+
+          echo "Preparing to submit ${#urls[@]} page URL(s) to IndexNow."
+
+          key_verified=false
+          for attempt in {1..18}; do
+            if key_response="$(curl --fail --silent --show-error --location --max-time 15 "$INDEXNOW_KEY_URL")"; then
+              key_response="${key_response//$'\\r'/}"
+              if [[ "$key_response" == "$INDEXNOW_KEY" ]]; then
+                key_verified=true
+                break
+              fi
+            fi
+            echo "Waiting for the public IndexNow key file (attempt $attempt/18)."
+            sleep 10
+          done
+
+          if [[ "$key_verified" != true ]]; then
+            echo "The IndexNow key file could not be verified at $INDEXNOW_KEY_URL."
+            exit 1
+          fi
+
+          payload="$(python3 - "$SITE_HOST" "$INDEXNOW_KEY" "$INDEXNOW_KEY_URL" "${urls[@]}" <<'PY'
+          import json
+          import sys
+
+          host, key, key_location, *urls = sys.argv[1:]
+          print(json.dumps({
+              "host": host,
+              "key": key,
+              "keyLocation": key_location,
+              "urlList": urls,
+          }))
+          PY
+          )"
+
+          response_file="$(mktemp)"
+          http_code="$(curl --silent --show-error \\
+            --output "$response_file" \\
+            --write-out '%{http_code}' \\
+            --request POST "https://api.indexnow.org/indexnow" \\
+            --header "Content-Type: application/json; charset=utf-8" \\
+            --data "$payload")"
+
+          echo "IndexNow returned HTTP $http_code."
+          cat "$response_file"
+          rm -f "$response_file"
+
+          case "$http_code" in
+            200|202)
+              echo "IndexNow accepted the URL notification."
+              ;;
+            *)
+              echo "IndexNow submission failed."
+              exit 1
+              ;;
+          esac
