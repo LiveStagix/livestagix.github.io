@@ -252,8 +252,7 @@ active_nav: "security"
       .security-details p {
         margin-top: 12px;
       }
-      .security-footnote,
-      .scan-count-note {
+      .security-footnote {
         margin-top: 14px !important;
         color: #818ba3 !important;
         font-size: 0.76rem !important;
@@ -265,14 +264,6 @@ active_nav: "security"
         font-size: 0.76rem !important;
         font-weight: 750;
         line-height: 1.55 !important;
-      }
-      .scan-results {
-        margin-top: 17px;
-        padding-top: 15px;
-        border-top: 1px solid #ffffff12;
-      }
-      .scan-results[hidden] {
-        display: none !important;
       }
       .scan-report-link {
         margin-top: 18px;
@@ -300,44 +291,7 @@ active_nav: "security"
         font-size: 0.74rem;
         line-height: 1.65;
       }
-      .scan-result-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
-      }
-      .scan-result {
-        min-width: 0;
-        padding: 11px 9px;
-        border: 1px solid #ffffff12;
-        border-radius: 11px;
-        background: #ffffff04;
-      }
-      .scan-result strong,
-      .scan-result span {
-        display: block;
-      }
-      .scan-result strong {
-        color: #e5edff;
-        font-size: 1.15rem;
-        line-height: 1.25;
-        font-variant-numeric: tabular-nums;
-      }
-      .scan-result span {
-        margin-top: 4px;
-        color: #8792aa;
-        font-size: 0.62rem;
-        line-height: 1.35;
-      }
-      .scan-result.is-alert strong {
-        color: #ff9ca8;
-      }
       @media (max-width: 520px) {
-        .scan-result-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .scan-result {
-          padding: 10px;
-        }
         .security-copy-row {
           align-items: stretch;
         }
@@ -542,35 +496,6 @@ active_nav: "security"
               after that match is confirmed.
             </p>
             <p id="scan-date" aria-live="polite">Checking the latest published analysis date…</p>
-            <div class="scan-results" id="scan-results" hidden aria-live="polite">
-              <div class="scan-result-grid">
-                <div class="scan-result">
-                  <strong id="stat-malicious">—</strong><span>Malicious</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-suspicious">—</strong><span>Suspicious</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-harmless">—</strong><span>Harmless</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-undetected">—</strong><span>Undetected</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-type-unsupported">—</strong><span>Unsupported</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-timeout">—</strong><span>Timeout</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-confirmed-timeout">—</strong><span>Confirmed timeout</span>
-                </div>
-                <div class="scan-result">
-                  <strong id="stat-failure">—</strong><span>Failure</span>
-                </div>
-              </div>
-              <p class="scan-count-note" id="scan-count-note"></p>
-            </div>
             <p>
               Multi-engine scan results are point-in-time signals, not a guarantee that software is
               completely safe. Android users should also keep
@@ -756,8 +681,6 @@ active_nav: "security"
           setText('scan-date', 'Analysis date: no matching report published for the current APK.');
           const reportLink = byId('scan-report-link-wrap');
           if (reportLink) reportLink.hidden = true;
-          const results = byId('scan-results');
-          if (results) results.hidden = true;
         }
 
         function setStatusUnavailable(currentReleaseTag) {
@@ -786,8 +709,6 @@ active_nav: "security"
           setText('scan-date', 'Scan status temporarily unavailable.');
           const reportLink = byId('scan-report-link-wrap');
           if (reportLink) reportLink.hidden = true;
-          const results = byId('scan-results');
-          if (results) results.hidden = true;
         }
 
         function renderScan(scan, expectedSha256, releaseTag) {
@@ -823,25 +744,16 @@ active_nav: "security"
 
           const malicious = count('malicious');
           const suspicious = count('suspicious');
-          const undetected = count('undetected');
-          const unsupported = count('type-unsupported');
           const summary =
             malicious + suspicious === 0
-              ? 'No malicious or suspicious detections were reported. ' +
-                undetected +
-                ' engine results were undetected; ' +
-                unsupported +
-                ' reported an unsupported file type.'
+              ? 'No malicious or suspicious detections were reported by the participating VirusTotal engines for this exact APK.'
               : 'VirusTotal reported ' +
                 malicious +
                 ' malicious and ' +
                 suspicious +
-                ' suspicious detections among ' +
-                total +
-                ' engine results for ' +
+                ' suspicious detections for ' +
                 releaseTag +
-                '.';
-
+                '. Review the full report for individual engine results.';
           setLabel(
             'scan-label',
             'INDEPENDENT SCAN PUBLISHED',
@@ -864,19 +776,6 @@ active_nav: "security"
           const reportLink = byId('scan-report-link-wrap');
           if (reportLink) reportLink.hidden = false;
 
-          keys.forEach((key) => setText('stat-' + key, String(count(key))));
-          ['malicious', 'suspicious'].forEach((key) => {
-            const node = byId('stat-' + key);
-            const tile = node && node.closest('.scan-result');
-            if (tile) tile.classList.toggle('is-alert', count(key) > 0);
-          });
-          setText(
-            'scan-count-note',
-            total +
-              ' engine results reported. “Undetected” means no detection was returned by that engine; “unsupported” means the engine could not analyse this file type. Zero values are shown to make the full breakdown explicit.',
-          );
-          const results = byId('scan-results');
-          if (results) results.hidden = false;
         }
 
         async function copyText(value, feedbackId) {
