@@ -142,8 +142,8 @@ jobs:
 
           ALL_FILES=("${HTML_FILES[@]}" "${ASSET_FILES[@]}")
           for file in "${ALL_FILES[@]}"; do
-            if [[ -f "$GITHUB_WORKSPACE/$file" && -f "$DIAG_WORK/$file" ]] &&
-              ! cmp --silent "$GITHUB_WORKSPACE/$file" "$DIAG_WORK/$file"; then
+            if [[ -f "$DIAG_WORK/$file" ]] &&
+              ! git show "$GITHUB_SHA:$file" | cmp --silent - "$DIAG_WORK/$file"; then
               printf '%s\n' "$file" >> "$DIAG_OUT/changed-files.txt"
             fi
           done
