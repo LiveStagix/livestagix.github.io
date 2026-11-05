@@ -374,6 +374,10 @@ summary:focus-visible {
 
 .hero-copy {
   position: relative;
+  left: calc(
+    max(var(--page-gutter), calc(50vw - 645px)) + 18px -
+    max(var(--page-gutter), calc(50vw - 590px))
+  );
   z-index: 2;
   padding-bottom: 12px;
 }
@@ -2708,6 +2712,7 @@ summary:focus-visible {
     padding-bottom: 77px;
   }
   .hero-copy {
+    left: 12px;
     padding: 0;
   }
   .hero h1 {
@@ -3861,6 +3866,10 @@ canvas {
 }
 
 @media (max-width: 420px) {
+  .hero-copy {
+    left: 8px;
+  }
+
   .topbar {
     gap: 7px;
     padding-inline: 8px;
