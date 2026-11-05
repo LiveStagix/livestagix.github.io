@@ -67,7 +67,7 @@ jobs:
             exit 1
           fi
 
-          SOURCE_SHA="$(tr -d '\\r\\n' < "$SOURCE_SHA_FILE")"
+          SOURCE_SHA="$(tr -d '\r\n' < "$SOURCE_SHA_FILE")"
           if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || ! git cat-file -e "$SOURCE_SHA^{commit}" 2>/dev/null; then
             echo "::error::The diagnostics do not identify a valid source commit."
             exit 1
@@ -115,46 +115,46 @@ jobs:
             esac
           done < "$CHANGED_LIST"
 
-          FILES_TO_FORMAT+=("\${HTML_FILES[@]}" "\${ASSET_FILES[@]}")
+          FILES_TO_FORMAT+=("${HTML_FILES[@]}" "${ASSET_FILES[@]}")
 
-          if ((\${#FILES_TO_FORMAT[@]} == 0)); then
+          if ((${#FILES_TO_FORMAT[@]} == 0)); then
             echo "::error::No safe, formatter-correctable files were found. Review the diagnostics artifact from the failed check."
             exit 1
           fi
 
-          if ((\${#HTML_FILES[@]} > 0)); then
-            "$PRETTIER" --write \\
-              --config .prettierrc.json \\
-              --ignore-path .prettierignore \\
-              --plugin @shopify/prettier-plugin-liquid \\
-              --parser liquid-html \\
-              "\${HTML_FILES[@]}"
+          if ((${#HTML_FILES[@]} > 0)); then
+            "$PRETTIER" --write \
+              --config .prettierrc.json \
+              --ignore-path .prettierignore \
+              --plugin @shopify/prettier-plugin-liquid \
+              --parser liquid-html \
+              "${HTML_FILES[@]}"
 
-            "$PRETTIER" --check \\
-              --config .prettierrc.json \\
-              --ignore-path .prettierignore \\
-              --plugin @shopify/prettier-plugin-liquid \\
-              --parser liquid-html \\
-              "\${HTML_FILES[@]}"
+            "$PRETTIER" --check \
+              --config .prettierrc.json \
+              --ignore-path .prettierignore \
+              --plugin @shopify/prettier-plugin-liquid \
+              --parser liquid-html \
+              "${HTML_FILES[@]}"
           fi
 
-          if ((\${#ASSET_FILES[@]} > 0)); then
-            "$PRETTIER" --write \\
-              --config .prettierrc.json \\
-              --ignore-path .prettierignore \\
-              "\${ASSET_FILES[@]}"
+          if ((${#ASSET_FILES[@]} > 0)); then
+            "$PRETTIER" --write \
+              --config .prettierrc.json \
+              --ignore-path .prettierignore \
+              "${ASSET_FILES[@]}"
 
-            "$PRETTIER" --check \\
-              --config .prettierrc.json \\
-              --ignore-path .prettierignore \\
-              "\${ASSET_FILES[@]}"
+            "$PRETTIER" --check \
+              --config .prettierrc.json \
+              --ignore-path .prettierignore \
+              "${ASSET_FILES[@]}"
           fi
 
-          git diff --check -- "\${FILES_TO_FORMAT[@]}"
+          git diff --check -- "${FILES_TO_FORMAT[@]}"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- "\${FILES_TO_FORMAT[@]}"
+          git add -- "${FILES_TO_FORMAT[@]}"
 
           if git diff --cached --quiet; then
             echo "The flagged files are already formatted; no commit is needed."
