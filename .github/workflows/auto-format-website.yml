@@ -1,0 +1,180 @@
+name: Auto-format website source
+
+on:
+  workflow_run:
+    workflows:
+      - Check website source formatting
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  actions: write
+  contents: write
+
+concurrency:
+  group: livestagix-auto-format-website
+  cancel-in-progress: false
+
+jobs:
+  auto-format:
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.event != 'pull_request' &&
+      github.event.workflow_run.head_branch == 'main'
+    name: Auto-format only files needing correction
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Download diagnostics from the failed formatting check
+        id: download_diagnostics
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: website-format-diagnostics-${{ github.event.workflow_run.run_number }}-${{ github.event.workflow_run.run_attempt }}
+          path: ${{ runner.temp }}/website-format-diagnostics
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check out current website source
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install pinned website formatters
+        run: npm install --no-save --package-lock=false --ignore-scripts prettier@3.6.2 @shopify/prettier-plugin-liquid@1.11.3
+
+      - name: Format only unchanged files flagged by diagnostics
+        id: format
+        run: |
+          set -euo pipefail
+
+          DIAG_DIR="$RUNNER_TEMP/website-format-diagnostics"
+          CHANGED_LIST="$DIAG_DIR/changed-files.txt"
+          SOURCE_SHA_FILE="$DIAG_DIR/source-sha.txt"
+          PRETTIER="$GITHUB_WORKSPACE/node_modules/.bin/prettier"
+
+          if [[ ! -s "$SOURCE_SHA_FILE" || ! -f "$CHANGED_LIST" ]]; then
+            echo "::error::Formatting diagnostics are missing. Check the failed formatting run for its formatter logs."
+            exit 1
+          fi
+
+          SOURCE_SHA="$(tr -d '\\r\\n' < "$SOURCE_SHA_FILE")"
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || ! git cat-file -e "$SOURCE_SHA^{commit}" 2>/dev/null; then
+            echo "::error::The diagnostics do not identify a valid source commit."
+            exit 1
+          fi
+
+          # Never apply old diagnostics if the failed commit is no longer in main's history.
+          if ! git merge-base --is-ancestor "$SOURCE_SHA" HEAD; then
+            echo "::warning::The checked source is no longer an ancestor of main. Skipping stale diagnostics."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          HTML_FILES=()
+          ASSET_FILES=()
+          FILES_TO_FORMAT=()
+
+          while IFS= read -r file || [[ -n "$file" ]]; do
+            [[ -z "$file" ]] && continue
+
+            case "$file" in
+              index.html|user-guide/index.html|about/index.html|privacy-policy/index.html|security/index.html|_includes/header.html|_includes/footer.html|_includes/clarity.html)
+                ;;
+              styles.css|script.js)
+                ;;
+              *)
+                echo "::error::Unsupported path in formatting diagnostics: $file"
+                exit 1
+                ;;
+            esac
+
+            if [[ ! -f "$file" ]] || ! git cat-file -e "$SOURCE_SHA:$file" 2>/dev/null; then
+              echo "::warning::Skipping missing file: $file"
+              continue
+            fi
+
+            # Do not overwrite a file that changed after the failed check.
+            if ! git show "$SOURCE_SHA:$file" | cmp --silent - "$file"; then
+              echo "::warning::Skipping file changed since the failed check: $file"
+              continue
+            fi
+
+            case "$file" in
+              *.html) HTML_FILES+=("$file") ;;
+              styles.css|script.js) ASSET_FILES+=("$file") ;;
+            esac
+          done < "$CHANGED_LIST"
+
+          FILES_TO_FORMAT+=("\${HTML_FILES[@]}" "\${ASSET_FILES[@]}")
+
+          if ((\${#FILES_TO_FORMAT[@]} == 0)); then
+            echo "::error::No safe, formatter-correctable files were found. Review the diagnostics artifact from the failed check."
+            exit 1
+          fi
+
+          if ((\${#HTML_FILES[@]} > 0)); then
+            "$PRETTIER" --write \\
+              --config .prettierrc.json \\
+              --ignore-path .prettierignore \\
+              --plugin @shopify/prettier-plugin-liquid \\
+              --parser liquid-html \\
+              "\${HTML_FILES[@]}"
+
+            "$PRETTIER" --check \\
+              --config .prettierrc.json \\
+              --ignore-path .prettierignore \\
+              --plugin @shopify/prettier-plugin-liquid \\
+              --parser liquid-html \\
+              "\${HTML_FILES[@]}"
+          fi
+
+          if ((\${#ASSET_FILES[@]} > 0)); then
+            "$PRETTIER" --write \\
+              --config .prettierrc.json \\
+              --ignore-path .prettierignore \\
+              "\${ASSET_FILES[@]}"
+
+            "$PRETTIER" --check \\
+              --config .prettierrc.json \\
+              --ignore-path .prettierignore \\
+              "\${ASSET_FILES[@]}"
+          fi
+
+          git diff --check -- "\${FILES_TO_FORMAT[@]}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "\${FILES_TO_FORMAT[@]}"
+
+          if git diff --cached --quiet; then
+            echo "The flagged files are already formatted; no commit is needed."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git commit -m "style: auto-format website source"
+          git push origin HEAD:main
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Re-run website source formatting check
+        if: steps.format.outputs.committed == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'check-source-format.yml',
+              ref: 'main',
+            });
+            core.info('Dispatched a fresh website source-format check.');
