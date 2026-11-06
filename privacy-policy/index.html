@@ -218,12 +218,17 @@ active_nav: "privacy"
                 This private working data is separate from optional user-accessible backup copies.
               </li>
               <li>
-                <strong>In-app media background companion:</strong> When this feature is active,
-                LiveStagix can create a smaller, blurred companion image or video from the already
-                prepared wallpaper to provide a subtle, low-opacity background within the app
-                interface. The companion is stored in app-private storage, is separate from the
-                wallpaper and user-accessible Local backup copies, and is not uploaded to a
-                LiveStagix server.
+                <strong>In-app media background companion:</strong> This feature is off by default
+                on fresh installations. You can enable it by turning off
+                <strong>Disable Background Media</strong> in Advanced Settings. When active,
+                LiveStagix creates a smaller, blurred companion image from the already prepared
+                wallpaper to provide a subtle, low-opacity background within the app interface.
+                For a photo wallpaper, the companion is a reduced and blurred image. For a video
+                wallpaper, the app samples frames from the prepared video, selects a representative
+                still frame and creates a blurred image from it; it does not create or play a second
+                video for the app background. The companion is stored in Android app-private
+                no-backup storage, separate from the wallpaper and user-accessible Local backup
+                copies. It is not uploaded to a LiveStagix server.
               </li>
               <li>
                 <strong>Optional Local backup:</strong> This feature is off by default. If you
