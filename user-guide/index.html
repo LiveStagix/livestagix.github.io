@@ -517,11 +517,12 @@ active_nav: "user-guide"
                   </p>
                 </article>
                 <article class="guide-card">
-                  <span class="guide-tag">Edge Safety</span>
-                  <h3>Help keep the frame filled</h3>
+                  <span class="guide-tag">More Motion Settings</span>
+                  <h3>Safety Zoom Response (Kzoom)</h3>
                   <p>
-                    Adjusts the zoom response during motion to help prevent empty areas from
-                    appearing around the edge of the wallpaper.
+                    Controls the additional zoom response used to help keep the wallpaper frame
+                    covered while motion is active. Set the slider to <strong>OFF</strong> to
+                    disable this response, or adjust it up to <strong>1.00x</strong>.
                   </p>
                 </article>
               </div>
@@ -552,15 +553,18 @@ active_nav: "user-guide"
 
               <h3>More Motion Settings</h3>
               <p>
-                Open <strong>More Motion Settings</strong> for Safety Zoom Response,
-                <strong>Quick Presets</strong> and <strong>Reset to Defaults</strong>. Quick Presets
-                combine sensitivity levels from 1× to 4× with Gentle, Balanced or Fast
-                stabilisation. Use a preset as a starting point, then fine-tune individual controls.
+                Open <strong>More Motion Settings</strong> for the
+                <strong>Safety Zoom Response (Kzoom)</strong> slider,
+                <strong>Quick Presets</strong> and <strong>Reset to Defaults</strong>. Kzoom ranges
+                from <strong>OFF (0)</strong> to <strong>1.00x</strong>; OFF disables the extra zoom
+                response. Quick Presets combine sensitivity levels from 1× to 4× with Gentle,
+                Balanced or Fast stabilisation. Use a preset as a starting point, then fine-tune
+                individual controls.
               </p>
               <div class="guide-note">
-                Motion is for photos. Video playback does not use these photo motion controls. Keep
-                Edge Safety and motion sensitivity balanced: stronger movement can need more frame
-                coverage.
+                Motion is for photos. Video playback does not use these photo motion controls.
+                Stronger motion may need more frame coverage; adjust Kzoom to suit the effect, or
+                set it to OFF when you do not want the additional zoom response.
               </div>
             </section>
 
@@ -752,38 +756,56 @@ active_nav: "user-guide"
                 versions that have already been prepared. Use the three-dot menu for library and
                 storage actions.
               </p>
-              <h3>Prepared Media menu</h3>
+              <h3>Prepared Media page and menu</h3>
+              <p>
+                The Prepared Media page shows storage information and the
+                <strong> Local backup</strong> and <strong>Hide from Gallery</strong> switches. The
+                <strong> Choose folder</strong> or <strong>Change folder</strong> button selects the
+                shared-storage destination. The three-dot menu contains <strong>Restore</strong>
+                and <strong>Clear all</strong>.
+              </p>
               <ul>
                 <li>
-                  <strong>Restore:</strong> checks the available backup location, restores verified
+                  <strong>Restore:</strong> checks the selected backup location, restores verified
                   prepared copies that are missing or fail integrity checks, and can rebuild missing
-                  library entries from healthy files already stored privately.
+                  library entries from healthy files already stored privately. It also checks for a
+                  valid configuration backup.
                 </li>
                 <li>
-                  <strong>Clear all:</strong> removes prepared-media entries and their managed
-                  files. Review the confirmation carefully before clearing.
-                </li>
-                <li>
-                  <strong>Storage information:</strong> review the space used by prepared media.
-                </li>
-                <li>
-                  <strong>Local backup:</strong> choose whether to copy supported app data and
-                  retained prepared media to a user-selected shared folder.
+                  <strong>Clear all:</strong> after confirmation, removes LiveStagix-managed
+                  prepared-media archives, user-configuration backups and diagnostic-log backups,
+                  plus non-active prepared-media files and diagnostic logs from private app storage.
+                  It keeps the active wallpaper, current app settings and selected Local backup
+                  folder. Unrelated files in the selected folder are left untouched. Cleanup
+                  failures are reported; affected items or copies are kept where possible so the
+                  operation can be retried.
                 </li>
               </ul>
+              <p>
+                Prepared media has a <strong>200 MB soft storage limit</strong>. When space needs
+                to be reclaimed, LiveStagix uses least-recently-used cleanup for eligible items.
+                The active wallpaper and media currently being prepared are protected. Associated
+                shared backups are cleaned up with the media; if safe backup cleanup fails, the app
+                preserves the remaining copy and reports the problem rather than treating it as
+                deleted.
+              </p>
               <h3>Choose a backup folder</h3>
               <p>
-                Enable Local backup from the Prepared Media menu and use the Android folder picker
-                to select a location you control, such as a folder in Documents, Downloads, Pictures
-                or Videos. Once enabled, LiveStagix copies its configuration, retained prepared
-                media and the current log to that selected location. Keep the selected folder
-                accessible when you want to restore from it.
+                On the Prepared Media page, turn on <strong>Local backup</strong> and tap
+                <strong>Choose folder</strong>. Use Android's folder picker to select a location
+                you control, such as an eligible folder in Documents, Pictures or Videos. LiveStagix
+                creates a <code>LiveWP/</code> folder there and copies your configuration and
+                retained prepared media. Completed Event Recorder sessions are copied to
+                <code>LiveWP/Logs/</code> when you turn the recorder off while Local backup is
+                enabled. Keep the selected folder accessible when you want to restore from it.
               </p>
               <p>
                 When Local backup is off, LiveStagix keeps its working data in private app storage.
                 Turning Local backup off stops future shared-storage reads and writes; backup files
-                already created in the selected folder are left untouched. Restore is available from
-                the menu and checks the backup location when you tap it.
+                already created in the selected folder are left untouched. Restore remains in the
+                three-dot menu and checks the selected backup location when you tap it. Use
+                <strong>Change folder</strong> to select a different destination; copies in the
+                previous location are not automatically removed.
               </p>
               <h3>Hide from Gallery</h3>
               <p>
@@ -841,12 +863,16 @@ active_nav: "user-guide"
               </p>
               <h3>Diagnostics and privacy</h3>
               <p>
-                Optional diagnostic and event-recording controls are available for troubleshooting.
-                Enable them only when needed and use the app's available log/backup controls to
-                manage the resulting files. Read the <a href="/privacy-policy/">Privacy Policy</a>
-                to understand how app data is handled. The
-                <a href="/security/">Security &amp; Integrity</a> page explains release verification
-                information.
+                The optional <strong>Event Recorder</strong> is available in Advanced Settings and
+                should be enabled only when needed for troubleshooting. It records diagnostic
+                sessions locally. When you turn it off, the session is finalized and, if Local
+                backup is enabled, one completed log file is copied to
+                <code>LiveWP/Logs/</code>. The <strong>Clear Logs</strong> control attempts to remove
+                private sessions and exported log files from the selected backup folder. Runtime
+                Trace and Motion Diagnostics are separate optional diagnostic controls. Read the
+                <a href="/privacy-policy/">Privacy Policy</a> to understand how app data is handled.
+                The <a href="/security/">Security &amp; Integrity</a> page explains release
+                verification information.
               </p>
             </section>
 
