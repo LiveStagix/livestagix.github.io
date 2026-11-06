@@ -11,7 +11,7 @@ active_nav: "privacy"
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Privacy Policy for the LiveStagix website and Android app. Learn how Microsoft Clarity analytics, selected media, local backups, settings and third-party services are handled."
+      content="Privacy Policy for the LiveStagix website and Android app. Learn how Microsoft Clarity analytics, selected media, in-app background media, local backups, diagnostics and third-party services are handled."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://livestagix.github.io/privacy-policy/" />
@@ -164,18 +164,18 @@ active_nav: "privacy"
         <p class="policy-intro">
           This policy explains how the LiveStagix website uses Microsoft Clarity for website usage
           analytics and how the Android app handles information when you select media, prepare or
-          tune wallpapers, adjust settings, use web image search or restore backups. Wallpaper
-          processing and active app data are kept on your device in app-private storage. Local
-          backup is optional and off by default. When enabled, LiveStagix can copy your user
-          configuration, retained prepared media and diagnostic logs to a permitted folder you
-          select or to <code>Download/LiveWP/</code> on Android 10 and newer. The separate
-          <strong>Hide from Gallery</strong> option is off by default and can create or remove an
-          empty <code>.nomedia</code> marker in an eligible, accessible <code>LiveWP/</code> folder.
-          LiveStagix does not operate a cloud backup service or upload these app files to a
-          LiveStagix server.
+          tune wallpapers, adjust settings, use web image search, create its subtle in-app media
+          background or restore backups. Wallpaper processing and active app data are kept on your
+          device in app-private storage. Local backup is optional and off by default. When enabled,
+          LiveStagix can copy your user configuration, retained prepared media and completed
+          diagnostic sessions to a permitted <code>LiveWP/</code> folder inside the location you
+          choose with Android's folder picker. The separate <strong>Hide from Gallery</strong>
+          option is off by default and can create or remove an empty <code>.nomedia</code> marker
+          in an eligible, accessible <code>LiveWP/</code> folder. LiveStagix does not operate a
+          cloud backup service or upload these app files to a LiveStagix server.
         </p>
         <div class="policy-meta">
-          <span>Last updated: November 4, 2026</span
+          <span>Last updated: November 6, 2026</span
           ><span>Applies to: LiveStagix website and Android app</span>
         </div>
 
@@ -217,16 +217,23 @@ active_nav: "privacy"
                 This private working data is separate from optional user-accessible backup copies.
               </li>
               <li>
+                <strong>In-app media background companion:</strong> When this feature is active,
+                LiveStagix can create a smaller, blurred companion image or video from the already
+                prepared wallpaper to provide a subtle, low-opacity background within the app
+                interface. The companion is stored in app-private storage, is separate from the
+                wallpaper and user-accessible Local backup copies, and is not uploaded to a
+                LiveStagix server.
+              </li>
+              <li>
                 <strong>Optional Local backup:</strong> This feature is off by default. If you
                 enable it, LiveStagix can copy a configuration snapshot named
                 <code>user_config.json</code>, validated prepared-media archives in
-                <code>PreparedMedia/</code>, and diagnostic logs in <code>Logs/</code> to a
-                <code>LiveWP/</code> folder within the location you select with Android's folder
-                picker. On Android 10 and newer, you can instead choose
-                <code>Download/LiveWP/</code> directly. Folder access is limited by the location and
-                permission granted by Android. LiveStagix does not operate a backup server; if the
-                selected location is managed by another storage provider, that provider's own
-                privacy practices apply.
+                <code>PreparedMedia/</code>, and completed diagnostic-session logs in
+                <code>Logs/</code> to a <code>LiveWP/</code> folder inside the location you select
+                with Android's folder picker. Android and the selected storage provider determine
+                which folders can be selected and accessed. LiveStagix does not operate a backup
+                server; if the selected location is managed by another storage provider, that
+                provider's own privacy practices apply.
               </li>
               <li>
                 <strong>Hide from Gallery:</strong> This optional setting is off by default and is
@@ -296,8 +303,10 @@ active_nav: "privacy"
               pages. Clarity can collect page-rendering information and interaction signals such as
               mouse movements, clicks and scrolling, together with browser and device information.
               It may use first-party and third-party cookies or similar technologies to recognise
-              browsers and connect page views into sessions. Cookie use and available recording
-              features can depend on consent and regional settings.
+              browsers and connect page views into sessions. The website currently loads Clarity
+              through its analytics include and does not provide a separate LiveStagix in-site
+              Clarity preference switch. Review Microsoft's documentation for its own privacy
+              controls and any regional or browser-level choices.
             </p>
             <p>
               Microsoft processes website analytics information under its own terms and privacy
@@ -327,13 +336,15 @@ active_nav: "privacy"
               an issue.
             </p>
             <p>
-              Diagnostics are kept in app-private storage. If you also enable Local backup,
-              LiveStagix can copy diagnostic logs to the <code>Logs/</code> folder within your
-              selected <code>LiveWP/</code> backup location. Turning off Local backup stops further
-              backup reads and writes by that feature, but does not erase log copies already written
-              to shared storage. You can turn recording off and clear logs using the app's
-              diagnostic controls; shared copies may need to be removed separately using a file
-              manager.
+              Diagnostics are kept in app-private storage. When you turn Event Recorder off,
+              LiveStagix finalizes the current recording session. If Local backup is enabled and
+              its folder is available, the completed session is exported as one log file under
+              <code>LiveWP/Logs/</code>. Turning Local backup off stops further backup reads and
+              writes by that feature but does not itself remove existing files. The app's
+              <strong>Clear Logs</strong> control attempts to remove both private diagnostic
+              sessions and exported session files from the selected backup folder. Storage-provider
+              access or cleanup failures may prevent removal, so check the result reported by the
+              app.
             </p>
             <p>
               The recorder does not automatically upload diagnostic logs to LiveStagix or send them
@@ -355,15 +366,13 @@ active_nav: "privacy"
               LiveStagix uses Android system features and permissions for wallpaper setup, media you
               choose to import, internet access for web search and related requests, notifications
               where needed for ongoing services, and the optional floating overlay. When you select
-              a user-managed folder, the app uses the Storage Access Framework access granted for
-              that location. Local backup uses the destination when its switch is on. The separate
-              Hide from Gallery setting can create or remove the <code>.nomedia</code> marker in an
-              eligible, accessible <code>LiveWP/</code> folder even while Local backup is off. On
-              Android 10 and newer, the app can also manage files in <code>Download/LiveWP/</code>
-              using Android's shared-media storage APIs. Android controls the access available to
-              each location, and access may vary by Android version and document provider. You can
-              review app permissions in Android Settings and change the selected destination from
-              within the app.
+              a user-managed backup folder, the app uses the Storage Access Framework access
+              granted for that location. Local backup uses the destination when its switch is on.
+              The separate Hide from Gallery setting can create or remove the <code>.nomedia</code>
+              marker in an eligible, accessible <code>LiveWP/</code> folder even while Local backup
+              is off. Android controls which folders are available and what access is granted; this
+              can vary by Android version and document provider. You can review app permissions in
+              Android Settings and change the selected destination from within the app.
             </p>
             <p>
               Local backup is optional and off by default. LiveStagix does not use a LiveStagix
@@ -383,12 +392,12 @@ active_nav: "privacy"
             </p>
             <p>
               When Local backup is enabled, configuration, retained prepared-media archives and
-              diagnostic logs may be stored under <code>LiveWP/</code> in the folder you selected,
-              or under <code>Download/LiveWP/</code> if you chose Downloads. Turning Local backup
-              off stops further backup reads and writes by that feature but deliberately leaves
-              existing files untouched. It does not remove or change a <code>.nomedia</code> marker
-              managed by the separate Hide from Gallery setting. Selecting another folder also does
-              not automatically delete copies in the previous location.
+              completed diagnostic-session logs may be stored under <code>LiveWP/</code> inside the
+              folder you selected. Turning Local backup off stops further backup reads and writes
+              by that feature but deliberately leaves existing files untouched. It does not remove
+              or change a <code>.nomedia</code> marker managed by the separate Hide from Gallery
+              setting. Selecting another folder also does not automatically delete copies in the
+              previous location.
             </p>
             <p>
               Hide from Gallery creates or removes only the empty <code>.nomedia</code> marker in
@@ -401,12 +410,21 @@ active_nav: "privacy"
               behaviour is governed by that service's own settings and policies.
             </p>
             <p>
-              Restoring prepared media or configuration does not delete the backup copy. Clearing a
-              prepared item or the prepared-media library from inside the app does not delete its
-              shared backup archive. To remove user-accessible backup files, use your device's file
-              manager or the file-management interface for the selected storage provider. If you
-              chose a provider that synchronizes files to another service, that provider's own
-              deletion and retention rules may apply.
+              Restoring prepared media or configuration does not delete the backup copy. When you
+              delete an individual prepared item, LiveStagix attempts to remove its shared
+              prepared-media archive only when no other private copy still references that item.
+              The confirmed <strong>Clear all</strong> action in Prepared Media is broader: it
+              removes LiveStagix-managed prepared-media archives, user-configuration backups and
+              diagnostic-log backups, together with non-active prepared-media files and diagnostic
+              logs in private app storage. It preserves the active wallpaper, current app settings
+              and selected Local backup folder; unrelated files in the selected folder are left
+              untouched. If cleanup fails, the app reports the failure and keeps affected entries
+              or copies where possible so the operation can be retried.</p>
+            <p>
+              To remove backup files not managed by LiveStagix, use your device's file manager or
+              the file-management interface for the selected storage provider. If that provider
+              synchronizes files to another service, its own deletion and retention rules may
+              apply.
             </p>
             <p>
               Local backup files are not encrypted by LiveStagix. Anyone or any app that has
@@ -425,12 +443,13 @@ active_nav: "privacy"
           <section>
             <h2>8. Security</h2>
             <p>
-              Active app data is kept in app-managed private storage. Local backup copies are placed
-              only in the location you choose or in <code>Download/LiveWP/</code> if you select
-              Downloads. These user-accessible backup files are not encrypted by LiveStagix. The
-              embedded prepared-media marker helps identify eligible files, but it can be inspected
-              and may be forged; it should not be treated as a security mechanism or proof of
-              authorship. Consider this before keeping sensitive content in a backup folder.
+              Active app data, including the in-app media background companion, is kept in
+              app-managed private storage. Local backup copies are placed in the <code>LiveWP/</code>
+              folder inside the location you select. These user-accessible backup files are not
+              encrypted by LiveStagix. The embedded prepared-media marker helps identify eligible
+              files, but it can be inspected and may be forged; it should not be treated as a
+              security mechanism or proof of authorship. Consider this before keeping sensitive
+              content in a backup folder.
             </p>
             <p>
               If you choose a folder supplied by another storage provider, that provider may have
