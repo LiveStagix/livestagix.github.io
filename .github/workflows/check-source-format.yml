@@ -211,7 +211,7 @@ jobs:
 
           while IFS= read -r file; do
             case "$file" in
-              index.html)
+              index.html|release.json)
                 selected_urls["https://livestagix.github.io/"]=1
                 ;;
               about/index.html)
