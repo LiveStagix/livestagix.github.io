@@ -140,8 +140,8 @@ jobs:
               )
 
           entry_pattern = re.compile(
-              r"(?P<prefix><url>\\s*<loc>(?P<url>[^<]+)</loc>\\s*<lastmod>)"
-              r"[^<]*(?P<suffix></lastmod>\\s*</url>)",
+              r"(?P<prefix><url>\s*<loc>(?P<url>[^<]+)</loc>\s*<lastmod>)"
+              r"[^<]*(?P<suffix></lastmod>\s*</url>)",
               re.DOTALL,
           )
 
