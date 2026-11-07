@@ -1,4 +1,4 @@
-name: Update sitemap last-modified dates
+name: Update sitemap and Atom feed dates
 
 on:
   push:
@@ -17,6 +17,7 @@ on:
       - script.js
       - release.json
       - sitemap.xml
+      - feed.xml
       - .github/workflows/update-sitemap-lastmod.yml
   workflow_dispatch:
 
@@ -29,7 +30,7 @@ concurrency:
 
 jobs:
   update-sitemap:
-    name: Generate page-specific last-modified dates
+    name: Generate page-specific sitemap and Atom dates
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -39,17 +40,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Update sitemap dates from source history
+      - name: Update sitemap and Atom feed from source history
         shell: bash
         run: |
           python3 - <<'PY'
-          from datetime import date
+          from datetime import datetime, timezone
           from pathlib import Path
           import re
           import subprocess
           import xml.etree.ElementTree as ET
 
           sitemap_path = Path("sitemap.xml")
+          atom_path = Path("feed.xml")
 
           shared_source_files = [
               "_includes/header.html",
@@ -71,19 +73,44 @@ jobs:
               "https://livestagix.github.io/": ["release.json"],
           }
 
+          page_titles = {
+              "https://livestagix.github.io/": "LiveStagix",
+              "https://livestagix.github.io/user-guide/": "LiveStagix User Guide",
+              "https://livestagix.github.io/about/": "About LiveStagix",
+              "https://livestagix.github.io/privacy-policy/": "LiveStagix Privacy Policy",
+              "https://livestagix.github.io/security/": "LiveStagix Security & Integrity",
+          }
+
+          page_summaries = {
+              "https://livestagix.github.io/": "Official website for the LiveStagix Android live wallpaper app.",
+              "https://livestagix.github.io/user-guide/": "Documentation and instructions for using LiveStagix.",
+              "https://livestagix.github.io/about/": "Project background and information about LiveStagix.",
+              "https://livestagix.github.io/privacy-policy/": "Privacy information for the LiveStagix website and Android app.",
+              "https://livestagix.github.io/security/": "Release verification and security information for LiveStagix.",
+          }
+
           if not sitemap_path.is_file():
               raise SystemExit("sitemap.xml was not found.")
 
-          for source_file in [
+          all_page_sources = [
               *shared_source_files,
               *page_source_files.values(),
-          ]:
+              *(
+                  source_file
+                  for additional_sources in page_additional_source_files.values()
+                  for source_file in additional_sources
+              ),
+          ]
+
+          for source_file in all_page_sources:
               if not Path(source_file).is_file():
                   raise SystemExit(f"Required page source is missing: {source_file}")
 
           page_dates = {}
+          page_updated = {}
+
           for url, page_source in page_source_files.items():
-              source_dates = []
+              source_updates = []
 
               for source_file in [
                   page_source,
@@ -95,7 +122,7 @@ jobs:
                           "git",
                           "log",
                           "-1",
-                          "--format=%cs",
+                          "--format=%cI",
                           "HEAD",
                           "--",
                           source_file,
@@ -111,9 +138,16 @@ jobs:
                           f"No Git modification date was found for {source_file}."
                       )
 
-                  source_dates.append(date.fromisoformat(value))
+                  source_updates.append(datetime.fromisoformat(value))
 
-              page_dates[url] = max(source_dates).isoformat()
+              latest_update = max(source_updates)
+              page_dates[url] = latest_update.date().isoformat()
+              page_updated[url] = (
+                  latest_update.astimezone(timezone.utc)
+                  .replace(microsecond=0)
+                  .isoformat()
+                  .replace("+00:00", "Z")
+              )
 
           original = sitemap_path.read_text(encoding="utf-8")
           root = ET.fromstring(original)
@@ -200,18 +234,121 @@ jobs:
               print("Updated sitemap.xml.")
           else:
               print("All sitemap lastmod values are already up to date.")
+
+          atom_namespace = "http://www.w3.org/2005/Atom"
+          atom_feed_url = "https://livestagix.github.io/feed.xml"
+          atom_home_url = "https://livestagix.github.io/"
+
+          def atom_tag(name):
+              return f"{{{atom_namespace}}}{name}"
+
+          ET.register_namespace("", atom_namespace)
+
+          feed = ET.Element(
+              atom_tag("feed"),
+              {"{http://www.w3.org/XML/1998/namespace}lang": "en"},
+          )
+          ET.SubElement(feed, atom_tag("id")).text = atom_feed_url
+          ET.SubElement(feed, atom_tag("title")).text = "LiveStagix Website"
+          ET.SubElement(feed, atom_tag("updated")).text = max(page_updated.values())
+
+          author = ET.SubElement(feed, atom_tag("author"))
+          ET.SubElement(author, atom_tag("name")).text = "LiveStagix"
+          ET.SubElement(author, atom_tag("uri")).text = atom_home_url
+
+          ET.SubElement(
+              feed,
+              atom_tag("link"),
+              {
+                  "rel": "self",
+                  "type": "application/atom+xml",
+                  "href": atom_feed_url,
+              },
+          )
+          ET.SubElement(
+              feed,
+              atom_tag("link"),
+              {
+                  "rel": "alternate",
+                  "type": "text/html",
+                  "href": atom_home_url,
+              },
+          )
+          ET.SubElement(
+              feed,
+              atom_tag("generator"),
+              {"uri": "https://github.com/LiveStagix/livestagix.github.io"},
+          ).text = "LiveStagix website"
+
+          for url, title in page_titles.items():
+              entry = ET.SubElement(feed, atom_tag("entry"))
+              ET.SubElement(entry, atom_tag("id")).text = url
+              ET.SubElement(entry, atom_tag("title")).text = title
+              ET.SubElement(entry, atom_tag("updated")).text = page_updated[url]
+              ET.SubElement(
+                  entry,
+                  atom_tag("link"),
+                  {
+                      "rel": "alternate",
+                      "type": "text/html",
+                      "href": url,
+                  },
+              )
+              ET.SubElement(entry, atom_tag("summary")).text = page_summaries[url]
+
+          ET.indent(feed, space="  ")
+          atom_content = (
+              '<?xml version="1.0" encoding="utf-8"?>\\n'
+              + ET.tostring(feed, encoding="unicode")
+              + "\\n"
+          )
+
+          validated_feed = ET.fromstring(atom_content)
+          if validated_feed.tag != atom_tag("feed"):
+              raise SystemExit("Generated file is not an Atom 1.0 feed.")
+
+          entries = validated_feed.findall(atom_tag("entry"))
+          entry_urls = {
+              entry.findtext(atom_tag("id"))
+              for entry in entries
+          }
+
+          if entry_urls != expected_urls or len(entries) != len(expected_urls):
+              raise SystemExit("Generated Atom feed does not contain exactly the five expected pages.")
+
+          for entry in entries:
+              url = entry.findtext(atom_tag("id"))
+              updated_at = entry.findtext(atom_tag("updated"))
+              if updated_at != page_updated[url]:
+                  raise SystemExit(f"Atom updated timestamp mismatch for {url}.")
+
+          feed_updated = validated_feed.findtext(atom_tag("updated"))
+          if feed_updated != max(page_updated.values()):
+              raise SystemExit("Atom feed-level updated timestamp is incorrect.")
+
+          original_atom = (
+              atom_path.read_text(encoding="utf-8")
+              if atom_path.is_file()
+              else None
+          )
+          if atom_content != original_atom:
+              with atom_path.open("w", encoding="utf-8", newline="") as atom_file:
+                  atom_file.write(atom_content)
+              print("Updated feed.xml.")
+          else:
+              print("All Atom feed updated timestamps are already up to date.")
           PY
 
-      - name: Commit updated sitemap
+      - name: Commit updated sitemap and Atom feed
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
+          git add sitemap.xml feed.xml
 
           if ! git diff --cached --quiet; then
-            git commit -m "Update sitemap last-modified dates"
+            git commit -m "Update sitemap and Atom feed dates"
             git push
           else
-            echo "Sitemap dates are already up to date."
+            echo "Sitemap and Atom feed dates are already up to date."
           fi
