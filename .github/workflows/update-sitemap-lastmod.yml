@@ -298,9 +298,10 @@ jobs:
 
           ET.indent(feed, space="  ")
           atom_content = (
-              '<?xml version="1.0" encoding="utf-8"?>\n'
+              '<?xml version="1.0" encoding="utf-8"?>'
+              + chr(10)
               + ET.tostring(feed, encoding="unicode")
-              + "\n"
+              + chr(10)
           )
 
           validated_feed = ET.fromstring(atom_content)
