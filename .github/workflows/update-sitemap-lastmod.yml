@@ -1,0 +1,207 @@
+name: Update sitemap last-modified dates
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - index.html
+      - user-guide/index.html
+      - about/index.html
+      - privacy-policy/index.html
+      - security/index.html
+      - _includes/header.html
+      - _includes/footer.html
+      - _includes/clarity.html
+      - styles.css
+      - script.js
+      - .github/workflows/update-sitemap-lastmod.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: website-sitemap-lastmod-main
+  cancel-in-progress: false
+
+jobs:
+  update-sitemap:
+    name: Generate page-specific last-modified dates
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out website source and commit history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update sitemap dates from source history
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from datetime import date
+          from pathlib import Path
+          import re
+          import subprocess
+          import xml.etree.ElementTree as ET
+
+          sitemap_path = Path("sitemap.xml")
+
+          shared_source_files = [
+              "_includes/header.html",
+              "_includes/footer.html",
+              "_includes/clarity.html",
+              "styles.css",
+              "script.js",
+          ]
+
+          page_source_files = {
+              "https://livestagix.github.io/": "index.html",
+              "https://livestagix.github.io/user-guide/": "user-guide/index.html",
+              "https://livestagix.github.io/about/": "about/index.html",
+              "https://livestagix.github.io/privacy-policy/": "privacy-policy/index.html",
+              "https://livestagix.github.io/security/": "security/index.html",
+          }
+
+          if not sitemap_path.is_file():
+              raise SystemExit("sitemap.xml was not found.")
+
+          for source_file in [
+              *shared_source_files,
+              *page_source_files.values(),
+          ]:
+              if not Path(source_file).is_file():
+                  raise SystemExit(f"Required page source is missing: {source_file}")
+
+          page_dates = {}
+          for url, page_source in page_source_files.items():
+              source_dates = []
+
+              for source_file in [page_source, *shared_source_files]:
+                  result = subprocess.run(
+                      [
+                          "git",
+                          "log",
+                          "-1",
+                          "--format=%cs",
+                          "HEAD",
+                          "--",
+                          source_file,
+                      ],
+                      check=True,
+                      capture_output=True,
+                      text=True,
+                  )
+
+                  value = result.stdout.strip()
+                  if not value:
+                      raise SystemExit(
+                          f"No Git modification date was found for {source_file}."
+                      )
+
+                  source_dates.append(date.fromisoformat(value))
+
+              page_dates[url] = max(source_dates).isoformat()
+
+          original = sitemap_path.read_text(encoding="utf-8")
+          root = ET.fromstring(original)
+          namespace = {
+              "sm": "http://www.sitemaps.org/schemas/sitemap/0.9"
+          }
+
+          existing_urls = set()
+          for entry in root.findall("sm:url", namespace):
+              location = entry.find("sm:loc", namespace)
+              last_modified = entry.find("sm:lastmod", namespace)
+
+              if location is None or not location.text:
+                  raise SystemExit("A sitemap entry is missing its URL.")
+              if last_modified is None:
+                  raise SystemExit(
+                      f"The sitemap entry for {location.text.strip()} "
+                      "is missing its lastmod element."
+                  )
+
+              url = location.text.strip()
+              if url in existing_urls:
+                  raise SystemExit(f"Duplicate sitemap URL found: {url}")
+
+              existing_urls.add(url)
+
+          expected_urls = set(page_dates)
+          if existing_urls != expected_urls:
+              missing = sorted(expected_urls - existing_urls)
+              unexpected = sorted(existing_urls - expected_urls)
+              raise SystemExit(
+                  f"Sitemap URL mismatch. Missing: {missing}; "
+                  f"unexpected: {unexpected}"
+              )
+
+          entry_pattern = re.compile(
+              r"(?P<prefix><url>\\s*<loc>(?P<url>[^<]+)</loc>\\s*<lastmod>)"
+              r"[^<]*(?P<suffix></lastmod>\\s*</url>)",
+              re.DOTALL,
+          )
+
+          replaced_urls = set()
+
+          def replace_lastmod(match):
+              url = match.group("url").strip()
+              if url not in page_dates:
+                  raise SystemExit(f"Unexpected URL in sitemap: {url}")
+
+              replaced_urls.add(url)
+              return (
+                  match.group("prefix")
+                  + page_dates[url]
+                  + match.group("suffix")
+              )
+
+          updated, replacement_count = entry_pattern.subn(
+              replace_lastmod,
+              original,
+          )
+
+          if replaced_urls != expected_urls or replacement_count != len(expected_urls):
+              raise SystemExit(
+                  "Could not safely update every sitemap lastmod value."
+              )
+
+          updated_root = ET.fromstring(updated)
+          for entry in updated_root.findall("sm:url", namespace):
+              location = entry.find("sm:loc", namespace)
+              last_modified = entry.find("sm:lastmod", namespace)
+              url = location.text.strip()
+              actual_date = last_modified.text.strip() if last_modified.text else ""
+
+              if actual_date != page_dates[url]:
+                  raise SystemExit(
+                      f"Validation failed for {url}: expected "
+                      f"{page_dates[url]}, found {actual_date}."
+                  )
+
+              print(f"{url}  {actual_date}")
+
+          if updated != original:
+              with sitemap_path.open("w", encoding="utf-8", newline="") as sitemap:
+                  sitemap.write(updated)
+              print("Updated sitemap.xml.")
+          else:
+              print("All sitemap lastmod values are already up to date.")
+          PY
+
+      - name: Commit updated sitemap
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update sitemap last-modified dates"
+            git push
+          else
+            echo "Sitemap dates are already up to date."
+          fi
