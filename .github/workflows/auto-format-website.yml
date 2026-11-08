@@ -63,8 +63,9 @@ jobs:
           PRETTIER="$GITHUB_WORKSPACE/node_modules/.bin/prettier"
 
           if [[ ! -s "$SOURCE_SHA_FILE" || ! -f "$CHANGED_LIST" ]]; then
-            echo "::error::Formatting diagnostics are missing. Check the failed formatting run for its formatter logs."
-            exit 1
+            echo "::warning::Formatting diagnostics were not uploaded by the failed check. This can happen when the failure occurs after formatting verification, such as a rejected Git push. Skipping auto-format; no website files will be changed."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
           SOURCE_SHA="$(tr -d '\r\n' < "$SOURCE_SHA_FILE")"
@@ -163,8 +164,28 @@ jobs:
           fi
 
           git commit -m "style: auto-format website source"
-          git push origin HEAD:main
-          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+          # Another workflow may update main while this formatting job is running.
+          # Rebase safely and retry; never force-push or overwrite concurrent edits.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "committed=true" >> "$GITHUB_OUTPUT"
+              break
+            fi
+
+            if [[ "$attempt" -eq 3 ]]; then
+              echo "::error::Could not push auto-format changes after three attempts. No force push was used."
+              exit 1
+            fi
+
+            echo "::notice::main advanced during the push. Fetching and safely rebasing (attempt $attempt/3)."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::Auto-format changes conflict with newer main content. No existing changes were overwritten."
+              exit 1
+            fi
+          done
 
       - name: Re-run website source formatting check
         if: steps.format.outputs.committed == 'true'
