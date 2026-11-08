@@ -184,7 +184,28 @@ jobs:
           git add index.html user-guide/index.html about/index.html privacy-policy/index.html security/index.html _includes/header.html _includes/footer.html _includes/clarity.html
           if ! git diff --cached --quiet; then
             git commit -m "Format website HTML and Liquid source"
-            git push
+
+            # A separate workflow may update main while formatting is running.
+            # Rebase this formatting-only commit onto the latest main; never force-push.
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "Formatting commit pushed successfully."
+                break
+              fi
+
+              if [[ "$attempt" -eq 3 ]]; then
+                echo "::error::Could not push formatting changes after three attempts. No force push was used."
+                exit 1
+              fi
+
+              echo "::notice::main advanced during the push. Fetching and safely rebasing (attempt $attempt/3)."
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort || true
+                echo "::error::Formatting changes conflict with newer main content. No existing changes were overwritten."
+                exit 1
+              fi
+            done
           else
             echo "No formatting changes needed."
           fi
