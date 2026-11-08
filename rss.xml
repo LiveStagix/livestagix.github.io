@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>LiveStagix Website</title>
+    <link>https://livestagix.github.io/</link>
+    <description>Official pages of the LiveStagix website.</description>
+    <item>
+      <title>LiveStagix</title>
+      <link>https://livestagix.github.io/</link>
+      <guid isPermaLink="true">https://livestagix.github.io/</guid>
+      <description>Official website for the LiveStagix Android live wallpaper app.</description>
+    </item>
+    <item>
+      <title>User Guide</title>
+      <link>https://livestagix.github.io/user-guide/</link>
+      <guid isPermaLink="true">https://livestagix.github.io/user-guide/</guid>
+      <description>User guide for the LiveStagix app.</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://livestagix.github.io/about/</link>
+      <guid isPermaLink="true">https://livestagix.github.io/about/</guid>
+      <description>About the LiveStagix project.</description>
+    </item>
+    <item>
+      <title>Privacy Policy</title>
+      <link>https://livestagix.github.io/privacy-policy/</link>
+      <guid isPermaLink="true">https://livestagix.github.io/privacy-policy/</guid>
+      <description>Privacy policy for LiveStagix.</description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://livestagix.github.io/security/</link>
+      <guid isPermaLink="true">https://livestagix.github.io/security/</guid>
+      <description>Security information and independent scan details for LiveStagix.</description>
+    </item>
+  </channel>
+</rss>
