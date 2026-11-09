@@ -169,7 +169,7 @@ active_nav: "privacy"
           parties, such as Bing and Google Play, as explained below.
         </p>
         <div class="policy-meta">
-          <span>Last updated: November 8, 2026</span
+          <span>Last updated: November 9, 2026</span
           ><span>Applies to: LiveStagix website and Android app</span>
         </div>
 
@@ -279,14 +279,19 @@ active_nav: "privacy"
             <p>
               <strong>GitHub updates:</strong> GitHub-distributed builds connect to GitHub's public
               Releases API to check for available app updates. GitHub may receive standard
-              connection information, including your IP address and technical request metadata. On
-              builds that support direct in-app installation, choosing
-              <strong>Update now</strong> downloads the APK and its SHA-256 checksum from the
-              official public GitHub release repository. Before Android's installer opens, the app
-              verifies the downloaded APK against the checksum, confirms that it belongs to the
-              LiveStagix package and checks that its version is not older than the installed app.
-              Android then presents the installation for your approval; updates are not installed
-              silently.
+              connection information, including your IP address and technical request metadata.
+              Choosing <strong>Update now</strong> downloads the APK and its SHA-256 checksum from
+              the official public GitHub release repository. Before saving the APK, LiveStagix
+              verifies it against the checksum, confirms that it belongs to the LiveStagix package
+              and checks that its version is not older than the installed app. On Android 10 and
+              newer, the verified APK is saved to the public Downloads collection. On older
+              supported Android versions, Android's system file picker asks you to choose where to
+              save it. LiveStagix then opens the Downloads screen when available; otherwise, you can
+              open the Files app yourself. You tap the saved APK in Downloads or Files to start the
+              installation. Android may ask you to allow app installations from the Files or
+              Downloads app. That permission is managed by Android for the app you use to open the
+              APK, not by LiveStagix. Android presents the installation for your confirmation;
+              LiveStagix does not install updates silently.
             </p>
             <p>
               <strong>Website analytics:</strong> The LiveStagix website uses Microsoft Clarity to
@@ -359,14 +364,16 @@ active_nav: "privacy"
               review app permissions in Android Settings and change the selected folder in the app.
             </p>
             <p>
-              GitHub-distributed APK builds include Android's permission for an app to request
-              installation of app packages, which supports direct in-app updates. If Android has not
-              allowed LiveStagix to install an update from this source, the app opens Android's
-              settings page for LiveStagix so you can allow it. This is separate from the browser
-              permission Android may request when you first install an APK downloaded from the
-              website. The Google Play build does not include this GitHub installation permission
-              and uses Google Play's update flow instead. Even when the permission is allowed,
-              Android presents the installation and requires your confirmation.
+              GitHub-distributed APK builds do not request Android's
+              <code>REQUEST_INSTALL_PACKAGES</code> permission. For GitHub updates, LiveStagix
+              verifies the downloaded APK and saves it to Downloads, or uses Android's system file
+              picker on older supported versions. You open the saved APK through the Files or
+              Downloads app to start installation. Android may ask you to allow installations from
+              that file manager; this source-specific setting is managed by Android and does not
+              grant LiveStagix permission to install packages. Android presents the installation
+              for your confirmation. Separately, when you first install an APK downloaded from the
+              LiveStagix website, your browser may need Android's permission to install apps from
+              that browser. The Google Play build uses Google Play's update flow instead.
             </p>
             <p>
               Active app data is kept in app-managed private storage. Backup copies are stored in
