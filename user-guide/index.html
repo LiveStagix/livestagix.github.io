@@ -1502,7 +1502,8 @@ active_nav: "user-guide"
         });
 
         results.addEventListener('click', (event) => {
-          const link = event.target.closest('a[data-guide-target]');
+          const clickedElement = event.target instanceof Element ? event.target : null;
+          const link = clickedElement?.closest('a[data-guide-target]');
           if (!link) return;
           event.preventDefault();
           navigateToResult(link);
@@ -1542,15 +1543,33 @@ active_nav: "user-guide"
         });
 
         results.addEventListener('keydown', (event) => {
-          if (event.key !== 'Escape') return;
-          setExpanded(false);
-          input.focus();
+          if (event.key === 'Escape') {
+            setExpanded(false);
+            input.focus();
+            return;
+          }
+
+          if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+          const options = [...results.querySelectorAll('a[data-guide-target]')];
+          if (!options.length) return;
+
+          event.preventDefault();
+          const currentIndex = options.indexOf(document.activeElement);
+          const nextIndex =
+            event.key === 'ArrowDown'
+              ? Math.min(currentIndex + 1, options.length - 1)
+              : currentIndex <= 0
+                ? 0
+                : currentIndex - 1;
+          options[nextIndex].focus();
+          options.forEach((option, index) =>
+            option.setAttribute('aria-selected', String(index === nextIndex)),
+          );
         });
 
         document.addEventListener('click', (event) => {
-          if (event.target instanceof Node && !event.target.closest('.guide-search')) {
-            setExpanded(false);
-          }
+          const clickedElement = event.target instanceof Element ? event.target : null;
+          if (!clickedElement || !clickedElement.closest('.guide-search')) setExpanded(false);
         });
 
         if (window.location.hash.length > 1) {
