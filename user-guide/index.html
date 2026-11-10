@@ -1382,6 +1382,11 @@ active_nav: "user-guide"
           if (entry) entry.aliases.push(...alias.terms);
         });
 
+        function containsToken(text, token) {
+          if (token.length <= 2) return (' ' + text + ' ').includes(' ' + token + ' ');
+          return text.includes(token);
+        }
+
         function scoreEntry(entry, query, tokens) {
           const title = normalize(entry.title);
           const section = normalize(entry.section);
@@ -1389,15 +1394,16 @@ active_nav: "user-guide"
           const searchable = normalize(entry.searchText);
           const combined = [title, section, aliasesText, searchable].join(' ');
 
-          if (!tokens.every((token) => combined.includes(token))) return 0;
+          if (!tokens.every((token) => containsToken(combined, token))) return 0;
 
           let score = 20;
           if (title === query) score += 130;
-          else if (title.includes(query)) score += 105;
-          if (aliasesText.includes(query)) score += 120;
-          if (tokens.every((token) => title.includes(token))) score += 75;
-          else if (tokens.every((token) => aliasesText.includes(token))) score += 65;
-          else if (tokens.every((token) => (title + ' ' + section).includes(token))) score += 45;
+          else if (query.length > 2 && title.includes(query)) score += 105;
+          if (containsToken(aliasesText, query)) score += 120;
+          else if (query.length > 2 && aliasesText.includes(query)) score += 120;
+          if (tokens.every((token) => containsToken(title, token))) score += 75;
+          else if (tokens.every((token) => containsToken(aliasesText, token))) score += 65;
+          else if (tokens.every((token) => containsToken(title + ' ' + section, token))) score += 45;
           else score += 10;
 
           if (entry.type === 'QUESTION') score += 2;
@@ -1417,6 +1423,17 @@ active_nav: "user-guide"
             results.replaceChildren();
             setExpanded(false);
             status.textContent = '';
+            return;
+          }
+
+          if (normalizedQuery.length < 2) {
+            results.replaceChildren();
+            const hint = document.createElement('p');
+            hint.className = 'guide-search-empty';
+            hint.textContent = 'Type at least two characters to search the guide.';
+            results.append(hint);
+            setExpanded(true);
+            status.textContent = 'Type at least two characters to search.';
             return;
           }
 
