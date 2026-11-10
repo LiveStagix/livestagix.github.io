@@ -379,7 +379,9 @@ active_nav: "user-guide"
       }
       .guide-search-field:focus-within {
         border-color: rgba(181, 139, 255, 0.62);
-        box-shadow: 0 0 0 3px rgba(181, 139, 255, 0.09), 0 13px 38px #0002;
+        box-shadow:
+          0 0 0 3px rgba(181, 139, 255, 0.09),
+          0 13px 38px #0002;
       }
       .guide-search-icon {
         flex: 0 0 auto;
@@ -472,7 +474,7 @@ active_nav: "user-guide"
       }
       .guide-search-result:hover,
       .guide-search-result:focus-visible,
-      .guide-search-result[aria-selected="true"] {
+      .guide-search-result[aria-selected='true'] {
         border-color: rgba(98, 231, 255, 0.13);
         outline: none;
         background: rgba(98, 231, 255, 0.075);
@@ -636,9 +638,7 @@ active_nav: "user-guide"
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <p class="guide-search-hint">
-            Try “gyro”, “Smart Upscale”, “backup” or “renderer”.
-          </p>
+          <p class="guide-search-hint">Try “gyro”, “Smart Upscale”, “backup” or “renderer”.</p>
           <div
             class="guide-search-results"
             id="guide-search-results"
@@ -646,7 +646,12 @@ active_nav: "user-guide"
             aria-label="Matching guide topics"
             hidden
           ></div>
-          <span class="guide-search-status" id="guide-search-status" role="status" aria-live="polite"></span>
+          <span
+            class="guide-search-status"
+            id="guide-search-status"
+            role="status"
+            aria-live="polite"
+          ></span>
         </section>
 
         <div class="guide-layout">
@@ -1221,27 +1226,27 @@ active_nav: "user-guide"
     <script src="../script.js?v=20261101-container-query-nav-v1" defer></script>
     <script>
       (() => {
-        const input = document.getElementById("guide-search-input");
-        const clearButton = document.getElementById("guide-search-clear");
-        const results = document.getElementById("guide-search-results");
-        const status = document.getElementById("guide-search-status");
+        const input = document.getElementById('guide-search-input');
+        const clearButton = document.getElementById('guide-search-clear');
+        const results = document.getElementById('guide-search-results');
+        const status = document.getElementById('guide-search-status');
         if (!input || !clearButton || !results || !status) return;
 
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const normalize = (value) =>
-          String(value || "")
+          String(value || '')
             .toLowerCase()
-            .replace(/&/g, " and ")
-            .replace(/[^a-z0-9]+/g, " ")
+            .replace(/&/g, ' and ')
+            .replace(/[^a-z0-9]+/g, ' ')
             .trim();
 
         const makeId = (prefix, value, usedIds) => {
-          const slug = normalize(value).replace(/\s+/g, "-") || "topic";
+          const slug = normalize(value).replace(/\s+/g, '-') || 'topic';
           const base = prefix + slug;
           let candidate = base;
           let suffix = 2;
           while (usedIds.has(candidate) || document.getElementById(candidate)) {
-            candidate = base + "-" + suffix;
+            candidate = base + '-' + suffix;
             suffix += 1;
           }
           usedIds.add(candidate);
@@ -1267,18 +1272,18 @@ active_nav: "user-guide"
             }
             if (!reachedHeading) continue;
 
-            const nextHeading = parent.closest("h2, h3");
+            const nextHeading = parent.closest('h2, h3');
             if (nextHeading && nextHeading !== heading) break;
 
             const value = node.nodeValue.trim();
             if (value) parts.push(value);
           }
 
-          return parts.join(" ").slice(0, 1200);
+          return parts.join(' ').slice(0, 1200);
         }
 
-        document.querySelectorAll(".guide-section").forEach((section) => {
-          const sectionHeading = section.querySelector("h2");
+        document.querySelectorAll('.guide-section').forEach((section) => {
+          const sectionHeading = section.querySelector('h2');
           if (!sectionHeading) return;
 
           const sectionTitle = sectionHeading.textContent.trim();
@@ -1286,32 +1291,32 @@ active_nav: "user-guide"
           entries.push({
             title: sectionTitle,
             section: sectionTitle,
-            type: "SECTION",
+            type: 'SECTION',
             target: section,
             searchText: sectionText,
             aliases: [],
           });
 
-          section.querySelectorAll("h3").forEach((heading) => {
-            if (!heading.id) heading.id = makeId("guide-topic-", heading.textContent, usedIds);
+          section.querySelectorAll('h3').forEach((heading) => {
+            if (!heading.id) heading.id = makeId('guide-topic-', heading.textContent, usedIds);
             entries.push({
               title: heading.textContent.trim(),
               section: sectionTitle,
-              type: "TOPIC",
+              type: 'TOPIC',
               target: heading,
               searchText: textAfterHeading(section, heading),
               aliases: [],
             });
           });
 
-          section.querySelectorAll(".guide-faq details").forEach((details) => {
-            const summary = details.querySelector("summary");
+          section.querySelectorAll('.guide-faq details').forEach((details) => {
+            const summary = details.querySelector('summary');
             if (!summary) return;
-            if (!details.id) details.id = makeId("guide-question-", summary.textContent, usedIds);
+            if (!details.id) details.id = makeId('guide-question-', summary.textContent, usedIds);
             entries.push({
               title: summary.textContent.trim(),
               section: sectionTitle,
-              type: "QUESTION",
+              type: 'QUESTION',
               target: details,
               searchText: details.textContent.trim(),
               aliases: [],
@@ -1321,52 +1326,52 @@ active_nav: "user-guide"
 
         const aliases = [
           {
-            title: "Photo Motion",
-            section: "Photo Motion",
-            terms: ["gyro", "gyroscope", "motion sensor", "phone tilt", "tilt controls"],
+            title: 'Photo Motion',
+            section: 'Photo Motion',
+            terms: ['gyro', 'gyroscope', 'motion sensor', 'phone tilt', 'tilt controls'],
           },
           {
-            title: "Video scaling and sharpening",
-            section: "Video Enhancements",
+            title: 'Video scaling and sharpening',
+            section: 'Video Enhancements',
             terms: [
-              "su",
-              "smart upscale",
-              "upscale",
-              "snapdragon game super resolution",
-              "gsr",
-              "rcas",
-              "sharpening",
+              'su',
+              'smart upscale',
+              'upscale',
+              'snapdragon game super resolution',
+              'gsr',
+              'rcas',
+              'sharpening',
             ],
           },
           {
-            title: "Smoother movement",
-            section: "Video Enhancements",
-            terms: ["fi", "frame interpolation", "interpolation", "generated frames"],
+            title: 'Smoother movement',
+            section: 'Video Enhancements',
+            terms: ['fi', 'frame interpolation', 'interpolation', 'generated frames'],
           },
           {
-            title: "Safety Zoom Response (Kzoom)",
-            section: "Photo Motion",
-            terms: ["kzoom", "safety zoom", "zoom response"],
+            title: 'Safety Zoom Response (Kzoom)',
+            section: 'Photo Motion',
+            terms: ['kzoom', 'safety zoom', 'zoom response'],
           },
           {
-            title: "Light",
-            section: "Media Tuner",
-            terms: ["brightness", "exposure", "light adjustment"],
+            title: 'Light',
+            section: 'Media Tuner',
+            terms: ['brightness', 'exposure', 'light adjustment'],
           },
           {
-            title: "Choose a backup folder",
-            section: "Prepared Media & Local Backup",
-            terms: ["restore", "restoring", "backup location", "backup folder"],
+            title: 'Choose a backup folder',
+            section: 'Prepared Media & Local Backup',
+            terms: ['restore', 'restoring', 'backup location', 'backup folder'],
           },
           {
-            title: "Theme and renderer",
-            section: "Advanced Settings",
-            terms: ["compatibility", "compatible renderer", "modern renderer", "renderer auto"],
+            title: 'Theme and renderer',
+            section: 'Advanced Settings',
+            terms: ['compatibility', 'compatible renderer', 'modern renderer', 'renderer auto'],
           },
           {
-            title: "Open LiveStage and frame the media",
-            section: "Getting started",
-            terms: ["live stage", "preview screen", "position media", "reposition"],
+            title: 'Open LiveStage and frame the media',
+            section: 'Getting started',
+            terms: ['live stage', 'preview screen', 'position media', 'reposition'],
           },
         ];
 
@@ -1380,9 +1385,9 @@ active_nav: "user-guide"
         function scoreEntry(entry, query, tokens) {
           const title = normalize(entry.title);
           const section = normalize(entry.section);
-          const aliasesText = normalize(entry.aliases.join(" "));
+          const aliasesText = normalize(entry.aliases.join(' '));
           const searchable = normalize(entry.searchText);
-          const combined = [title, section, aliasesText, searchable].join(" ");
+          const combined = [title, section, aliasesText, searchable].join(' ');
 
           if (!tokens.every((token) => combined.includes(token))) return 0;
 
@@ -1392,16 +1397,16 @@ active_nav: "user-guide"
           if (aliasesText.includes(query)) score += 120;
           if (tokens.every((token) => title.includes(token))) score += 75;
           else if (tokens.every((token) => aliasesText.includes(token))) score += 65;
-          else if (tokens.every((token) => (title + " " + section).includes(token))) score += 45;
+          else if (tokens.every((token) => (title + ' ' + section).includes(token))) score += 45;
           else score += 10;
 
-          if (entry.type === "QUESTION") score += 2;
+          if (entry.type === 'QUESTION') score += 2;
           return score;
         }
 
         function setExpanded(expanded) {
           results.hidden = !expanded;
-          input.setAttribute("aria-expanded", String(expanded));
+          input.setAttribute('aria-expanded', String(expanded));
         }
 
         function renderResults(query) {
@@ -1411,7 +1416,7 @@ active_nav: "user-guide"
           if (!normalizedQuery) {
             results.replaceChildren();
             setExpanded(false);
-            status.textContent = "";
+            status.textContent = '';
             return;
           }
 
@@ -1421,38 +1426,37 @@ active_nav: "user-guide"
             .filter((match) => match.score > 0)
             .sort(
               (first, second) =>
-                second.score - first.score ||
-                first.entry.title.localeCompare(second.entry.title),
+                second.score - first.score || first.entry.title.localeCompare(second.entry.title),
             )
             .slice(0, 7);
 
           results.replaceChildren();
 
           if (!matches.length) {
-            const empty = document.createElement("p");
-            empty.className = "guide-search-empty";
-            empty.textContent = "No matching topics. Try another feature name or a shorter term.";
+            const empty = document.createElement('p');
+            empty.className = 'guide-search-empty';
+            empty.textContent = 'No matching topics. Try another feature name or a shorter term.';
             results.append(empty);
             setExpanded(true);
-            status.textContent = "No matching guide topics.";
+            status.textContent = 'No matching guide topics.';
             return;
           }
 
           matches.forEach(({ entry }) => {
-            const link = document.createElement("a");
-            link.className = "guide-search-result";
-            link.href = "#" + entry.target.id;
-            link.setAttribute("role", "option");
-            link.setAttribute("aria-selected", "false");
+            const link = document.createElement('a');
+            link.className = 'guide-search-result';
+            link.href = '#' + entry.target.id;
+            link.setAttribute('role', 'option');
+            link.setAttribute('aria-selected', 'false');
             link.dataset.guideTarget = entry.target.id;
 
-            const title = document.createElement("span");
-            title.className = "guide-search-result-title";
+            const title = document.createElement('span');
+            title.className = 'guide-search-result-title';
             title.textContent = entry.title;
 
-            const meta = document.createElement("span");
-            meta.className = "guide-search-result-meta";
-            meta.textContent = entry.section + " · " + entry.type.toLowerCase();
+            const meta = document.createElement('span');
+            meta.className = 'guide-search-result-meta';
+            meta.textContent = entry.section + ' · ' + entry.type.toLowerCase();
 
             link.append(title, meta);
             results.append(link);
@@ -1460,7 +1464,7 @@ active_nav: "user-guide"
 
           setExpanded(true);
           status.textContent =
-            matches.length + (matches.length === 1 ? " matching topic." : " matching topics.");
+            matches.length + (matches.length === 1 ? ' matching topic.' : ' matching topics.');
         }
 
         function navigateToResult(link) {
@@ -1468,66 +1472,67 @@ active_nav: "user-guide"
           const target = targetId && document.getElementById(targetId);
           if (!target) return;
 
-          if (target.matches("details")) target.open = true;
+          if (target.matches('details')) target.open = true;
 
-          const hash = "#" + target.id;
-          if (window.location.hash !== hash) window.history.pushState(null, "", hash);
+          const hash = '#' + target.id;
+          if (window.location.hash !== hash) window.history.pushState(null, '', hash);
 
           target.scrollIntoView({
-            behavior: reduceMotion.matches ? "auto" : "smooth",
-            block: "start",
+            behavior: reduceMotion.matches ? 'auto' : 'smooth',
+            block: 'start',
           });
 
-          target.classList.remove("guide-search-highlight");
+          target.classList.remove('guide-search-highlight');
           void target.offsetWidth;
-          target.classList.add("guide-search-highlight");
-          window.setTimeout(() => target.classList.remove("guide-search-highlight"), 1900);
+          target.classList.add('guide-search-highlight');
+          window.setTimeout(() => target.classList.remove('guide-search-highlight'), 1900);
 
           setExpanded(false);
-          status.textContent = "Moved to " + link.querySelector(".guide-search-result-title").textContent + ".";
+          status.textContent =
+            'Moved to ' + link.querySelector('.guide-search-result-title').textContent + '.';
           input.focus({ preventScroll: true });
         }
 
-        input.addEventListener("input", () => renderResults(input.value));
+        input.addEventListener('input', () => renderResults(input.value));
 
-        clearButton.addEventListener("click", () => {
-          input.value = "";
-          renderResults("");
+        clearButton.addEventListener('click', () => {
+          input.value = '';
+          renderResults('');
           input.focus();
         });
 
-        results.addEventListener("click", (event) => {
-          const link = event.target.closest("a[data-guide-target]");
+        results.addEventListener('click', (event) => {
+          const link = event.target.closest('a[data-guide-target]');
           if (!link) return;
           event.preventDefault();
           navigateToResult(link);
         });
 
-        input.addEventListener("keydown", (event) => {
-          const options = [...results.querySelectorAll("a[data-guide-target]")];
-          if (event.key === "Escape") {
+        input.addEventListener('keydown', (event) => {
+          const options = [...results.querySelectorAll('a[data-guide-target]')];
+          if (event.key === 'Escape') {
             setExpanded(false);
             return;
           }
 
-          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             if (!options.length) return;
             event.preventDefault();
             const currentIndex = options.indexOf(document.activeElement);
             const nextIndex =
-              event.key === "ArrowDown"
+              event.key === 'ArrowDown'
                 ? Math.min(currentIndex + 1, options.length - 1)
                 : currentIndex <= 0
                   ? 0
                   : currentIndex - 1;
             options[nextIndex].focus();
             options.forEach((option, index) =>
-              option.setAttribute("aria-selected", String(index === nextIndex)),
+              option.setAttribute('aria-selected', String(index === nextIndex)),
             );
             return;
           }
 
-          if (event.key === "Enter" && !results.hidden) {
+          if (event.key === 'Enter' && !results.hidden) {
             const active = results.querySelector('a[aria-selected="true"]') || options[0];
             if (active) {
               event.preventDefault();
@@ -1536,29 +1541,29 @@ active_nav: "user-guide"
           }
         });
 
-        results.addEventListener("keydown", (event) => {
-          if (event.key !== "Escape") return;
+        results.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') return;
           setExpanded(false);
           input.focus();
         });
 
-        document.addEventListener("click", (event) => {
-          if (event.target instanceof Node && !event.target.closest(".guide-search")) {
+        document.addEventListener('click', (event) => {
+          if (event.target instanceof Node && !event.target.closest('.guide-search')) {
             setExpanded(false);
           }
         });
 
         if (window.location.hash.length > 1) {
-          let initialId = "";
+          let initialId = '';
           try {
             initialId = decodeURIComponent(window.location.hash.slice(1));
           } catch {
-            initialId = "";
+            initialId = '';
           }
           const initialTarget = initialId && document.getElementById(initialId);
           if (initialTarget) {
             window.requestAnimationFrame(() => {
-              initialTarget.scrollIntoView({ behavior: "auto", block: "start" });
+              initialTarget.scrollIntoView({ behavior: 'auto', block: 'start' });
             });
           }
         }
