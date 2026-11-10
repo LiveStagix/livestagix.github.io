@@ -4300,7 +4300,7 @@ canvas {
   font-size: clamp(2.45rem, 4.6vw, 4rem);
 }
 
-.download-copy .download-intro {
+.download-copy > p.download-intro {
   max-width: 470px;
   margin: 13px 0 0;
   font-size: 0.86rem;
@@ -4439,7 +4439,7 @@ canvas {
     font-size: clamp(2.15rem, 7.5vw, 3.1rem);
   }
 
-  .download-copy .download-intro {
+  .download-copy > p.download-intro {
     margin-top: 11px;
     font-size: 0.8rem;
     line-height: 1.6;
