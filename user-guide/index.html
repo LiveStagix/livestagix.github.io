@@ -1403,7 +1403,8 @@ active_nav: "user-guide"
           else if (query.length > 2 && aliasesText.includes(query)) score += 120;
           if (tokens.every((token) => containsToken(title, token))) score += 75;
           else if (tokens.every((token) => containsToken(aliasesText, token))) score += 65;
-          else if (tokens.every((token) => containsToken(title + ' ' + section, token))) score += 45;
+          else if (tokens.every((token) => containsToken(title + ' ' + section, token)))
+            score += 45;
           else score += 10;
 
           if (entry.type === 'QUESTION') score += 2;
