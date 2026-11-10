@@ -11,7 +11,7 @@ active_nav: "about"
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Learn about LiveStagix, its Android wallpaper engine, independent development under the Devdas74 GitHub profile, privacy approach and official release verification."
+      content="Learn about LiveStagix, its Android live wallpaper app, independent development under the Devdas74 GitHub profile, privacy approach, official release verification, Google Play pre-registration and direct APK downloads."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://livestagix.github.io/about/" />
@@ -20,7 +20,7 @@ active_nav: "about"
     <meta property="og:title" content="About LiveStagix — Project &amp; Developer" />
     <meta
       property="og:description"
-      content="An independently developed Android live wallpaper project, maintained under the public GitHub profile Devdas74."
+      content="An independently developed Android live wallpaper app, with Google Play pre-registration and direct beta APK downloads, maintained under the public GitHub profile Devdas74."
     />
     <meta property="og:url" content="https://livestagix.github.io/about/" />
     <title>About LiveStagix — Project &amp; Developer</title>
@@ -237,6 +237,11 @@ active_nav: "about"
         font-size: 0.85rem;
         line-height: 1.75;
       }
+      .about-bottom-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
       .about-bottom-cta a {
         flex: 0 0 auto;
         color: #e6edff;
@@ -448,18 +453,23 @@ active_nav: "about"
               code and build tooling are maintained separately.
             </p>
             <p>
-              The direct APK is published through the official GitHub release repository. The Google
-              Play route currently leads to a closed test and is not a public production listing.
+              Visitors can pre-register on Google Play to be notified when public installation
+              opens. For immediate access to the current beta, the official APK is available to
+              download directly from GitHub Releases.
             </p>
             <div class="about-links">
-              <a href="https://github.com/LiveStagix/LiveWP-Releases/releases"
-                >Official APK releases ↗</a
-              >
               <a
-                href="https://play.google.com/apps/testing/com.livewp.app"
+                href="https://play.google.com/store/apps/details?id=com.livewp.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Google Play closed test ↗</a
+                >Google Play pre-registration ↗</a
+              >
+              <a
+                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                >Download latest beta APK ↗</a
+              >
+              <a href="https://github.com/LiveStagix/LiveWP-Releases/releases"
+                >All official releases ↗</a
               >
             </div>
           </section>
@@ -501,10 +511,24 @@ active_nav: "about"
         </div>
 
         <div class="about-bottom-cta">
-          <p>Want to explore the app itself? Start with the latest official Android release.</p>
-          <a href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
-            >Get the latest release ↗</a
-          >
+          <p>
+            Choose how to get LiveStagix: pre-register for the upcoming public release or install
+            the current beta directly.
+          </p>
+          <div class="about-bottom-actions">
+            <a
+              class="button button-primary"
+              href="https://play.google.com/store/apps/details?id=com.livewp.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Pre-register on Google Play ↗</a
+            >
+            <a
+              class="button button-quiet"
+              href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+              >Download APK ↓</a
+            >
+          </div>
         </div>
         <p class="about-note">
           Transparency note: LiveStagix is independently maintained under the public GitHub profile
