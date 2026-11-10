@@ -28,11 +28,25 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Generate and apply the stylesheet version
-        id: sync
+      - name: Generate and push stylesheet references safely
         shell: bash
         run: |
-          python3 - <<'PY'
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          max_attempts=3
+
+          for attempt in $(seq 1 "$max_attempts"); do
+            echo "Stylesheet cache sync attempt $attempt/$max_attempts"
+
+            # Always start from the latest remote main. The cache references are
+            # generated files, so regenerate them instead of rebasing stale output.
+            git fetch origin main
+            git reset --hard origin/main
+
+            python3 - <<'PY'
           from hashlib import sha256
           from pathlib import Path
           import re
@@ -52,7 +66,7 @@ jobs:
           }
 
           stylesheet_link = re.compile(
-              r"""href=(?P<quote>["'])(?P<path>(?:\.\./)?styles\.css)\?v=[^"']+(?P=quote)"""
+              r"""href=(?P<quote>["'])(?P<path>(?:../)?styles.css)?v=[^"']+(?P=quote)"""
           )
 
           changed = []
@@ -70,8 +84,11 @@ jobs:
                       f"found {len(matches)}. No files were committed."
                   )
 
-              wrong_paths = [match.group("path") for match in matches
-                             if match.group("path") != expected_path]
+              wrong_paths = [
+                  match.group("path")
+                  for match in matches
+                  if match.group("path") != expected_path
+              ]
               if wrong_paths:
                   raise SystemExit(
                       f"{filename}: unexpected stylesheet path(s): {wrong_paths}"
@@ -79,10 +96,14 @@ jobs:
 
               updated = stylesheet_link.sub(
                   lambda match: (
-                      "href=" + match.group("quote") + match.group("path")
-                      + "?v=" + version + match.group("quote")
+                      "href="
+                      + match.group("quote")
+                      + match.group("path")
+                      + "?v="
+                      + version
+                      + match.group("quote")
                   ),
-                  source
+                  source,
               )
 
               if updated != source:
@@ -96,18 +117,35 @@ jobs:
                   print(f" - {filename}")
           else:
               print("All published pages already use the current stylesheet version.")
-
-          with open(__import__("os").environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"version={version}\n")
-              output.write(f"changed={'true' if changed else 'false'}\n")
           PY
 
-      - name: Commit updated page references
-        if: steps.sync.outputs.changed == 'true'
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html user-guide/index.html about/index.html privacy-policy/index.html security/index.html
-          git commit -m "Sync stylesheet cache version to ${{ steps.sync.outputs.version }}"
-          git push
+            git add index.html user-guide/index.html about/index.html privacy-policy/index.html security/index.html
+
+            if git diff --cached --quiet; then
+              echo "All published pages already use the current stylesheet version."
+              exit 0
+            fi
+
+            version=$(python3 - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+
+          print("sha256-" + sha256(Path("styles.css").read_bytes()).hexdigest()[:12])
+          PY
+          )
+
+            git commit -m "Sync stylesheet cache version to $version"
+
+            if git push origin HEAD:main; then
+              echo "Stylesheet cache references synchronized successfully."
+              exit 0
+            fi
+
+            echo "Push rejected; another commit may have reached main."
+            if [ "$attempt" -lt "$max_attempts" ]; then
+              sleep "$((attempt * 2))"
+            fi
+          done
+
+          echo "::error::Unable to sync stylesheet cache references after $max_attempts attempts."
+          exit 1
