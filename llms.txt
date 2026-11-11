@@ -25,7 +25,7 @@ See the [About page](https://livestagix.github.io/about/) for the project archit
 
 ## Official distribution and project links
 
-- [Latest official APK](https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk): Direct download of the latest published APK.
+- [Latest official APK release](https://github.com/LiveStagix/LiveWP-Releases/releases/latest): Open the latest published Stable release and download its APK asset. The website's download links follow the asset filename published in release metadata.
 - [Official release repository](https://github.com/LiveStagix/LiveWP-Releases): APK releases and release notes. This is a distribution repository, not the public source-code repository.
 - [All releases](https://github.com/LiveStagix/LiveWP-Releases/releases).
 - [Google Play closed test](https://play.google.com/apps/testing/com.livewp.app): This link is for the closed-testing track, not a public production listing.
