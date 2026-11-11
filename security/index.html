@@ -467,7 +467,9 @@ active_nav: "security"
             <details class="security-details">
               <summary>How to verify a downloaded APK yourself</summary>
               <p>Run this command with Android SDK Build Tools installed:</p>
-              <code class="security-hash">apksigner verify --print-certs /path/to/downloaded.apk</code>
+              <code class="security-hash"
+                >apksigner verify --print-certs /path/to/downloaded.apk</code
+              >
               <p>
                 Compare <code>Signer #1 certificate SHA-256 digest</code> with the trusted
                 certificate fingerprint above. The APK signature must verify and the certificate
