@@ -22,12 +22,12 @@ GitHub Pages uses its built-in Jekyll processing to insert the shared HTML inclu
 The website presents two ways to get the app:
 
 1. **Google Play pre-registration** — visitors can pre-register for the upcoming public release and receive a notification when installation becomes available.
-2. **Direct APK download** — visitors can download the latest published official beta APK and install it manually on Android.
+2. **Direct APK download** — visitors can download the latest published official Stable APK and install it manually on Android.
 
 Google Play and direct APK distribution are separate installation routes. Pre-registration does not provide immediate installation; the direct APK is available through the public release repository.
 
 - **Google Play pre-registration:** https://play.google.com/store/apps/details?id=com.livewp.app
-- **Direct APK download:** https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk
+- **Latest APK release:** https://github.com/LiveStagix/LiveWP-Releases/releases/latest
 - **All APK releases and release notes:** https://github.com/LiveStagix/LiveWP-Releases/releases
 - **Privacy Policy:** https://livestagix.github.io/privacy-policy/
 
@@ -35,6 +35,6 @@ The site does not store duplicate APK files. The direct-download button uses Git
 
 ## Maintenance
 
-Publish official APK assets in `LiveStagix/LiveWP-Releases` using the consistent filename `LiveStagix_beta.apk`. The website's latest-download route follows the newest published GitHub release automatically. Keep the asset filename consistent so the direct-download button continues to resolve.
+Publish official Stable APK assets in `LiveStagix/LiveWP-Releases`. The one-time 1.84 compatibility release retains the legacy `LiveStagix_beta.apk` filename; from 1.85 onward, use `LiveStagix.apk`. The website reads the published asset name from `release.json` and builds its direct-download URL from that value. Keep historical tags and assets unchanged.
 
 © LiveStagix
