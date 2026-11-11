@@ -91,7 +91,7 @@
       if (downloadApk) downloadApk.href = downloadUrl;
 
       const tag = String(release.tag_name || "").replace(/^v/i, "");
-      const legacyStableMatch = tag.match(/^1\\.0-beta-(\\d+)$/i);
+      const legacyStableMatch = tag.match(/^1\.0-beta-(\d+)$/i);
       if (releaseVersion) {
         releaseVersion.textContent = legacyStableMatch
           ? "1." + legacyStableMatch[1]
