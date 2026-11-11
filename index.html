@@ -78,7 +78,7 @@ active_nav: "home"
             "operatingSystem": "Android",
             "identifier": "com.livewp.app",
             "url": "https://livestagix.github.io/",
-            "downloadUrl": "https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk",
+            "downloadUrl": "https://github.com/LiveStagix/LiveWP-Releases/releases/latest",
             "isAccessibleForFree": true,
             "offers": {
               "@type": "Offer",
@@ -135,7 +135,8 @@ active_nav: "home"
               <a
                 class="button button-quiet"
                 id="hero-download-apk"
-                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                data-latest-apk-link
+                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
                 rel="noopener noreferrer"
               >
                 <span class="button-icon" aria-hidden="true">↓</span> Download APK
@@ -594,8 +595,8 @@ active_nav: "home"
               <p class="section-kicker"><span>06</span> / GET THE APP</p>
               <h2>Choose how to get<br /><span class="gradient-word">LiveStagix.</span></h2>
               <p class="download-intro">
-                Get notified about the public release on Google Play, or install the latest beta
-                directly from the official APK.
+                Get notified about the public release on Google Play, or install the latest
+                official APK directly from this website.
               </p>
               <div class="download-options" aria-label="Choose how to get LiveStagix">
                 <article class="download-option download-option-play">
@@ -617,11 +618,12 @@ active_nav: "home"
                     <span class="download-option-name">DIRECT APK</span>
                     <span class="download-option-status">AVAILABLE NOW</span>
                   </div>
-                  <p>Download the latest official beta and install manually.</p>
+                  <p>Download the latest official APK and install manually.</p>
                   <a
                     class="button download-option-button download-option-button-apk"
                     id="download-apk"
-                    href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                    data-latest-apk-link
+                    href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
                     rel="noopener noreferrer"
                     ><span aria-hidden="true">↓</span> Download latest APK</a
                   >
@@ -667,7 +669,7 @@ active_nav: "home"
               <div class="release-row">
                 <span>File size</span><strong id="release-size">Checking latest release…</strong>
               </div>
-              <div class="release-row"><span>Channel</span><strong>Official beta</strong></div>
+              <div class="release-row"><span>Channel</span><strong>GitHub Stable</strong></div>
               <details class="checksum-details" id="checksum-details" hidden>
                 <summary>Verify download · SHA-256</summary>
                 <div class="checksum-body">
@@ -832,7 +834,7 @@ active_nav: "home"
               </summary>
               <p>
                 You can pre-register on Google Play to be notified when the public release becomes
-                available. To try the latest beta now, download the official APK directly from this
+                available. To install the latest official APK now, download it directly from this
                 website; it always points to the newest published release in the LiveStagix release
                 repository.
               </p>
