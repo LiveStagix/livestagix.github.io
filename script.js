@@ -78,11 +78,12 @@
       if (!response.ok) throw new Error("Release metadata unavailable");
       const release = await response.json();
       const asset =
-        release && release.asset && supportedApkNames.has(release.asset.name) ? release.asset : null;
+        release && release.asset && supportedApkNames.has(release.asset.name)
+          ? release.asset
+          : null;
       if (!asset) throw new Error("Latest official APK asset not found");
 
-      const downloadUrl =
-        latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
+      const downloadUrl = latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
       document.querySelectorAll("[data-latest-apk-link]").forEach((link) => {
         link.href = downloadUrl;
       });
@@ -98,7 +99,8 @@
       }
 
       const mib = Number(asset.size) / (1024 * 1024);
-      if (releaseSize) releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
+      if (releaseSize)
+        releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
       const publishedAt = release.published_at || release.created_at;
       if (releasePublished && publishedAt) {
         const date = new Date(publishedAt);
@@ -117,7 +119,8 @@
     } catch (error) {
       if (releaseVersion) releaseVersion.textContent = "Latest official APK";
       if (releaseSize) releaseSize.textContent = "Details unavailable";
-      if (releasePublished) releasePublished.textContent = "Open the official release page for the latest APK.";
+      if (releasePublished)
+        releasePublished.textContent = "Open the official release page for the latest APK.";
       if (checksumDetails) checksumDetails.hidden = true;
     }
   }
