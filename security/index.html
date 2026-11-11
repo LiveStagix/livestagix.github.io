@@ -391,7 +391,7 @@ active_nav: "security"
             <span class="security-label">LATEST OFFICIAL RELEASE</span>
             <h2 id="release-title">Latest LiveStagix APK</h2>
             <dl class="security-facts">
-              <dt>Release tag</dt>
+              <dt>Version</dt>
               <dd>
                 <a
                   id="release-tag"
@@ -402,7 +402,7 @@ active_nav: "security"
               <dt>Published</dt>
               <dd id="release-date">Loading release details…</dd>
               <dt>APK filename</dt>
-              <dd><code id="release-filename">LiveStagix_beta.apk</code></dd>
+              <dd><code id="release-filename">Loading APK filename…</code></dd>
               <dt>File size</dt>
               <dd id="release-size">Loading…</dd>
               <dt>Digest source</dt>
@@ -428,7 +428,8 @@ active_nav: "security"
             </p>
             <p style="margin-top: 12px">
               <a
-                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/LiveStagix_beta.apk"
+                id="release-download-link"
+                href="https://github.com/LiveStagix/LiveWP-Releases/releases/latest"
                 >Download the latest official APK</a
               >
               ·
@@ -466,7 +467,7 @@ active_nav: "security"
             <details class="security-details">
               <summary>How to verify a downloaded APK yourself</summary>
               <p>Run this command with Android SDK Build Tools installed:</p>
-              <code class="security-hash">apksigner verify --print-certs LiveStagix_beta.apk</code>
+              <code class="security-hash">apksigner verify --print-certs /path/to/downloaded.apk</code>
               <p>
                 Compare <code>Signer #1 certificate SHA-256 digest</code> with the trusted
                 certificate fingerprint above. The APK signature must verify and the certificate
@@ -528,7 +529,7 @@ active_nav: "security"
             >Google Play</a
           >
           and receive a notification when public installation becomes available. For immediate
-          access to the current beta, download the official APK from the
+          access to the latest official APK, download it from the
           <a href="https://github.com/LiveStagix/LiveWP-Releases/releases"
             >LiveStagix release repository</a
           >. The release repository describes LiveStagix as proprietary software, with source code
@@ -600,8 +601,8 @@ active_nav: "security"
         function formatReleaseVersion(tag) {
           const value = typeof tag === 'string' ? tag.trim() : '';
           if (!value) return 'Version unavailable';
-          const match = value.match(/^(v?\d+(?:\.\d+)*)-beta-(\d+)$/i);
-          return match ? value + ' · Build ' + match[2] : value;
+          const match = value.match(/^v?1\.0-beta-(\d+)$/i);
+          return match ? '1.' + match[1] : value.replace(/^v/i, '');
         }
 
         function setSignaturePending(message) {
@@ -848,11 +849,12 @@ active_nav: "security"
               throw new Error('Release metadata unavailable (HTTP ' + response.status + ').');
             const release = await response.json();
             currentReleaseTag = typeof release.tag_name === 'string' ? release.tag_name : '';
+            const supportedApkNames = new Set(['LiveStagix.apk', 'LiveStagix_beta.apk']);
             const apk = Array.isArray(release.assets)
-              ? release.assets.find((asset) => asset.name === 'LiveStagix_beta.apk')
+              ? release.assets.find((asset) => asset && supportedApkNames.has(asset.name))
               : null;
 
-            if (!apk) throw new Error('The latest release does not contain LiveStagix_beta.apk.');
+            if (!apk) throw new Error('The latest release does not contain a supported APK asset.');
             if (typeof apk.digest !== 'string' || !/^sha256:[a-f0-9]{64}$/i.test(apk.digest)) {
               throw new Error('GitHub has not provided a valid SHA-256 digest for this APK asset.');
             }
@@ -860,12 +862,24 @@ active_nav: "security"
             const sha256 = apk.digest.slice('sha256:'.length).toLowerCase();
             const tag = byId('release-tag');
             if (tag) {
-              tag.textContent = release.tag_name || 'View latest release';
+              tag.textContent = formatReleaseVersion(currentReleaseTag);
               tag.href =
                 release.html_url || 'https://github.com/LiveStagix/LiveWP-Releases/releases/latest';
             }
 
-            setText('release-title', release.name || release.tag_name || 'Latest LiveStagix APK');
+            const displayVersion = formatReleaseVersion(currentReleaseTag);
+            setText(
+              'release-title',
+              displayVersion === 'Version unavailable'
+                ? release.name || 'Latest LiveStagix APK'
+                : 'LiveStagix ' + displayVersion,
+            );
+            const downloadLink = byId('release-download-link');
+            if (downloadLink) {
+              downloadLink.href =
+                'https://github.com/LiveStagix/LiveWP-Releases/releases/latest/download/' +
+                encodeURIComponent(apk.name);
+            }
             setText(
               'release-date',
               release.published_at
