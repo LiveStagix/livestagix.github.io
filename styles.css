@@ -1399,6 +1399,8 @@ summary:focus-visible {
 
 .feature-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 320px;
   padding: 25px;
   overflow: hidden;
@@ -1546,7 +1548,8 @@ summary:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 21px;
+  margin-top: auto;
+  padding-top: 21px;
 }
 
 .feature-tags span {
@@ -2827,12 +2830,13 @@ summary:focus-visible {
     font-size: 0.87rem;
   }
   .feature-grid {
+    grid-template-columns: 1fr;
     margin-top: 32px;
     gap: 10px;
   }
   .feature-card {
-    padding: 18px;
-    min-height: 325px;
+    min-height: 0;
+    padding: 21px;
     border-radius: 17px;
   }
   .feature-card h3 {
@@ -3024,13 +3028,6 @@ summary:focus-visible {
   }
   .card-label {
     font-size: 0.47rem;
-  }
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-  .feature-card {
-    min-height: 0;
-    padding: 21px;
   }
   .feature-card h3 {
     margin-top: 24px;
