@@ -513,6 +513,10 @@ summary:focus-visible {
   background: #454c60;
 }
 
+.hero-visual {
+  min-width: 0;
+}
+
 .hero-art {
   position: relative;
   min-height: 630px;
@@ -1064,8 +1068,9 @@ summary:focus-visible {
 
 .art-caption {
   display: block;
-  margin-top: 5px;
+  margin: 8px 0 0;
   color: #8b94aa;
+  text-align: center;
   font-size: 0.53rem;
   font-weight: 500;
   letter-spacing: 0.04em;
