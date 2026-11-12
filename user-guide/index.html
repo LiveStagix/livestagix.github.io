@@ -1133,29 +1133,31 @@ active_nav: "user-guide"
                 <strong>Update now</strong> to download the APK and its matching SHA-256 checksum
                 from the official public GitHub release repository. LiveStagix verifies the
                 checksum, confirms that the APK belongs to the app and rejects a version older than
-                the one installed before opening Android's installer. Android displays the
-                installation confirmation; LiveStagix does not install updates silently.
+                the one installed before saving it. On Android 10 and newer, the verified APK is
+                saved to Downloads. On older supported Android versions, Android's system file
+                picker asks where to save it. Open the saved APK from Files or Downloads to start
+                installation. Android displays the installation confirmation; LiveStagix does not
+                install updates silently.
               </p>
-              <h3>Allow a GitHub update to install</h3>
+              <h3>Install a GitHub update</h3>
               <p>
-                If Android asks you to allow LiveStagix to install apps from this source, open the
-                Android settings screen and enable <strong>Allow from this source</strong>. The
-                setting name can vary by device. Return to LiveStagix and tap
-                <strong>Update now</strong> again. This permission is for direct GitHub APK updates.
-                It is separate from the browser permission Android may request when you first
-                install an APK downloaded from the website. The Google Play edition receives updates
-                through Google Play and does not need LiveStagix's install-from-this-source
-                permission.
+                When you open the saved APK, Android may ask you to allow app installations from the
+                Files or Downloads app. This permission is managed by Android for the app you use to
+                open the APK, not by LiveStagix. It is separate from the browser permission Android
+                may request when you first install an APK downloaded from the website. The Google
+                Play edition receives updates through Google Play and does not need this permission.
               </p>
               <h3>Diagnostics and privacy</h3>
               <p>
-                The optional <strong>Event Recorder</strong> is available in Advanced Settings and
-                should be enabled only when needed for troubleshooting. It records diagnostic
-                sessions locally. When you turn it off, the session is finalized and, if Local
-                backup is enabled, one completed log file is copied to <code>LiveWP/Logs/</code>.
-                The <strong>Clear Logs</strong> control attempts to remove private sessions and
-                exported log files from the selected backup folder. Runtime Trace and Motion
-                Diagnostics are separate optional diagnostic controls. Read the
+                The optional <strong>Event Recorder</strong> is available only in the GitHub
+                edition, under Advanced Settings, and should be enabled only when needed for
+                troubleshooting. It records diagnostic sessions locally. When you turn it off,
+                the session is finalized and, if Local backup is enabled, one completed log file is
+                copied to <code>LiveWP/Logs/</code>. The <strong>Clear Logs</strong> control attempts
+                to remove private sessions and exported log files from the selected backup folder.
+                Runtime Trace and Motion Diagnostics are separate optional diagnostic controls.
+                Event Recorder and these diagnostic controls are unavailable and hard-disabled in
+                the Google Play edition. Read the
                 <a href="/privacy-policy/">Privacy Policy</a> to understand how app data is handled.
                 The <a href="/security/">Security &amp; Integrity</a> page explains release
                 verification information.
