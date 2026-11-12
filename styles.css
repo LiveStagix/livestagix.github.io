@@ -887,7 +887,7 @@ summary:focus-visible {
 
 .scene-ring .moon-dot {
   position: absolute;
-  top: -1.5px;
+  top: -1px;
   left: 50%;
   width: 3px;
   height: 3px;
