@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://livestagix.github.io/feed.xml</id>
   <title>LiveStagix Website</title>
-  <updated>2026-11-12T05:44:14Z</updated>
+  <updated>2026-11-12T05:55:08Z</updated>
   <author>
     <name>LiveStagix</name>
     <uri>https://livestagix.github.io/</uri>
@@ -13,35 +13,35 @@
   <entry>
     <id>https://livestagix.github.io/</id>
     <title>LiveStagix</title>
-    <updated>2026-11-12T05:44:14Z</updated>
+    <updated>2026-11-12T05:55:08Z</updated>
     <link rel="alternate" type="text/html" href="https://livestagix.github.io/" />
     <summary>Official website for the LiveStagix Android live wallpaper app.</summary>
   </entry>
   <entry>
     <id>https://livestagix.github.io/user-guide/</id>
     <title>LiveStagix User Guide</title>
-    <updated>2026-11-12T05:30:11Z</updated>
+    <updated>2026-11-12T05:44:39Z</updated>
     <link rel="alternate" type="text/html" href="https://livestagix.github.io/user-guide/" />
     <summary>Documentation and instructions for using LiveStagix.</summary>
   </entry>
   <entry>
     <id>https://livestagix.github.io/about/</id>
     <title>About LiveStagix</title>
-    <updated>2026-11-12T05:30:11Z</updated>
+    <updated>2026-11-12T05:44:39Z</updated>
     <link rel="alternate" type="text/html" href="https://livestagix.github.io/about/" />
     <summary>Project background and information about LiveStagix.</summary>
   </entry>
   <entry>
     <id>https://livestagix.github.io/privacy-policy/</id>
     <title>LiveStagix Privacy Policy</title>
-    <updated>2026-11-12T05:30:11Z</updated>
+    <updated>2026-11-12T05:44:39Z</updated>
     <link rel="alternate" type="text/html" href="https://livestagix.github.io/privacy-policy/" />
     <summary>Privacy information for the LiveStagix website and Android app.</summary>
   </entry>
   <entry>
     <id>https://livestagix.github.io/security/</id>
     <title>LiveStagix Security &amp; Integrity</title>
-    <updated>2026-11-12T05:30:11Z</updated>
+    <updated>2026-11-12T05:44:39Z</updated>
     <link rel="alternate" type="text/html" href="https://livestagix.github.io/security/" />
     <summary>Release verification and security information for LiveStagix.</summary>
   </entry>
