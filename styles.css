@@ -760,12 +760,17 @@ summary:focus-visible {
 
 @keyframes scene-ring-sway {
   0%,
+  50%,
   100% {
     transform: translate(-50%, -50%) rotate(-28deg);
   }
 
-  50% {
-    transform: translate(-50%, -50%) rotate(-27.4deg);
+  25% {
+    transform: translate(-50%, -50%) rotate(-26.5deg);
+  }
+
+  75% {
+    transform: translate(-50%, -50%) rotate(-29.5deg);
   }
 }
 
@@ -780,12 +785,17 @@ summary:focus-visible {
 
 @keyframes scene-ring-violet-sway {
   0%,
+  50%,
   100% {
     transform: translate(-50%, -50%) rotate(59deg);
   }
 
-  50% {
-    transform: translate(-50%, -50%) rotate(58.5deg);
+  25% {
+    transform: translate(-50%, -50%) rotate(60.5deg);
+  }
+
+  75% {
+    transform: translate(-50%, -50%) rotate(57.5deg);
   }
 }
 
