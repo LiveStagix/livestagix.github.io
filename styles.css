@@ -791,11 +791,11 @@ summary:focus-visible {
   }
 
   25% {
-    transform: translate(-50%, -50%) rotate(60.5deg);
+    transform: translate(-50%, -50%) rotate(57.5deg);
   }
 
   75% {
-    transform: translate(-50%, -50%) rotate(57.5deg);
+    transform: translate(-50%, -50%) rotate(60.5deg);
   }
 }
 
