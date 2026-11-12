@@ -743,20 +743,6 @@ summary:focus-visible {
     transparent 72%
   );
   box-shadow: 0 0 48px #66baff6e;
-  animation: scene-sun-breathe 7s ease-in-out infinite;
-}
-
-@keyframes scene-sun-breathe {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 48px #66baff6e;
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.035);
-    box-shadow: 0 0 54px #66baff80;
-  }
 }
 
 .scene-ring {
@@ -769,6 +755,18 @@ summary:focus-visible {
   border-radius: 50%;
   transform: translate(-50%, -50%) rotate(-28deg);
   box-shadow: 0 0 14px #64bfff3b;
+  animation: scene-ring-glow 8s ease-in-out infinite;
+}
+
+@keyframes scene-ring-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 14px #64bfff3b;
+  }
+
+  50% {
+    box-shadow: 0 0 19px #64bfff59;
+  }
 }
 
 .ring-b {
@@ -776,6 +774,19 @@ summary:focus-visible {
   height: 40%;
   border-color: rgba(189, 143, 255, 0.44);
   transform: translate(-50%, -50%) rotate(59deg);
+  box-shadow: 0 0 12px #bd8fff2b;
+  animation: scene-ring-violet-glow 10s ease-in-out -3s infinite;
+}
+
+@keyframes scene-ring-violet-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 12px #bd8fff2b;
+  }
+
+  50% {
+    box-shadow: 0 0 17px #bd8fff50;
+  }
 }
 
 .scene-mountain {
