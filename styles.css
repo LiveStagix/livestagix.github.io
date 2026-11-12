@@ -743,6 +743,20 @@ summary:focus-visible {
     transparent 72%
   );
   box-shadow: 0 0 48px #66baff6e;
+  animation: scene-sun-breathe 7s ease-in-out infinite;
+}
+
+@keyframes scene-sun-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 48px #66baff6e;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.035);
+    box-shadow: 0 0 54px #66baff80;
+  }
 }
 
 .scene-ring {
