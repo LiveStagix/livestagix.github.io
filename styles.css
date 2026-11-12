@@ -755,17 +755,17 @@ summary:focus-visible {
   border-radius: 50%;
   transform: translate(-50%, -50%) rotate(-28deg);
   box-shadow: 0 0 14px #64bfff3b;
-  animation: scene-ring-glow 8s ease-in-out infinite;
+  animation: scene-ring-sway 18s ease-in-out infinite;
 }
 
-@keyframes scene-ring-glow {
+@keyframes scene-ring-sway {
   0%,
   100% {
-    box-shadow: 0 0 14px #64bfff3b;
+    transform: translate(-50%, -50%) rotate(-28deg);
   }
 
   50% {
-    box-shadow: 0 0 19px #64bfff59;
+    transform: translate(-50%, -50%) rotate(-27.4deg);
   }
 }
 
@@ -775,17 +775,17 @@ summary:focus-visible {
   border-color: rgba(189, 143, 255, 0.44);
   transform: translate(-50%, -50%) rotate(59deg);
   box-shadow: 0 0 12px #bd8fff2b;
-  animation: scene-ring-violet-glow 10s ease-in-out -3s infinite;
+  animation: scene-ring-violet-sway 22s ease-in-out infinite;
 }
 
-@keyframes scene-ring-violet-glow {
+@keyframes scene-ring-violet-sway {
   0%,
   100% {
-    box-shadow: 0 0 12px #bd8fff2b;
+    transform: translate(-50%, -50%) rotate(59deg);
   }
 
   50% {
-    box-shadow: 0 0 17px #bd8fff50;
+    transform: translate(-50%, -50%) rotate(58.5deg);
   }
 }
 
