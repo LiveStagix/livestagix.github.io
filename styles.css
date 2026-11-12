@@ -852,62 +852,43 @@ summary:focus-visible {
   box-shadow: 0 0 8px #fff;
 }
 
-.scene-moon-orbit {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  width: 84%;
-  height: 24%;
-  pointer-events: none;
-  transform: translate(-50%, -50%) rotate(-28deg);
-  animation: scene-ring-sway 18s ease-in-out infinite;
-}
-
-.moon-orbit-b {
-  width: 67%;
-  height: 40%;
-  transform: translate(-50%, -50%) rotate(59deg);
-  animation: scene-ring-violet-sway 22s ease-in-out infinite;
-}
-
-.moon-track {
+.scene-ring .moon-track {
   position: absolute;
   top: 50%;
   left: 50%;
   width: 100%;
   aspect-ratio: 1;
-  translate: -50% -50%;
   transform-origin: center;
-  transform: scaleY(0.2857) rotate(0deg);
+  transform: translate(-50%, -50%) scaleY(0.2857) rotate(0deg);
   animation: moon-orbit-clockwise 48s linear infinite;
 }
 
 @keyframes moon-orbit-clockwise {
   from {
-    transform: scaleY(0.2857) rotate(0deg);
+    transform: translate(-50%, -50%) scaleY(0.2857) rotate(0deg);
   }
 
   to {
-    transform: scaleY(0.2857) rotate(360deg);
+    transform: translate(-50%, -50%) scaleY(0.2857) rotate(360deg);
   }
 }
 
-.moon-orbit-b .moon-track {
-  transform: scaleY(0.597) rotate(0deg);
+.ring-b .moon-track {
+  transform: translate(-50%, -50%) scaleY(0.597) rotate(0deg);
   animation: moon-orbit-counterclockwise 60s linear infinite;
 }
 
 @keyframes moon-orbit-counterclockwise {
   from {
-    transform: scaleY(0.597) rotate(0deg);
+    transform: translate(-50%, -50%) scaleY(0.597) rotate(0deg);
   }
 
   to {
-    transform: scaleY(0.597) rotate(-360deg);
+    transform: translate(-50%, -50%) scaleY(0.597) rotate(-360deg);
   }
 }
 
-.moon-dot {
+.scene-ring .moon-dot {
   position: absolute;
   top: -1.5px;
   left: calc(50% - 1.5px);
@@ -930,7 +911,7 @@ summary:focus-visible {
   }
 }
 
-.moon-orbit-b .moon-dot {
+.ring-b .moon-dot {
   animation: moon-dot-clockwise 60s linear infinite;
 }
 
