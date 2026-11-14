@@ -6,7 +6,7 @@ This is a lightweight static site built with HTML, CSS and vanilla JavaScript. G
 
 ## Site structure
 
-- **index.html** — product landing page, features, Google Play pre-registration, direct APK download and FAQ
+- **index.html** — product landing page, features, Google Play listing, direct APK download and FAQ
 - **user-guide/index.html** — public, full LiveStagix user guide
 - **about/index.html**, **privacy-policy/index.html** and **security/index.html** — public project, privacy and release-verification pages
 - **_includes/header.html** and **_includes/footer.html** — single shared source for site-wide navigation and footer
@@ -21,12 +21,12 @@ GitHub Pages uses its built-in Jekyll processing to insert the shared HTML inclu
 
 The website presents two ways to get the app:
 
-1. **Google Play pre-registration** — visitors can pre-register for the upcoming public release and receive a notification when installation becomes available.
+1. **Google Play listing** — visitors can install LiveStagix directly from its Google Play listing.
 2. **Direct APK download** — visitors can download the latest published official Stable APK and install it manually on Android.
 
-Google Play and direct APK distribution are separate installation routes. Pre-registration does not provide immediate installation; the direct APK is available through the public release repository.
+Google Play and direct APK distribution are separate installation routes. The APK is available through the public release repository for users who prefer manual installation.
 
-- **Google Play pre-registration:** https://play.google.com/store/apps/details?id=com.livewp.app
+- **Google Play listing:** https://play.google.com/store/apps/details?id=com.livewp.app
 - **Latest APK release:** https://github.com/LiveStagix/LiveWP-Releases/releases/latest
 - **All APK releases and release notes:** https://github.com/LiveStagix/LiveWP-Releases/releases
 - **Privacy Policy:** https://livestagix.github.io/privacy-policy/
