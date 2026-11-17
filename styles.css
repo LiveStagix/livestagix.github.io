@@ -732,6 +732,7 @@ summary:focus-visible {
 
 .scene-sun {
   position: absolute;
+  z-index: 2;
   top: 30%;
   left: 50%;
   width: 43%;
@@ -751,6 +752,7 @@ summary:focus-visible {
 
 .scene-ring {
   position: absolute;
+  z-index: 1;
   top: 32%;
   left: 50%;
   width: 84%;
@@ -854,9 +856,6 @@ summary:focus-visible {
   border-radius: 50%;
   background: white;
   box-shadow: 0 0 8px #fff;
-}
-.moon-dot {
-  z-index: -1;
 }
 
 .scene-ring .moon-dot {
