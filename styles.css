@@ -855,6 +855,9 @@ summary:focus-visible {
   background: white;
   box-shadow: 0 0 8px #fff;
 }
+.moon-dot{
+  z-index:-1;
+}
 
 .scene-ring .moon-dot {
   position: absolute;
