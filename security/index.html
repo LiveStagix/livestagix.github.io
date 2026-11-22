@@ -846,9 +846,11 @@ active_nav: "security"
           if (selector) selector.value = packageKey;
           const status = source === 'manual'
             ? 'Showing security results for your selected package.'
-            : packageKey === 'universal'
-              ? 'Device architecture could not be confirmed, or a matching split APK is unavailable. The universal package is selected.'
-              : 'Automatically selected for your detected device. Browser detection is a best-effort hint.';
+            : source === 'stored'
+              ? 'Using the APK package selected earlier on this website.'
+              : packageKey === 'universal'
+                ? 'Device architecture could not be confirmed, or a matching split APK is unavailable. The universal package is selected.'
+                : 'Automatically selected for your detected device. Browser detection is a best-effort hint.';
           setText('package-selection-status', status);
           renderSelectedPackage();
         }
