@@ -117,14 +117,16 @@
       const bitness = String(values.bitness || "").toLowerCase();
 
       if (architecture === "arm64" || architecture === "aarch64") {
-        return { abi: "arm64-v8a", isAndroid: true };
+        if (bitness === "64") return { abi: "arm64-v8a", isAndroid: true };
+        return { abi: null, isAndroid: true };
       }
       if (architecture === "arm") {
         if (bitness === "64") return { abi: "arm64-v8a", isAndroid: true };
         if (bitness === "32") return { abi: "armeabi-v7a", isAndroid: true };
       }
       if (architecture === "x86_64" || architecture === "x64") {
-        return { abi: "x86_64", isAndroid: true };
+        if (bitness === "64") return { abi: "x86_64", isAndroid: true };
+        return { abi: null, isAndroid: true };
       }
       if (architecture === "x86" && bitness === "64") {
         return { abi: "x86_64", isAndroid: true };
