@@ -53,6 +53,7 @@
   setInterval(updatePhoneClock, 15000);
 
   const latestReleasePageUrl = "https://github.com/LiveStagix/LiveWP-Releases/releases/latest";
+  const abiSelectionStorageKey = "livestagix-selected-apk-abi";
   const releaseMetadataUrl = "/release.json";
   const abiLabels = {
     "arm64-v8a": "Most Android phones (64-bit)",
@@ -139,8 +140,22 @@
     }
   }
 
+  function getStoredAbiSelection() {
+    try {
+      const value = sessionStorage.getItem(abiSelectionStorageKey);
+      return value && (supportedAbis.includes(value) || value === "universal") ? value : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   function updateSelectedDownload(abi, statusMessage) {
     const selectedAbi = abi && currentReleaseAssets[abi] ? abi : "universal";
+    try {
+      sessionStorage.setItem(abiSelectionStorageKey, selectedAbi);
+    } catch (error) {
+      // Keep the download selector usable when session storage is unavailable.
+    }
     const asset = currentReleaseAssets[selectedAbi] || currentReleaseAssets.universal;
     if (!asset || typeof asset.name !== "string") {
       throw new Error("Latest official APK asset not found");
@@ -224,7 +239,13 @@
       detectedDeviceAbi = detection.abi;
       const hasAllVariants = supportedAbis.every((abi) => Boolean(currentReleaseAssets[abi]));
 
-      if (detectedDeviceAbi && currentReleaseAssets[detectedDeviceAbi]) {
+      const storedSelection = getStoredAbiSelection();
+      if (storedSelection && currentReleaseAssets[storedSelection]) {
+        updateSelectedDownload(
+          storedSelection,
+          "Using your previously selected APK package: " + abiLabels[storedSelection] + ".",
+        );
+      } else if (detectedDeviceAbi && currentReleaseAssets[detectedDeviceAbi]) {
         updateSelectedDownload(detectedDeviceAbi);
       } else if (detection.isAndroid) {
         if (abiDownloadOptions) abiDownloadOptions.open = true;
