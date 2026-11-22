@@ -181,8 +181,7 @@
       throw new Error("Latest official APK asset not found");
     }
 
-    const downloadUrl =
-      latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
+    const downloadUrl = latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
     document.querySelectorAll("[data-latest-apk-link]").forEach((link) => {
       link.href = downloadUrl;
     });
@@ -285,14 +284,14 @@
           "Open this page on your Android device for automatic selection, or choose a download below.",
         );
       }
-
     } catch (error) {
       if (releaseVersion) releaseVersion.textContent = "Latest official APK";
       if (releaseSize) releaseSize.textContent = "Details unavailable";
       if (releasePublished)
         releasePublished.textContent = "Open the official release page for the latest APK.";
       if (abiDownloadStatus)
-        abiDownloadStatus.textContent = "Download details are unavailable. Open the official release page.";
+        abiDownloadStatus.textContent =
+          "Download details are unavailable. Open the official release page.";
       if (checksumDetails) checksumDetails.hidden = true;
     }
   }
