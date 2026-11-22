@@ -102,8 +102,9 @@
 
   async function detectAndroidAbi() {
     const uaData = navigator.userAgentData;
+    const androidUserAgent = /Android/i.test(navigator.userAgent || "");
     if (!uaData || typeof uaData.getHighEntropyValues !== "function") {
-      return { abi: null, isAndroid: false };
+      return { abi: null, isAndroid: androidUserAgent };
     }
 
     try {
@@ -133,7 +134,8 @@
 
       return { abi: null, isAndroid: true };
     } catch (error) {
-      return { abi: null, isAndroid: String(uaData.platform || "").toLowerCase() === "android" };
+      const hintedAndroid = String(uaData.platform || "").toLowerCase() === "android";
+      return { abi: null, isAndroid: hintedAndroid || androidUserAgent };
     }
   }
 
