@@ -803,7 +803,8 @@ active_nav: "security"
           const asset = assetsByPackage[selectedPackage];
           const version = formatVersion(release.tag_name);
           setText('release-version', version);
-          setText('release-architecture', selectedPackage === 'universal' ? 'Universal' : selectedPackage);\n          setText('release-filename', asset.name);\n          setText('release-date', formatDate(release.published_at || release.created_at));
+          setText('release-architecture', selectedPackage === 'universal' ? 'Universal' : selectedPackage);
+          setText('release-filename', asset.name);
           const size = Number(asset.size) / (1024 * 1024);
           setText('release-size', Number.isFinite(size) ? size.toFixed(2) + ' MiB' : 'Not supplied');
           setText('release-date', formatDate(release.published_at || release.created_at));
