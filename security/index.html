@@ -553,13 +553,6 @@ active_nav: "security"
           if (node) node.textContent = value;
         };
         const STORAGE_KEY = 'livestagix-selected-apk-abi';
-        const ABI_OPTIONS = {
-          'arm64-v8a': 'Most Android phones (64-bit)',
-          'armeabi-v7a': 'Older Android phones (32-bit)',
-          x86: 'Intel-based Android devices (32-bit)',
-          x86_64: 'Intel-based Android devices (64-bit)',
-          universal: 'Universal compatibility APK',
-        };
         const ABI_ORDER = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64', 'universal'];
         let release = null;
         let assetsByPackage = {};
@@ -669,28 +662,18 @@ active_nav: "security"
         async function getSha256(asset, releaseAssets) {
           const digest = typeof asset.digest === 'string' ? asset.digest : '';
           const digestMatch = digest.match(/^sha256:([a-f0-9]{64})$/i);
-          let expected = digestMatch ? digestMatch[1].toLowerCase() : null;
+          if (digestMatch) return digestMatch[1].toLowerCase();
 
           const sidecar = releaseAssets.find((item) => item && item.name === asset.name + '.sha256');
-          if (!expected && sidecar && sidecar.browser_download_url) {
-            const response = await fetch(sidecar.browser_download_url, { cache: 'no-cache' });
-            if (!response.ok) throw new Error('APK checksum sidecar could not be retrieved.');
-            const body = await response.text();
-            const match = body.match(/\b([a-f0-9]{64})\b/i);
-            if (match) expected = match[1].toLowerCase();
+          if (!sidecar || !sidecar.browser_download_url) {
+            throw new Error('A SHA-256 checksum is not available for this APK.');
           }
-          if (!expected) throw new Error('A SHA-256 checksum is not available for this APK.');
-          if (digestMatch && sidecar && sidecar.browser_download_url) {
-            const response = await fetch(sidecar.browser_download_url, { cache: 'no-cache' });
-            if (response.ok) {
-              const body = await response.text();
-              const match = body.match(/\b([a-f0-9]{64})\b/i);
-              if (match && match[1].toLowerCase() !== expected) {
-                throw new Error('The APK checksum sidecar does not match GitHub asset metadata.');
-              }
-            }
-          }
-          return expected;
+          const response = await fetch(sidecar.browser_download_url, { cache: 'no-cache' });
+          if (!response.ok) throw new Error('APK checksum sidecar could not be retrieved.');
+          const body = await response.text();
+          const match = body.match(/\b([a-f0-9]{64})\b/i);
+          if (!match) throw new Error('The APK checksum sidecar is malformed.');
+          return match[1].toLowerCase();
         }
 
         function getPackageStatus(packageKey) {
@@ -850,7 +833,7 @@ active_nav: "security"
             : source === 'stored'
               ? 'Using the APK package selected earlier on this website.'
               : packageKey === 'universal'
-                ? 'Device architecture could not be confirmed, or a matching split APK is unavailable. The universal package is selected.'
+                ? 'Automatic ABI detection is unavailable, or a matching split APK is not published. The universal package is selected.'
                 : 'Automatically selected for your detected device. Browser detection is a best-effort hint.';
           setText('package-selection-status', status);
           renderSelectedPackage();
