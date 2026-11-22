@@ -101,6 +101,17 @@
     return normalized;
   }
 
+  // Hide packages that are not attached to the currently published release.
+  function syncAbiDownloadOptions() {
+    if (!abiDownloadSelect) return;
+
+    Array.from(abiDownloadSelect.options).forEach((option) => {
+      const available = Boolean(currentReleaseAssets[option.value]);
+      option.hidden = !available;
+      option.disabled = !available;
+    });
+  }
+
   async function detectAndroidAbi() {
     const uaData = navigator.userAgentData;
     const androidUserAgent = /Android/i.test(navigator.userAgent || "");
@@ -152,7 +163,14 @@
   }
 
   function updateSelectedDownload(abi, statusMessage) {
-    const selectedAbi = abi && currentReleaseAssets[abi] ? abi : "universal";
+    const requestedPackageAvailable = Boolean(abi && currentReleaseAssets[abi]);
+    const selectedAbi = requestedPackageAvailable ? abi : "universal";
+    const fallbackMessage =
+      abi && abi !== "universal" && !requestedPackageAvailable
+        ? "The " +
+          (abiLabels[abi] || "selected device") +
+          " APK isn't available in this release. The universal compatibility APK is selected instead."
+        : "";
     try {
       sessionStorage.setItem(abiSelectionStorageKey, selectedAbi);
     } catch (error) {
@@ -199,6 +217,7 @@
     if (abiDownloadSelect) abiDownloadSelect.value = selectedAbi;
     if (abiDownloadStatus) {
       abiDownloadStatus.textContent =
+        fallbackMessage ||
         statusMessage ||
         (selectedAbi === "universal"
           ? "Using the universal download so it works across supported Android devices."
@@ -216,6 +235,7 @@
       const release = await response.json();
       currentRelease = release;
       currentReleaseAssets = normalizeReleaseAssets(release);
+      syncAbiDownloadOptions();
       if (!currentReleaseAssets.universal) {
         throw new Error("Latest official universal APK asset not found");
       }
@@ -239,8 +259,6 @@
 
       const detection = await detectAndroidAbi();
       detectedDeviceAbi = detection.abi;
-      const hasAllVariants = supportedAbis.every((abi) => Boolean(currentReleaseAssets[abi]));
-
       const storedSelection = getStoredAbiSelection();
       if (storedSelection && currentReleaseAssets[storedSelection]) {
         updateSelectedDownload(
@@ -251,10 +269,15 @@
         updateSelectedDownload(detectedDeviceAbi);
       } else if (detection.isAndroid) {
         if (abiDownloadOptions) abiDownloadOptions.open = true;
-        updateSelectedDownload(
-          "universal",
-          "We couldn't identify the exact device type. The universal download is ready, or choose your device below.",
-        );
+        if (detectedDeviceAbi) {
+          // updateSelectedDownload explains when the detected ABI is unavailable.
+          updateSelectedDownload(detectedDeviceAbi);
+        } else {
+          updateSelectedDownload(
+            "universal",
+            "We couldn't identify the exact device type. The universal download is ready, or choose a package below.",
+          );
+        }
       } else {
         if (abiDownloadOptions) abiDownloadOptions.open = true;
         updateSelectedDownload(
@@ -263,9 +286,6 @@
         );
       }
 
-      if (abiDownloadOptions && !hasAllVariants && !detection.abi) {
-        abiDownloadOptions.open = true;
-      }
     } catch (error) {
       if (releaseVersion) releaseVersion.textContent = "Latest official APK";
       if (releaseSize) releaseSize.textContent = "Details unavailable";
