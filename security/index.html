@@ -775,7 +775,7 @@ active_nav: "security"
             setText('scan-summary', 'No malicious or suspicious detections were reported for this exact APK.');
           } else {
             setLabel('scan-label', 'VIRUSTOTAL DETECTIONS REPORTED', 'bad');
-            setText('scan-summary', 'VirusTotal reported ' + malicious + ' malicious and ' + suspicious + ' suspicious detections for this APK. Review the full report before installing.');
+            setText('scan-summary', 'VirusTotal reported potential detections for this exact APK. Review the full report before installing.');
           }
           setText('scan-date', 'Last analysed: ' + formatDate(record.analysisDate));
           const link = byId('virustotal-link');
