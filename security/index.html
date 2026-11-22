@@ -753,13 +753,21 @@ active_nav: "security"
             return;
           }
           if (record.status !== 'available') {
-            const message =
-              record.status === 'pending'
+            const submissionUncertain =
+              record.status === 'pending' && record.submissionUncertain === true;
+            const message = submissionUncertain
+              ? 'VirusTotal may have accepted this APK, but its upload did not return an analysis ID. The site is checking for a report by this exact SHA-256 and will not submit a duplicate upload automatically.'
+              : record.status === 'pending'
                 ? 'VirusTotal accepted this APK and its analysis is still processing.'
                 : record.status === 'error'
                   ? 'The scan could not be completed. No clean-scan verdict is being claimed.'
                   : 'A matching VirusTotal report is not available for this APK yet.';
-            setScanUnavailable(record.status === 'pending' ? 'SCAN IN PROGRESS' : 'SCAN NOT AVAILABLE', message, record.status === 'pending' ? 'pending' : 'muted');
+            const label = submissionUncertain
+              ? 'UPLOAD STATUS CHECKING'
+              : record.status === 'pending'
+                ? 'SCAN IN PROGRESS'
+                : 'SCAN NOT AVAILABLE';
+            setScanUnavailable(label, message, record.status === 'pending' ? 'pending' : 'muted');
             return;
           }
           const stats = record.stats && typeof record.stats === 'object' ? record.stats : {};
