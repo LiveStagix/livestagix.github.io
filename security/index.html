@@ -432,8 +432,16 @@ active_nav: "security"
                 <strong id="release-architecture">Loading…</strong>
               </div>
               <div class="package-fact">
+                <span>APK filename</span>
+                <strong id="release-filename">Loading…</strong>
+              </div>
+              <div class="package-fact">
                 <span>File size</span>
                 <strong id="release-size">Loading…</strong>
+              </div>
+              <div class="package-fact">
+                <span>Published</span>
+                <strong id="release-date">Loading…</strong>
               </div>
             </div>
             <div class="package-actions">
@@ -793,7 +801,7 @@ active_nav: "security"
           const asset = assetsByPackage[selectedPackage];
           const version = formatVersion(release.tag_name);
           setText('release-version', version);
-          setText('release-architecture', selectedPackage === 'universal' ? 'Universal' : selectedPackage);
+          setText('release-architecture', selectedPackage === 'universal' ? 'Universal' : selectedPackage);\n          setText('release-filename', asset.name);\n          setText('release-date', formatDate(release.published_at || release.created_at));
           const size = Number(asset.size) / (1024 * 1024);
           setText('release-size', Number.isFinite(size) ? size.toFixed(2) + ' MiB' : 'Not supplied');
           setText('release-date', formatDate(release.published_at || release.created_at));
