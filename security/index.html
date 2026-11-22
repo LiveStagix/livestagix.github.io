@@ -559,6 +559,9 @@ active_nav: "security"
         let publishedStatus = null;
         let selectedPackage = 'universal';
         let renderSequence = 0;
+        let statusRefreshTimer = null;
+        let statusRefreshInFlight = false;
+        const statusUrl = 'https://raw.githubusercontent.com/LiveStagix/LiveWP-Releases/Stable/security/scan-status.json';
 
         function setLabel(id, text, state) {
           const node = byId(id);
@@ -843,6 +846,42 @@ active_nav: "security"
           renderSelectedPackage();
         }
 
+        async function refreshPublishedStatus() {
+          if (!release || statusRefreshInFlight) return;
+          statusRefreshInFlight = true;
+
+          try {
+            const response = await fetch(statusUrl, { cache: 'no-store' });
+            if (!response.ok) throw new Error('Security status refresh failed.');
+            const nextStatus = await response.json();
+            if (!nextStatus || typeof nextStatus !== 'object') {
+              throw new Error('Security status response is invalid.');
+            }
+
+            if (JSON.stringify(nextStatus) !== JSON.stringify(publishedStatus)) {
+              publishedStatus = nextStatus;
+              renderSelectedPackage();
+            }
+          } catch (error) {
+            // Keep the last matching result visible during a temporary network failure.
+            // A later refresh will retry without turning a known result into a false status.
+          } finally {
+            statusRefreshInFlight = false;
+          }
+        }
+
+        function startPublishedStatusRefresh() {
+          if (statusRefreshTimer !== null) return;
+
+          statusRefreshTimer = window.setInterval(() => {
+            if (!document.hidden) refreshPublishedStatus();
+          }, 30000);
+
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) refreshPublishedStatus();
+          });
+        }
+
         async function loadSecurityPage() {
           const selector = byId('package-select');
           try {
@@ -864,9 +903,8 @@ active_nav: "security"
             if (!assetsByPackage.universal) throw new Error('The latest release does not contain the universal compatibility APK.');
             if (selector) selector.disabled = false;
 
-            const statusUrl = 'https://raw.githubusercontent.com/LiveStagix/LiveWP-Releases/Stable/security/scan-status.json';
             try {
-              const statusResponse = await fetch(statusUrl, { cache: 'no-cache' });
+              const statusResponse = await fetch(statusUrl, { cache: 'no-store' });
               if (!statusResponse.ok) throw new Error('Security status unavailable.');
               publishedStatus = await statusResponse.json();
             } catch (error) {
@@ -881,6 +919,7 @@ active_nav: "security"
               const selected = detection.abi && assetsByPackage[detection.abi] ? detection.abi : 'universal';
               selectPackage(selected, 'detected');
             }
+            startPublishedStatusRefresh();
           } catch (error) {
             if (selector) selector.disabled = true;
             setText('package-selection-status', error.message + ' Open the official release page to check available APK packages.');
