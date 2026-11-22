@@ -4491,6 +4491,51 @@ canvas {
   background: linear-gradient(110deg, rgba(181, 139, 255, 0.27), rgba(98, 231, 255, 0.14));
 }
 
+.abi-download-status {
+  margin: 10px 0 8px !important;
+  color: #aeb8ce !important;
+  font-size: 0.68rem !important;
+  line-height: 1.55 !important;
+}
+
+.abi-download-details {
+  margin-top: 11px;
+  color: #aeb8ce;
+  font-size: 0.7rem;
+}
+
+.abi-download-details summary {
+  width: fit-content;
+  color: #c8b5ff;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.abi-download-details label {
+  display: block;
+  margin-top: 10px;
+  color: #9da8c0;
+  font-size: 0.66rem;
+}
+
+.abi-download-details select {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 6px;
+  padding: 9px 11px;
+  border: 1px solid rgba(181, 139, 255, 0.28);
+  border-radius: 9px;
+  background: #111521;
+  color: #e8edfa;
+  font: inherit;
+  font-size: 0.72rem;
+}
+
+.abi-download-details select:focus-visible {
+  outline: 2px solid rgba(181, 139, 255, 0.8);
+  outline-offset: 2px;
+}
+
 .download-utility-links {
   display: flex;
   align-items: center;
