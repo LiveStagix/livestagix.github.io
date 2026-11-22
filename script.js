@@ -54,9 +54,19 @@
 
   const latestReleasePageUrl = "https://github.com/LiveStagix/LiveWP-Releases/releases/latest";
   const releaseMetadataUrl = "/release.json";
-  const supportedApkNames = new Set(["LiveStagix.apk", "LiveStagix_beta.apk"]);
+  const abiLabels = {
+    "arm64-v8a": "Most Android phones (64-bit)",
+    "armeabi-v7a": "Older Android phones (32-bit)",
+    x86: "Intel-based Android devices (32-bit)",
+    x86_64: "Intel-based Android devices (64-bit)",
+    universal: "Universal compatibility APK",
+  };
+  const supportedAbis = ["arm64-v8a", "armeabi-v7a", "x86", "x86_64"];
   const heroDownload = document.getElementById("hero-download-apk");
   const downloadApk = document.getElementById("download-apk");
+  const abiDownloadStatus = document.getElementById("abi-download-status");
+  const abiDownloadOptions = document.getElementById("abi-download-options");
+  const abiDownloadSelect = document.getElementById("abi-download-select");
   const releaseVersion = document.getElementById("release-version");
   const releasePublished = document.getElementById("release-published");
   const releaseSize = document.getElementById("release-size");
@@ -66,8 +76,116 @@
   const copyChecksum = document.getElementById("copy-checksum");
   const checksumFeedback = document.getElementById("checksum-feedback");
 
+  let currentReleaseAssets = {};
+  let currentRelease = null;
+  let detectedDeviceAbi = null;
+
   if (heroDownload) heroDownload.href = latestReleasePageUrl;
   if (downloadApk) downloadApk.href = latestReleasePageUrl;
+
+  function normalizeReleaseAssets(release) {
+    const source =
+      release && release.assets && typeof release.assets === "object" ? release.assets : {};
+    const normalized = {};
+
+    supportedAbis.forEach((abi) => {
+      const asset = source[abi];
+      if (asset && typeof asset.name === "string") normalized[abi] = asset;
+    });
+
+    const universal = source.universal || release.asset;
+    if (universal && typeof universal.name === "string") {
+      normalized.universal = universal;
+    }
+    return normalized;
+  }
+
+  async function detectAndroidAbi() {
+    const uaData = navigator.userAgentData;
+    if (!uaData || typeof uaData.getHighEntropyValues !== "function") {
+      return { abi: null, isAndroid: false };
+    }
+
+    try {
+      const values = await uaData.getHighEntropyValues(["architecture", "bitness"]);
+      const platform = String(uaData.platform || "").toLowerCase();
+      if (platform !== "android") return { abi: null, isAndroid: false };
+
+      const architecture = String(values.architecture || "").toLowerCase();
+      const bitness = String(values.bitness || "").toLowerCase();
+
+      if (architecture === "arm64" || architecture === "aarch64") {
+        return { abi: "arm64-v8a", isAndroid: true };
+      }
+      if (architecture === "arm") {
+        if (bitness === "64") return { abi: "arm64-v8a", isAndroid: true };
+        if (bitness === "32") return { abi: "armeabi-v7a", isAndroid: true };
+      }
+      if (architecture === "x86_64" || architecture === "x64") {
+        return { abi: "x86_64", isAndroid: true };
+      }
+      if (architecture === "x86" && bitness === "64") {
+        return { abi: "x86_64", isAndroid: true };
+      }
+      if (architecture === "x86" && bitness === "32") {
+        return { abi: "x86", isAndroid: true };
+      }
+
+      return { abi: null, isAndroid: true };
+    } catch (error) {
+      return { abi: null, isAndroid: String(uaData.platform || "").toLowerCase() === "android" };
+    }
+  }
+
+  function updateSelectedDownload(abi, statusMessage) {
+    const selectedAbi = abi && currentReleaseAssets[abi] ? abi : "universal";
+    const asset = currentReleaseAssets[selectedAbi] || currentReleaseAssets.universal;
+    if (!asset || typeof asset.name !== "string") {
+      throw new Error("Latest official APK asset not found");
+    }
+
+    const downloadUrl =
+      latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
+    document.querySelectorAll("[data-latest-apk-link]").forEach((link) => {
+      link.href = downloadUrl;
+    });
+    if (heroDownload) heroDownload.href = downloadUrl;
+    if (downloadApk) {
+      downloadApk.href = downloadUrl;
+      downloadApk.setAttribute(
+        "aria-label",
+        selectedAbi === "universal"
+          ? "Download the universal LiveStagix Android APK"
+          : "Download LiveStagix for " + (abiLabels[selectedAbi] || "this device"),
+      );
+    }
+
+    const mib = Number(asset.size) / (1024 * 1024);
+    if (releaseSize) {
+      releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
+    }
+
+    const digest = typeof asset.digest === "string" ? asset.digest.replace(/^sha256:/i, "") : "";
+    if (checksumDetails && releaseChecksum) {
+      if (/^[a-f0-9]{64}$/i.test(digest)) {
+        releaseChecksum.textContent = digest.toUpperCase();
+        checksumDetails.hidden = false;
+      } else {
+        releaseChecksum.textContent = "";
+        checksumDetails.hidden = true;
+      }
+    }
+    if (checksumFeedback) checksumFeedback.textContent = "";
+
+    if (abiDownloadSelect) abiDownloadSelect.value = selectedAbi;
+    if (abiDownloadStatus) {
+      abiDownloadStatus.textContent =
+        statusMessage ||
+        (selectedAbi === "universal"
+          ? "Using the universal download so it works across supported Android devices."
+          : "Recommended for your device: " + abiLabels[selectedAbi] + ".");
+    }
+  }
 
   async function loadLatestRelease() {
     try {
@@ -77,18 +195,11 @@
       });
       if (!response.ok) throw new Error("Release metadata unavailable");
       const release = await response.json();
-      const asset =
-        release && release.asset && supportedApkNames.has(release.asset.name)
-          ? release.asset
-          : null;
-      if (!asset) throw new Error("Latest official APK asset not found");
-
-      const downloadUrl = latestReleasePageUrl + "/download/" + encodeURIComponent(asset.name);
-      document.querySelectorAll("[data-latest-apk-link]").forEach((link) => {
-        link.href = downloadUrl;
-      });
-      if (heroDownload) heroDownload.href = downloadUrl;
-      if (downloadApk) downloadApk.href = downloadUrl;
+      currentRelease = release;
+      currentReleaseAssets = normalizeReleaseAssets(release);
+      if (!currentReleaseAssets.universal) {
+        throw new Error("Latest official universal APK asset not found");
+      }
 
       const tag = String(release.tag_name || "").replace(/^v/i, "");
       const legacyStableMatch = tag.match(/^1\.0-beta-(\d+)$/i);
@@ -97,10 +208,6 @@
           ? "1." + legacyStableMatch[1]
           : tag || "Latest official APK";
       }
-
-      const mib = Number(asset.size) / (1024 * 1024);
-      if (releaseSize)
-        releaseSize.textContent = Number.isFinite(mib) ? mib.toFixed(2) + " MiB" : "APK";
       const publishedAt = release.published_at || release.created_at;
       if (releasePublished && publishedAt) {
         const date = new Date(publishedAt);
@@ -111,18 +218,58 @@
       }
       if (releasePageLink && release.html_url) releasePageLink.href = release.html_url;
 
-      const digest = typeof asset.digest === "string" ? asset.digest.replace(/^sha256:/i, "") : "";
-      if (checksumDetails && releaseChecksum && /^[a-f0-9]{64}$/i.test(digest)) {
-        releaseChecksum.textContent = digest.toUpperCase();
-        checksumDetails.hidden = false;
+      const detection = await detectAndroidAbi();
+      detectedDeviceAbi = detection.abi;
+      const hasAllVariants = supportedAbis.every((abi) => Boolean(currentReleaseAssets[abi]));
+
+      if (detectedDeviceAbi && currentReleaseAssets[detectedDeviceAbi]) {
+        updateSelectedDownload(detectedDeviceAbi);
+      } else if (detection.isAndroid) {
+        if (abiDownloadOptions) abiDownloadOptions.open = true;
+        updateSelectedDownload(
+          "universal",
+          "We couldn't identify the exact device type. The universal download is ready, or choose your device below.",
+        );
+      } else {
+        if (abiDownloadOptions) abiDownloadOptions.open = true;
+        updateSelectedDownload(
+          "universal",
+          "Open this page on your Android device for automatic selection, or choose a download below.",
+        );
+      }
+
+      if (abiDownloadOptions && !hasAllVariants && !detection.abi) {
+        abiDownloadOptions.open = true;
       }
     } catch (error) {
       if (releaseVersion) releaseVersion.textContent = "Latest official APK";
       if (releaseSize) releaseSize.textContent = "Details unavailable";
       if (releasePublished)
         releasePublished.textContent = "Open the official release page for the latest APK.";
+      if (abiDownloadStatus)
+        abiDownloadStatus.textContent = "Download details are unavailable. Open the official release page.";
       if (checksumDetails) checksumDetails.hidden = true;
     }
+  }
+
+  if (abiDownloadSelect) {
+    abiDownloadSelect.addEventListener("change", () => {
+      const abi = abiDownloadSelect.value;
+      if (!currentRelease) return;
+      if (abi !== "universal" && !currentReleaseAssets[abi]) {
+        updateSelectedDownload(
+          "universal",
+          "That separate package isn't available in this release. The universal download is ready instead.",
+        );
+        return;
+      }
+      updateSelectedDownload(
+        abi,
+        abi === "universal"
+          ? "Universal compatibility download selected."
+          : "Selected: " + abiLabels[abi] + ".",
+      );
+    });
   }
 
   loadLatestRelease();
