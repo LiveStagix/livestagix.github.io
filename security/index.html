@@ -760,10 +760,14 @@ active_nav: "security"
             return;
           }
           const stats = record.stats && typeof record.stats === 'object' ? record.stats : {};
+          const usableEngineResults = Object.values(stats).filter(
+            (value) => Number.isSafeInteger(value) && value >= 0,
+          );
+          const totalEngineResults = usableEngineResults.reduce((sum, value) => sum + value, 0);
           const malicious = Number.isSafeInteger(stats.malicious) && stats.malicious >= 0 ? stats.malicious : null;
           const suspicious = Number.isSafeInteger(stats.suspicious) && stats.suspicious >= 0 ? stats.suspicious : null;
-          if (malicious === null || suspicious === null) {
-            setScanUnavailable('SCAN RESULT UNAVAILABLE', 'The report is linked to this APK, but its detection summary is incomplete.', 'muted');
+          if (malicious === null || suspicious === null || totalEngineResults < 1) {
+            setScanUnavailable('SCAN RESULT UNAVAILABLE', 'The report is linked to this APK, but it does not contain enough completed engine data to confirm a result.', 'muted');
             return;
           }
           if (malicious === 0 && suspicious === 0) {
